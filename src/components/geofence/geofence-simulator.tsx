@@ -1,11 +1,12 @@
 "use client";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Bell, MapPin, Play, Save, ShieldCheck } from "lucide-react";
 import type { Geofence, GeofenceEvent, LocationEvent } from "@/lib/types";
 import { simulateGeofence } from "@/lib/geofence";
 import { formatDateTime } from "@/lib/format";
 import { audit, keys, readLocal, writeLocal } from "@/lib/client-storage";
 import { PageTitle, ProviderBadge, StatCard } from "@/components/ui";
+import { GeofenceMapShell } from "./geofence-map-shell";
 
 const dhakaPlaces = [
   { id: "mirpur-10", name: "Mirpur 10", latitude: 23.8069, longitude: 90.3687 },
@@ -58,11 +59,40 @@ export function GeofenceSimulator() {
   const [lat, setLat] = useState("23.8103");
   const [lon, setLon] = useState("90.4125");
   const [radius, setRadius] = useState("2");
-  const [events, setEvents] = useState<GeofenceEvent[]>([]);
+  const [locations, setLocations] = useState<LocationEvent[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [saved, setSaved] = useState<Geofence[]>([]);
   useEffect(() => setSaved(readLocal(keys.geofences, [])), []);
+  const activeFence = useMemo<Geofence | null>(() => {
+    if (!lat.trim() || !lon.trim() || !radius.trim()) return null;
+    const latitude = Number(lat);
+    const longitude = Number(lon);
+    const radiusKm = Number(radius);
+    if (
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude) ||
+      !Number.isFinite(radiusKm) ||
+      latitude < -90 ||
+      latitude > 90 ||
+      longitude < -180 ||
+      longitude > 180 ||
+      radiusKm <= 0 ||
+      radiusKm > 100
+    )
+      return null;
+    return {
+      id: "preview",
+      name: name.trim() || "Custom Zone",
+      latitude,
+      longitude,
+      radiusKm,
+    };
+  }, [lat, lon, name, radius]);
+  const events = useMemo<GeofenceEvent[]>(
+    () => (activeFence ? simulateGeofence(locations, activeFence) : []),
+    [activeFence, locations],
+  );
   async function run(e: FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -76,24 +106,15 @@ export function GeofenceSimulator() {
       setLoading(false);
       return;
     }
-    const fence = {
-      id: crypto.randomUUID(),
-      name: name.trim(),
-      latitude: Number(lat),
-      longitude: Number(lon),
-      radiusKm: Number(radius),
-    };
-    setEvents(simulateGeofence(body.data as LocationEvent[], fence));
+    setLocations(body.data as LocationEvent[]);
     audit("GEOFENCE_SIMULATION_EXECUTED", `${identifier}: ${name}`);
     setLoading(false);
   }
   const save = () => {
+    if (!activeFence) return;
     const fence = {
+      ...activeFence,
       id: crypto.randomUUID(),
-      name,
-      latitude: Number(lat),
-      longitude: Number(lon),
-      radiusKm: Number(radius),
     };
     const next = [fence, ...saved];
     setSaved(next);
@@ -136,9 +157,10 @@ export function GeofenceSimulator() {
               <input
                 className="field mt-1"
                 value={identifier}
-                onChange={(e) =>
-                  setIdentifier(e.target.value.replace(/\D/g, ""))
-                }
+                onChange={(e) => {
+                  setIdentifier(e.target.value.replace(/\D/g, ""));
+                  setLocations([]);
+                }}
                 inputMode="tel"
                 maxLength={11}
                 required
@@ -276,10 +298,28 @@ export function GeofenceSimulator() {
             </div>
           )}
         </aside>
-        <section>
+        <section className="space-y-5">
+          <div className="card p-2">
+            <GeofenceMapShell
+              latitude={activeFence?.latitude ?? 23.8103}
+              longitude={activeFence?.longitude ?? 90.4125}
+              radiusKm={activeFence?.radiusKm ?? 2}
+              events={events}
+              onCenterChange={(latitude, longitude) => {
+                setSelectedPlace("custom");
+                setName("Custom Zone");
+                setLat(latitude.toFixed(6));
+                setLon(longitude.toFixed(6));
+              }}
+            />
+            <p className="px-3 py-2 text-xs text-slate-500">
+              Click the map to move the geofence center. After loading a user,
+              results update as the center or radius changes.
+            </p>
+          </div>
           {events.length ? (
             <>
-              <div className="mb-5 grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-3">
                 <StatCard
                   label="Inside records"
                   value={inside.length}
@@ -288,7 +328,7 @@ export function GeofenceSimulator() {
                 <StatCard label="Entered zone" value={entered.length} />
                 <StatCard label="Exited zone" value={exited.length} />
               </div>
-              <div className="card mb-5 p-5">
+              <div className="card p-5">
                 <div className="flex items-center gap-2">
                   <Bell size={18} className="text-amber-600" />
                   <h2 className="font-bold">Alerts</h2>
@@ -361,19 +401,10 @@ export function GeofenceSimulator() {
               </div>
             </>
           ) : (
-            <div className="card grid min-h-[480px] place-items-center p-8 text-center">
-              <div>
-                <span className="mx-auto grid size-14 place-items-center rounded-full bg-teal-50 text-teal-700">
-                  <MapPin />
-                </span>
-                <h2 className="mt-4 font-bold">
-                  Ready to analyze historical points
-                </h2>
-                <p className="mt-2 max-w-sm text-sm leading-6 text-slate-500">
-                  Run the demonstration to calculate Haversine distance and
-                  transitions for a user.
-                </p>
-              </div>
+            <div className="card p-5 text-center">
+              <p className="text-sm text-slate-500">
+                Run the simulation to plot the user&apos;s historical records.
+              </p>
             </div>
           )}
         </section>
