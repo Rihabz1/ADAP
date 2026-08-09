@@ -50,7 +50,7 @@ export function SearchBox() {
                     router.push(`/users/${phone}`);
                   }}
                   key={phone}
-                  className="flex w-full items-center justify-between border-t border-slate-100 px-4 py-3 text-left hover:bg-slate-50"
+                  className="flex w-full items-center justify-between border-t border-slate-100 px-4 py-3 text-left text-slate-800 hover:bg-slate-50"
                 >
                   <b className="font-mono text-sm">{phone}</b>
                   <ArrowRight size={15} className="text-slate-400" />
