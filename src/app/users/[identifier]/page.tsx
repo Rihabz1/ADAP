@@ -31,6 +31,7 @@ export default async function UserPage({
     : undefined;
   return (
     <UserProfileView
+      key={`${result.user.userId}:${provider ?? "overview"}`}
       activities={result.activities}
       initialProvider={provider}
     />
