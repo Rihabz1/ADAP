@@ -1,6 +1,7 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Activity,
   BarChart3,
@@ -16,6 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
+import adapLogo from "../../../data/adap_logo.png";
 import { getSearchDestination } from "@/lib/navigation";
 import { examplePhoneNumbers } from "@/lib/search-examples";
 
@@ -110,21 +112,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       >
         <Link
           href="/dashboard"
-          className="flex items-center gap-3 border-b border-white/10 px-5 py-6"
+          className="border-b border-white/10 px-4 pb-3 pt-4"
           onClick={() => setOpen(false)}
+          aria-label="ADAP dashboard"
         >
-          <span className="grid size-10 place-items-center rounded-xl bg-teal-500 text-[#081426]">
-            <ShieldCheck />
-          </span>
-          <span>
-            <b className="block text-lg text-white">ADAP</b>
-            <small className="text-[10px] uppercase tracking-wider text-slate-400">
-              Application Data Analysis Platform
-            </small>
+          <span className="flex h-20 items-start justify-center overflow-hidden rounded-xl bg-white shadow-sm">
+            <Image
+              src={adapLogo}
+              alt="ADAP — Application Data Analysis Platform"
+              className="h-auto w-[calc(100%-1rem)] -translate-y-[3.625rem]"
+              priority
+            />
           </span>
         </Link>
         <nav
-          className="flex-1 overflow-y-auto px-3 py-4"
+          className="flex-1 overflow-y-auto px-3 pb-4 pt-3"
           aria-label="Primary navigation"
         >
           {primary.map(({ href, label, icon: Icon }) => (

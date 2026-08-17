@@ -1,0 +1,452 @@
+%PDF-1.4
+%ADAP
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R] /Count 7 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 780 >>
+stream
+0.027 0.086 0.157 rg 0 0 595 842 re f
+0.043 0.161 0.271 rg 0 0 595 242 re f
+0.098 0.663 0.612 rg 42 738 52 52 re f
+0.027 0.086 0.157 rg BT /F2 25 Tf 1 0 0 1 59 753 Tm (A) Tj ET
+0.5 0.93 0.89 rg BT /F2 10 Tf 1 0 0 1 42 617 Tm (SIMPLE PROJECT GUIDE) Tj ET
+1 1 1 rg BT /F2 35 Tf 1 0 0 1 42 555 Tm (How the ADAP) Tj ET
+1 1 1 rg BT /F2 35 Tf 1 0 0 1 42 511 Tm (project works) Tj ET
+0.84 0.9 0.95 rg BT /F1 15 Tf 1 0 0 1 42 459 Tm (A beginner-friendly explanation of how synthetic CSV records) Tj ET
+0.84 0.9 0.95 rg BT /F1 15 Tf 1 0 0 1 42 437 Tm (become searchable timelines, maps, analytics, and reports.) Tj ET
+0.7 0.8 0.87 rg BT /F1 9 Tf 1 0 0 1 42 52 Tm (Application Data Analysis Platform) Tj ET
+0.7 0.8 0.87 rg BT /F1 9 Tf 1 0 0 1 406 52 Tm (Project snapshot: August 2026) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 3929 >>
+stream
+0.098 0.663 0.612 rg 42 803 511 6 re f
+0.031 0.451 0.424 rg BT /F2 8.5 Tf 1 0 0 1 42 783 Tm (1 - THE BIG IDEA) Tj ET
+0.043 0.161 0.271 rg BT /F2 23 Tf 1 0 0 1 42 751 Tm (What is ADAP?) Tj ET
+0.39 0.47 0.55 rg BT /F1 12 Tf 1 0 0 1 42 720 Tm (ADAP is a demonstration web application. It combines activity records from four) Tj ET
+0.39 0.47 0.55 rg BT /F1 12 Tf 1 0 0 1 42 702 Tm (synthetic data files and shows them in one simple interface.) Tj ET
+0.91 0.35 0.31 rg 42 627 121 38 re f
+1 1 1 rg BT /F2 10.5 Tf 1 0 0 1 55 641 Tm (Foodpanda) Tj ET
+0.88 0.44 0.17 rg 172 627 121 38 re f
+1 1 1 rg BT /F2 10.5 Tf 1 0 0 1 185 641 Tm (Daraz) Tj ET
+0.11 0.6 0.49 rg 302 627 121 38 re f
+1 1 1 rg BT /F2 10.5 Tf 1 0 0 1 315 641 Tm (Pathao) Tj ET
+0.15 0.21 0.29 rg 432 627 121 38 re f
+1 1 1 rg BT /F2 10.5 Tf 1 0 0 1 445 641 Tm (Uber) Tj ET
+0.918 0.976 0.969 rg 42 560 511 48 re f
+0.098 0.663 0.612 rg 42 560 6 48 re f
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 56 589 Tm (Important: all included records are made-up test data. The project does not connect to real) Tj ET
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 56 575 Tm (provider accounts or live devices.) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 524 Tm (What a user can do) Tj ET
+1 1 1 rg 42 389 164 116 re f
+0.86 0.9 0.93 RG 0.8 w 42 389 164 116 re S
+0.043 0.161 0.271 rg 54 467 25 25 re f
+1 1 1 rg BT /F2 10 Tf 1 0 0 1 63 474 Tm (1) Tj ET
+0.094 0.149 0.227 rg BT /F2 11.5 Tf 1 0 0 1 54 445 Tm (Search) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 54 426 Tm (Find a synthetic user using) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 54 413 Tm (an exact 11-digit phone) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 54 400 Tm (number.) Tj ET
+1 1 1 rg 215 389 164 116 re f
+0.86 0.9 0.93 RG 0.8 w 215 389 164 116 re S
+0.043 0.161 0.271 rg 227 467 25 25 re f
+1 1 1 rg BT /F2 10 Tf 1 0 0 1 236 474 Tm (2) Tj ET
+0.094 0.149 0.227 rg BT /F2 11.5 Tf 1 0 0 1 227 445 Tm (Review) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 227 426 Tm (See one combined activity) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 227 413 Tm (timeline from all four) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 227 400 Tm (sources.) Tj ET
+1 1 1 rg 388 389 164 116 re f
+0.86 0.9 0.93 RG 0.8 w 388 389 164 116 re S
+0.043 0.161 0.271 rg 400 467 25 25 re f
+1 1 1 rg BT /F2 10 Tf 1 0 0 1 409 474 Tm (3) Tj ET
+0.094 0.149 0.227 rg BT /F2 11.5 Tf 1 0 0 1 400 445 Tm (Understand) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 400 426 Tm (Use maps, charts, summaries,) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 400 413 Tm (filters, and a printable) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 400 400 Tm (report.) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 350 Tm (The project at a glance) Tj ET
+0.953 0.969 0.98 rg 42 252 164 78 re f
+0.86 0.9 0.93 RG 0.8 w 42 252 164 78 re S
+0.043 0.161 0.271 rg BT /F2 21 Tf 1 0 0 1 54 297 Tm (100) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.8 Tf 1 0 0 1 54 272 Tm (shared synthetic users) Tj ET
+0.953 0.969 0.98 rg 215 252 164 78 re f
+0.86 0.9 0.93 RG 0.8 w 215 252 164 78 re S
+0.043 0.161 0.271 rg BT /F2 21 Tf 1 0 0 1 227 297 Tm (5,708) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.8 Tf 1 0 0 1 227 272 Tm (included activity records) Tj ET
+0.953 0.969 0.98 rg 388 252 164 78 re f
+0.86 0.9 0.93 RG 0.8 w 388 252 164 78 re S
+0.043 0.161 0.271 rg BT /F2 21 Tf 1 0 0 1 400 297 Tm (6 months) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.8 Tf 1 0 0 1 400 272 Tm (of demonstration data) Tj ET
+1 0.969 0.89 rg 42 152 511 74 re f
+0.84 0.61 0.13 rg 42 152 6 74 re f
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 57 198 Tm (Safety boundary: ADAP does not perform live tracking, facial recognition, criminal) Tj ET
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 57 183 Tm (prediction, guilt scoring, or autonomous targeting.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 36 m 553 36 l S
+0.39 0.47 0.55 rg BT /F1 8 Tf 1 0 0 1 42 18 Tm (ADAP - Simple Working Guide) Tj ET
+0.39 0.47 0.55 rg BT /F2 8 Tf 1 0 0 1 549 18 Tm (2) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 4433 >>
+stream
+0.098 0.663 0.612 rg 42 803 511 6 re f
+0.031 0.451 0.424 rg BT /F2 8.5 Tf 1 0 0 1 42 783 Tm (2 - ARCHITECTURE) Tj ET
+0.043 0.161 0.271 rg BT /F2 23 Tf 1 0 0 1 42 751 Tm (How data moves through the app) Tj ET
+0.39 0.47 0.55 rg BT /F1 12 Tf 1 0 0 1 42 720 Tm (The browser never reads the CSV files directly. The server loads, checks, and) Tj ET
+0.39 0.47 0.55 rg BT /F1 12 Tf 1 0 0 1 42 702 Tm (prepares the data before sending only the requested result to the screen.) Tj ET
+0.953 0.969 0.98 rg 42 579 150 78 re f
+0.86 0.9 0.93 RG 0.8 w 42 579 150 78 re S
+0.043 0.161 0.271 rg BT /F2 11.5 Tf 1 0 0 1 54 627 Tm (Browser) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 54 607 Tm (Search, profile, timeline,) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 54 595 Tm (map and charts) Tj ET
+0.098 0.663 0.612 rg BT /F2 20 Tf 1 0 0 1 200 611 Tm (>) Tj ET
+0.953 0.969 0.98 rg 216 579 150 78 re f
+0.86 0.9 0.93 RG 0.8 w 216 579 150 78 re S
+0.043 0.161 0.271 rg BT /F2 11.5 Tf 1 0 0 1 228 627 Tm (Next.js API) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 228 607 Tm (Validates requests and) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 228 595 Tm (calls the data layer) Tj ET
+0.098 0.663 0.612 rg BT /F2 20 Tf 1 0 0 1 374 611 Tm (>) Tj ET
+0.953 0.969 0.98 rg 390 579 150 78 re f
+0.86 0.9 0.93 RG 0.8 w 390 579 150 78 re S
+0.043 0.161 0.271 rg BT /F2 11.5 Tf 1 0 0 1 402 627 Tm (Provider adapters) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 402 607 Tm (Read each source through) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 402 595 Tm (one interface) Tj ET
+0.918 0.976 0.969 rg 42 486 150 78 re f
+0.73 0.89 0.87 RG 0.8 w 42 486 150 78 re S
+0.031 0.451 0.424 rg BT /F2 11 Tf 1 0 0 1 54 534 Tm (CSV files) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 54 514 Tm (Stay in the server-side) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 54 502 Tm (data folder) Tj ET
+0.098 0.663 0.612 rg BT /F2 20 Tf 1 0 0 1 200 518 Tm (>) Tj ET
+0.918 0.976 0.969 rg 216 486 150 78 re f
+0.73 0.89 0.87 RG 0.8 w 216 486 150 78 re S
+0.031 0.451 0.424 rg BT /F2 11 Tf 1 0 0 1 228 534 Tm (Validation + indexes) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 228 514 Tm (Reject bad rows; index) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 228 502 Tm (phone and user ID) Tj ET
+0.098 0.663 0.612 rg BT /F2 20 Tf 1 0 0 1 374 518 Tm (>) Tj ET
+0.918 0.976 0.969 rg 390 486 150 78 re f
+0.73 0.89 0.87 RG 0.8 w 390 486 150 78 re S
+0.031 0.451 0.424 rg BT /F2 11 Tf 1 0 0 1 402 534 Tm (Unified activities) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 402 514 Tm (Common fields for sorting) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.7 Tf 1 0 0 1 402 502 Tm (and filtering) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 441 Tm (Why there are adapters) Tj ET
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 42 417 Tm (Each provider CSV has different field names. For example, one source may use an order time while) Tj ET
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 42 402 Tm (another uses a request time. Each adapter translates its own rows into the same normalized) Tj ET
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 42 387 Tm (activity shape.) Tj ET
+0.953 0.969 0.98 rg 42 233 248 122 re f
+0.86 0.9 0.93 RG 0.8 w 42 233 248 122 re S
+0.043 0.161 0.271 rg BT /F2 11 Tf 1 0 0 1 56 327 Tm (Before normalization) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 56 301 Tm (- Different timestamps) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 56 282 Tm (- Different activity types) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 56 263 Tm (- Different provider details) Tj ET
+0.953 0.969 0.98 rg 306 233 247 122 re f
+0.86 0.9 0.93 RG 0.8 w 306 233 247 122 re S
+0.043 0.161 0.271 rg BT /F2 11 Tf 1 0 0 1 320 327 Tm (After normalization) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 320 301 Tm (- One occurredAt time) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 320 282 Tm (- One provider label) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 320 263 Tm (- One searchable and sortable model) Tj ET
+0.918 0.976 0.969 rg 42 138 511 68 re f
+0.098 0.663 0.612 rg 42 138 6 68 re f
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 57 179 Tm (Result: timeline, analytics, map, and report code can work with one model instead of) Tj ET
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 57 164 Tm (understanding four CSV formats.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 36 m 553 36 l S
+0.39 0.47 0.55 rg BT /F1 8 Tf 1 0 0 1 42 18 Tm (ADAP - Simple Working Guide) Tj ET
+0.39 0.47 0.55 rg BT /F2 8 Tf 1 0 0 1 549 18 Tm (3) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 3765 >>
+stream
+0.098 0.663 0.612 rg 42 803 511 6 re f
+0.031 0.451 0.424 rg BT /F2 8.5 Tf 1 0 0 1 42 783 Tm (3 - REQUEST WALKTHROUGH) Tj ET
+0.043 0.161 0.271 rg BT /F2 23 Tf 1 0 0 1 42 751 Tm (What happens when you search) Tj ET
+1 1 1 rg 42 609 251 113 re f
+0.86 0.9 0.93 RG 0.8 w 42 609 251 113 re S
+0.043 0.161 0.271 rg 55 683 25 25 re f
+1 1 1 rg BT /F2 10 Tf 1 0 0 1 64 690 Tm (1) Tj ET
+0.031 0.451 0.424 rg BT /F2 11 Tf 1 0 0 1 92 691 Tm (Enter a phone number) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 55 661 Tm (The user enters an exact 11-digit number,) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 55 647 Tm (such as 01000000001.) Tj ET
+1 1 1 rg 302 609 251 113 re f
+0.86 0.9 0.93 RG 0.8 w 302 609 251 113 re S
+0.043 0.161 0.271 rg 315 683 25 25 re f
+1 1 1 rg BT /F2 10 Tf 1 0 0 1 324 690 Tm (2) Tj ET
+0.031 0.451 0.424 rg BT /F2 11 Tf 1 0 0 1 352 691 Tm (Validate the request) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 315 661 Tm (The API checks the format. Bad input receives) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 315 647 Tm (a safe error.) Tj ET
+1 1 1 rg 42 477 251 113 re f
+0.86 0.9 0.93 RG 0.8 w 42 477 251 113 re S
+0.043 0.161 0.271 rg 55 551 25 25 re f
+1 1 1 rg BT /F2 10 Tf 1 0 0 1 64 558 Tm (3) Tj ET
+0.031 0.451 0.424 rg BT /F2 11 Tf 1 0 0 1 92 559 Tm (Query all adapters) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 55 529 Tm (The server asks all four provider adapters at) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 55 515 Tm (the same time.) Tj ET
+1 1 1 rg 302 477 251 113 re f
+0.86 0.9 0.93 RG 0.8 w 302 477 251 113 re S
+0.043 0.161 0.271 rg 315 551 25 25 re f
+1 1 1 rg BT /F2 10 Tf 1 0 0 1 324 558 Tm (4) Tj ET
+0.031 0.451 0.424 rg BT /F2 11 Tf 1 0 0 1 352 559 Tm (Use fast indexes) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 315 529 Tm (Prepared lookups find matching rows by phone) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 315 515 Tm (or user ID.) Tj ET
+1 1 1 rg 42 345 251 113 re f
+0.86 0.9 0.93 RG 0.8 w 42 345 251 113 re S
+0.043 0.161 0.271 rg 55 419 25 25 re f
+1 1 1 rg BT /F2 10 Tf 1 0 0 1 64 426 Tm (5) Tj ET
+0.031 0.451 0.424 rg BT /F2 11 Tf 1 0 0 1 92 427 Tm (Combine the records) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 55 397 Tm (Rows are normalized, merged, and sorted by) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 55 383 Tm (event time.) Tj ET
+1 1 1 rg 302 345 251 113 re f
+0.86 0.9 0.93 RG 0.8 w 302 345 251 113 re S
+0.043 0.161 0.271 rg 315 419 25 25 re f
+1 1 1 rg BT /F2 10 Tf 1 0 0 1 324 426 Tm (6) Tj ET
+0.031 0.451 0.424 rg BT /F2 11 Tf 1 0 0 1 352 427 Tm (Return only the result) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 315 397 Tm (The API sends consistent JSON and the page) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.5 Tf 1 0 0 1 315 383 Tm (renders it.) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 309 Tm (Partial failures do not break everything) Tj ET
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 42 284 Tm (If one provider fails, successful results from the others can still be shown. The failed provider) Tj ET
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 42 269 Tm (is named in response metadata.) Tj ET
+0.027 0.086 0.157 rg 42 194 511 38 re f
+1 1 1 rg BT /F3 9.2 Tf 1 0 0 1 55 208 Tm (Search > validate > query 4 sources > normalize > sort > response > screen) Tj ET
+1 0.969 0.89 rg 42 92 511 78 re f
+0.84 0.61 0.13 rg 42 92 6 78 re f
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 57 142 Tm (Simple authentication: protected screens use a demonstration session cookie. Replace this) Tj ET
+0.094 0.149 0.227 rg BT /F1 10 Tf 1 0 0 1 57 127 Tm (with production-grade identity and authorization for real use.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 36 m 553 36 l S
+0.39 0.47 0.55 rg BT /F1 8 Tf 1 0 0 1 42 18 Tm (ADAP - Simple Working Guide) Tj ET
+0.39 0.47 0.55 rg BT /F2 8 Tf 1 0 0 1 549 18 Tm (4) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 12 0 R >>
+endobj
+14 0 obj
+<< /Length 4100 >>
+stream
+0.098 0.663 0.612 rg 42 803 511 6 re f
+0.031 0.451 0.424 rg BT /F2 8.5 Tf 1 0 0 1 42 783 Tm (4 - MAIN SCREENS) Tj ET
+0.043 0.161 0.271 rg BT /F2 23 Tf 1 0 0 1 42 751 Tm (What each screen does) Tj ET
+0.043 0.161 0.271 rg 42 690 511 31 re f
+1 1 1 rg BT /F2 9 Tf 1 0 0 1 54 701 Tm (SCREEN) Tj ET
+1 1 1 rg BT /F2 9 Tf 1 0 0 1 190 701 Tm (SIMPLE PURPOSE) Tj ET
+0.953 0.969 0.98 rg 42 650 511 40 re f
+0.86 0.9 0.93 RG 0.8 w 42 650 m 553 650 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 666 Tm (Dashboard) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 666 Tm (Search and see provider health, users, and record totals.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 610 m 553 610 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 626 Tm (Users) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 626 Tm (Browse a summary-only directory.) Tj ET
+0.953 0.969 0.98 rg 42 570 511 40 re f
+0.86 0.9 0.93 RG 0.8 w 42 570 m 553 570 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 586 Tm (Profile) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 586 Tm (See identity summary, provider sections, notes, and recent activity.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 530 m 553 530 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 546 Tm (Timeline) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 546 Tm (Combine and filter activities; export selected data as CSV.) Tj ET
+0.953 0.969 0.98 rg 42 490 511 40 re f
+0.86 0.9 0.93 RG 0.8 w 42 490 m 553 490 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 506 Tm (Map) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 506 Tm (Plot historical points and optionally connect them in event order.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 450 m 553 450 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 466 Tm (Analytics) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 466 Tm (Show descriptive charts, date patterns, and provider counts.) Tj ET
+0.953 0.969 0.98 rg 42 410 511 40 re f
+0.86 0.9 0.93 RG 0.8 w 42 410 m 553 410 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 426 Tm (Report) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 426 Tm (Build a printable summary that a browser can save as PDF.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 370 m 553 370 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 386 Tm (Geofences) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 386 Tm (Simulate whether historical points entered or exited a circle.) Tj ET
+0.953 0.969 0.98 rg 42 330 511 40 re f
+0.86 0.9 0.93 RG 0.8 w 42 330 m 553 330 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 346 Tm (Cases / Audit) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 346 Tm (Keep demonstration case and UI-action data in this browser.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 290 m 553 290 l S
+0.094 0.149 0.227 rg BT /F2 9.5 Tf 1 0 0 1 54 306 Tm (Data sources) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 190 306 Tm (Show adapter status, record counts, and parse health.) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 254 Tm (Where work happens) Tj ET
+0.953 0.969 0.98 rg 42 97 248 135 re f
+0.86 0.9 0.93 RG 0.8 w 42 97 248 135 re S
+0.043 0.161 0.271 rg BT /F2 11 Tf 1 0 0 1 56 205 Tm (On the server) Tj ET
+0.39 0.47 0.55 rg BT /F1 9 Tf 1 0 0 1 56 182 Tm (- Read and validate CSV files) Tj ET
+0.39 0.47 0.55 rg BT /F1 9 Tf 1 0 0 1 56 164 Tm (- Search and filter activity) Tj ET
+0.39 0.47 0.55 rg BT /F1 9 Tf 1 0 0 1 56 146 Tm (- Normalize provider records) Tj ET
+0.39 0.47 0.55 rg BT /F1 9 Tf 1 0 0 1 56 128 Tm (- Calculate API results) Tj ET
+0.953 0.969 0.98 rg 306 97 247 135 re f
+0.86 0.9 0.93 RG 0.8 w 306 97 247 135 re S
+0.043 0.161 0.271 rg BT /F2 11 Tf 1 0 0 1 320 205 Tm (In the browser) Tj ET
+0.39 0.47 0.55 rg BT /F1 9 Tf 1 0 0 1 320 182 Tm (- Display pages and charts) Tj ET
+0.39 0.47 0.55 rg BT /F1 9 Tf 1 0 0 1 320 164 Tm (- Interact with maps) Tj ET
+0.39 0.47 0.55 rg BT /F1 9 Tf 1 0 0 1 320 146 Tm (- Store local demo items) Tj ET
+0.39 0.47 0.55 rg BT /F1 9 Tf 1 0 0 1 320 128 Tm (- Print or Save as PDF) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 36 m 553 36 l S
+0.39 0.47 0.55 rg BT /F1 8 Tf 1 0 0 1 42 18 Tm (ADAP - Simple Working Guide) Tj ET
+0.39 0.47 0.55 rg BT /F2 8 Tf 1 0 0 1 549 18 Tm (5) Tj ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 14 0 R >>
+endobj
+16 0 obj
+<< /Length 4163 >>
+stream
+0.098 0.663 0.612 rg 42 803 511 6 re f
+0.031 0.451 0.424 rg BT /F2 8.5 Tf 1 0 0 1 42 783 Tm (5 - FILES AND TECHNOLOGY) Tj ET
+0.043 0.161 0.271 rg BT /F2 23 Tf 1 0 0 1 42 751 Tm (How the code is organized) Tj ET
+0.043 0.161 0.271 rg 42 690 511 31 re f
+1 1 1 rg BT /F2 9 Tf 1 0 0 1 54 701 Tm (FOLDER OR FILE) Tj ET
+1 1 1 rg BT /F2 9 Tf 1 0 0 1 230 701 Tm (RESPONSIBILITY) Tj ET
+0.953 0.969 0.98 rg 42 648 511 42 re f
+0.86 0.9 0.93 RG 0.8 w 42 648 m 553 648 l S
+0.094 0.149 0.227 rg BT /F3 9 Tf 1 0 0 1 54 665 Tm (data/*.csv) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 230 665 Tm (Four synthetic datasets; not in the public web folder.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 606 m 553 606 l S
+0.094 0.149 0.227 rg BT /F3 9 Tf 1 0 0 1 54 623 Tm (src/lib/data/) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 230 623 Tm (Schemas, parsing, validation, indexes, and normalization.) Tj ET
+0.953 0.969 0.98 rg 42 564 511 42 re f
+0.86 0.9 0.93 RG 0.8 w 42 564 m 553 564 l S
+0.094 0.149 0.227 rg BT /F3 9 Tf 1 0 0 1 54 581 Tm (src/lib/providers/) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 230 581 Tm (Common adapter interface and four implementations.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 522 m 553 522 l S
+0.094 0.149 0.227 rg BT /F3 9 Tf 1 0 0 1 54 539 Tm (src/app/api/) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 230 539 Tm (Validated route handlers with safe JSON responses.) Tj ET
+0.953 0.969 0.98 rg 42 480 511 42 re f
+0.86 0.9 0.93 RG 0.8 w 42 480 m 553 480 l S
+0.094 0.149 0.227 rg BT /F3 9 Tf 1 0 0 1 54 497 Tm (src/app/) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 230 497 Tm (Next.js pages and routes.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 438 m 553 438 l S
+0.094 0.149 0.227 rg BT /F3 9 Tf 1 0 0 1 54 455 Tm (src/components/) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 230 455 Tm (Reusable UI for maps, charts, profiles, cases, and more.) Tj ET
+0.953 0.969 0.98 rg 42 396 511 42 re f
+0.86 0.9 0.93 RG 0.8 w 42 396 m 553 396 l S
+0.094 0.149 0.227 rg BT /F3 9 Tf 1 0 0 1 54 413 Tm (proxy.ts) Tj ET
+0.39 0.47 0.55 rg BT /F1 9.2 Tf 1 0 0 1 230 413 Tm (Demonstration session-cookie gate.) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 362 Tm (Core technology) Tj ET
+0.953 0.969 0.98 rg 42 266 164 76 re f
+0.86 0.9 0.93 RG 0.8 w 42 266 164 76 re S
+0.043 0.161 0.271 rg BT /F2 10.5 Tf 1 0 0 1 54 313 Tm (Next.js + React) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.5 Tf 1 0 0 1 54 291 Tm (Pages, APIs, and interactive UI) Tj ET
+0.953 0.969 0.98 rg 215 266 164 76 re f
+0.86 0.9 0.93 RG 0.8 w 215 266 164 76 re S
+0.043 0.161 0.271 rg BT /F2 10.5 Tf 1 0 0 1 227 313 Tm (Zod) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.5 Tf 1 0 0 1 227 291 Tm (Request and CSV validation) Tj ET
+0.953 0.969 0.98 rg 388 266 164 76 re f
+0.86 0.9 0.93 RG 0.8 w 388 266 164 76 re S
+0.043 0.161 0.271 rg BT /F2 10.5 Tf 1 0 0 1 400 313 Tm (csv-parse) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.5 Tf 1 0 0 1 400 291 Tm (CSV text to records) Tj ET
+0.953 0.969 0.98 rg 42 180 164 76 re f
+0.86 0.9 0.93 RG 0.8 w 42 180 164 76 re S
+0.043 0.161 0.271 rg BT /F2 10.5 Tf 1 0 0 1 54 227 Tm (Leaflet) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.5 Tf 1 0 0 1 54 205 Tm (Historical map points) Tj ET
+0.953 0.969 0.98 rg 215 180 164 76 re f
+0.86 0.9 0.93 RG 0.8 w 215 180 164 76 re S
+0.043 0.161 0.271 rg BT /F2 10.5 Tf 1 0 0 1 227 227 Tm (Recharts) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.5 Tf 1 0 0 1 227 205 Tm (Analytics charts) Tj ET
+0.953 0.969 0.98 rg 388 180 164 76 re f
+0.86 0.9 0.93 RG 0.8 w 388 180 164 76 re S
+0.043 0.161 0.271 rg BT /F2 10.5 Tf 1 0 0 1 400 227 Tm (Vitest) Tj ET
+0.39 0.47 0.55 rg BT /F1 8.5 Tf 1 0 0 1 400 205 Tm (Automated project tests) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 146 Tm (Caching in simple words) Tj ET
+0.094 0.149 0.227 rg BT /F1 9.5 Tf 1 0 0 1 42 122 Tm (The first request in a warm server process reads and validates the files. ADAP keeps prepared datasets) Tj ET
+0.094 0.149 0.227 rg BT /F1 9.5 Tf 1 0 0 1 42 108 Tm (in memory so later requests can reuse them. Each serverless instance has its own cache.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 36 m 553 36 l S
+0.39 0.47 0.55 rg BT /F1 8 Tf 1 0 0 1 42 18 Tm (ADAP - Simple Working Guide) Tj ET
+0.39 0.47 0.55 rg BT /F2 8 Tf 1 0 0 1 549 18 Tm (6) Tj ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 16 0 R >>
+endobj
+18 0 obj
+<< /Length 2896 >>
+stream
+0.098 0.663 0.612 rg 42 803 511 6 re f
+0.031 0.451 0.424 rg BT /F2 8.5 Tf 1 0 0 1 42 783 Tm (6 - RUN AND REMEMBER) Tj ET
+0.043 0.161 0.271 rg BT /F2 23 Tf 1 0 0 1 42 751 Tm (How to run the project) Tj ET
+0.39 0.47 0.55 rg BT /F1 10.5 Tf 1 0 0 1 42 716 Tm (Requirements: Node.js 20.9 or newer and npm.) Tj ET
+0.027 0.086 0.157 rg 42 628 511 66 re f
+1 1 1 rg BT /F3 10 Tf 1 0 0 1 58 666 Tm (npm install) Tj ET
+1 1 1 rg BT /F3 10 Tf 1 0 0 1 58 645 Tm (npm run dev) Tj ET
+0.094 0.149 0.227 rg BT /F1 10.5 Tf 1 0 0 1 42 597 Tm (Open http://localhost:3000 and use the demonstration account:) Tj ET
+0.953 0.969 0.98 rg 42 512 248 66 re f
+0.86 0.9 0.93 RG 0.8 w 42 512 248 66 re S
+0.39 0.47 0.55 rg BT /F2 9 Tf 1 0 0 1 56 553 Tm (Username) Tj ET
+0.043 0.161 0.271 rg BT /F3 12 Tf 1 0 0 1 56 528 Tm (analyst) Tj ET
+0.953 0.969 0.98 rg 306 512 247 66 re f
+0.86 0.9 0.93 RG 0.8 w 306 512 247 66 re S
+0.39 0.47 0.55 rg BT /F2 9 Tf 1 0 0 1 320 553 Tm (Password) Tj ET
+0.043 0.161 0.271 rg BT /F3 12 Tf 1 0 0 1 320 528 Tm (adap123) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 470 Tm (Useful checks) Tj ET
+0.027 0.086 0.157 rg 42 368 511 83 re f
+1 1 1 rg BT /F3 10 Tf 1 0 0 1 58 425 Tm (npm test) Tj ET
+1 1 1 rg BT /F3 10 Tf 1 0 0 1 58 404 Tm (npm run lint) Tj ET
+1 1 1 rg BT /F3 10 Tf 1 0 0 1 58 383 Tm (npm run build) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 327 Tm (The simplest summary) Tj ET
+0.918 0.976 0.969 rg 42 219 511 87 re f
+0.098 0.663 0.612 rg 42 219 6 87 re f
+0.094 0.149 0.227 rg BT /F2 10.3 Tf 1 0 0 1 57 278 Tm (ADAP reads four private synthetic CSV files, validates them, finds matching user records) Tj ET
+0.094 0.149 0.227 rg BT /F2 10.3 Tf 1 0 0 1 57 262.5 Tm (through adapters, converts them into one common activity format, and shows results) Tj ET
+0.094 0.149 0.227 rg BT /F2 10.3 Tf 1 0 0 1 57 247 Tm (through demo pages and APIs.) Tj ET
+0.031 0.451 0.424 rg BT /F2 14 Tf 1 0 0 1 42 182 Tm (Before any real-world use) Tj ET
+0.031 0.451 0.424 rg BT /F2 9.5 Tf 1 0 0 1 42 156 Tm ([x]) Tj ET
+0.094 0.149 0.227 rg BT /F1 9.5 Tf 1 0 0 1 68 156 Tm (Replace demo login with real identity, roles, and authorization.) Tj ET
+0.031 0.451 0.424 rg BT /F2 9.5 Tf 1 0 0 1 42 134 Tm ([x]) Tj ET
+0.094 0.149 0.227 rg BT /F1 9.5 Tf 1 0 0 1 68 134 Tm (Move local notes, cases, and audit data to protected storage.) Tj ET
+0.031 0.451 0.424 rg BT /F2 9.5 Tf 1 0 0 1 42 112 Tm ([x]) Tj ET
+0.094 0.149 0.227 rg BT /F1 9.5 Tf 1 0 0 1 68 112 Tm (Add encryption, retention rules, monitoring, and data agreements.) Tj ET
+0.031 0.451 0.424 rg BT /F2 9.5 Tf 1 0 0 1 42 90 Tm ([x]) Tj ET
+0.094 0.149 0.227 rg BT /F1 9.5 Tf 1 0 0 1 68 90 Tm (Keep the safety boundary clear: this is a synthetic demonstration.) Tj ET
+0.86 0.9 0.93 RG 0.8 w 42 36 m 553 36 l S
+0.39 0.47 0.55 rg BT /F1 8 Tf 1 0 0 1 42 18 Tm (ADAP - Simple Working Guide) Tj ET
+0.39 0.47 0.55 rg BT /F2 8 Tf 1 0 0 1 549 18 Tm (7) Tj ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 18 0 R >>
+endobj
+xref
+0 20
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000162 00000 n 
+0000000259 00000 n 
+0000000361 00000 n 
+0000000456 00000 n 
+0000001287 00000 n 
+0000001433 00000 n 
+0000005414 00000 n 
+0000005560 00000 n 
+0000010046 00000 n 
+0000010194 00000 n 
+0000014012 00000 n 
+0000014160 00000 n 
+0000018313 00000 n 
+0000018461 00000 n 
+0000022677 00000 n 
+0000022825 00000 n 
+0000025774 00000 n 
+trailer
+<< /Size 20 /Root 1 0 R >>
+startxref
+25922
+%%EOF

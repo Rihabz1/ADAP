@@ -83,7 +83,9 @@ export function UsersDirectory({ users }: { users: NormalizedUser[] }) {
                   </Link>
                 </td>
                 <td>{u.customerName}</td>
-                <td className="font-mono text-sm">{u.phone}</td>
+                <td className="font-mono text-sm" suppressHydrationWarning>
+                  {u.phone}
+                </td>
                 <td>{u.totalActivities}</td>
                 <td className="text-sm text-slate-500">
                   {u.latestActivity ? formatDateTime(u.latestActivity) : "—"}

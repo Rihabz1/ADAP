@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>How the ADAP Project Works</title>
+    <style>
+      @page { size: A4; margin: 14mm 14mm 16mm; }
+      * { box-sizing: border-box; }
+      html { font-family: "Segoe UI", Arial, sans-serif; color: #18263a; }
+      body { margin: 0; background: #fff; font-size: 10.5pt; line-height: 1.48; }
+      .page { min-height: 267mm; page-break-after: always; position: relative; padding-bottom: 12mm; }
+      .page:last-child { page-break-after: auto; }
+      .cover { background: linear-gradient(145deg, #071628 0%, #113552 70%, #087f76 100%); color: white; margin: -14mm -14mm -16mm; padding: 24mm 20mm; min-height: 297mm; }
+      .cover-mark { width: 18mm; height: 18mm; border-radius: 5mm; display: grid; place-items: center; background: #3dd6c6; color: #071628; font-size: 22pt; font-weight: 800; }
+      .eyebrow { margin-top: 44mm; text-transform: uppercase; letter-spacing: .18em; font-size: 9pt; font-weight: 800; color: #80eee3; }
+      h1 { font-size: 35pt; line-height: 1.08; margin: 5mm 0; letter-spacing: -.03em; }
+      .subtitle { max-width: 145mm; color: #dbe7f3; font-size: 15pt; line-height: 1.5; }
+      .cover-note { position: absolute; bottom: 25mm; left: 20mm; right: 20mm; display: flex; justify-content: space-between; color: #b9ccdb; font-size: 9pt; }
+      h2 { margin: 0 0 4mm; font-size: 22pt; line-height: 1.2; color: #0b2945; }
+      h3 { margin: 0 0 2mm; font-size: 13pt; color: #0b6c67; }
+      p { margin: 0 0 3.5mm; }
+      .lead { font-size: 12.5pt; line-height: 1.58; color: #46566a; max-width: 175mm; }
+      .topline { border-top: 2.5mm solid #19a99c; padding-top: 6mm; }
+      .pill { display: inline-block; padding: 1.2mm 3.2mm; border-radius: 10mm; background: #e6f7f5; color: #08736c; font-size: 8.5pt; font-weight: 700; margin-bottom: 3mm; }
+      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+      .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+      .card { border: .35mm solid #dce4ea; border-radius: 4mm; padding: 5mm; background: #fff; }
+      .soft { background: #f3f7fa; border-color: #e3eaf0; }
+      .number { width: 9mm; height: 9mm; border-radius: 50%; display: grid; place-items: center; background: #0b2945; color: white; font-weight: 800; margin-bottom: 3mm; }
+      .flow { margin: 7mm 0 5mm; display: grid; grid-template-columns: 1fr 8mm 1fr 8mm 1fr; align-items: center; gap: 2mm; }
+      .flow .box { min-height: 32mm; border-radius: 4mm; padding: 5mm 3mm; text-align: center; border: .4mm solid #cad6df; background: #f8fafc; display: flex; flex-direction: column; justify-content: center; }
+      .flow .box b { display: block; color: #0b2945; font-size: 11pt; }
+      .flow .box small { margin-top: 1mm; color: #657589; }
+      .arrow { text-align: center; font-size: 18pt; color: #19a99c; font-weight: 800; }
+      .provider-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 4mm 0; }
+      .provider { padding: 4mm 2mm; border-radius: 3mm; color: white; text-align: center; font-weight: 750; }
+      .food { background: #e85a4f; } .daraz { background: #e1702c; } .pathao { background: #1c987c; } .uber { background: #27364a; }
+      .callout { border-left: 2mm solid #19a99c; background: #eaf8f6; padding: 4mm 5mm; margin: 5mm 0; border-radius: 0 3mm 3mm 0; }
+      .warning { border-left-color: #d59b22; background: #fff7e6; }
+      ul { margin: 2mm 0 4mm; padding-left: 6mm; }
+      li { margin: 1.5mm 0; }
+      code { font-family: Consolas, monospace; background: #edf2f6; padding: .4mm 1.2mm; border-radius: 1mm; font-size: 9pt; }
+      pre { margin: 3mm 0; padding: 4mm; border-radius: 3mm; background: #0b1e32; color: #e9f1f7; font: 9pt/1.55 Consolas, monospace; white-space: pre-wrap; }
+      table { width: 100%; border-collapse: collapse; margin: 4mm 0; font-size: 9.5pt; }
+      th { background: #0b2945; color: white; text-align: left; padding: 2.5mm; }
+      td { border-bottom: .3mm solid #dfe6ec; padding: 2.5mm; vertical-align: top; }
+      .footer { position: absolute; bottom: 0; left: 0; right: 0; border-top: .3mm solid #dfe6ec; padding-top: 2mm; display: flex; justify-content: space-between; color: #718096; font-size: 8pt; }
+      .mini-path { font-family: Consolas, monospace; font-size: 8.3pt; color: #5a6a7e; overflow-wrap: anywhere; }
+      .check { color: #07867c; font-weight: 800; }
+      .metric { font-size: 22pt; font-weight: 800; color: #0b2945; line-height: 1; }
+      .muted { color: #68788b; }
+    </style>
+  </head>
+  <body>
+    <section class="page cover">
+      <div class="cover-mark">A</div>
+      <div class="eyebrow">Simple project guide</div>
+      <h1>How the ADAP<br />project works</h1>
+      <p class="subtitle">A beginner-friendly explanation of how synthetic CSV records become searchable timelines, maps, analytics, and reports.</p>
+      <div class="cover-note"><span>Application Data Analysis Platform</span><span>Project snapshot: August 2026</span></div>
+    </section>
+
+    <section class="page topline">
+      <span class="pill">1 · The big idea</span>
+      <h2>What is ADAP?</h2>
+      <p class="lead">ADAP is a demonstration web application. It combines activity records from four synthetic data files and shows them in one simple interface.</p>
+      <div class="provider-row">
+        <div class="provider food">Foodpanda</div><div class="provider daraz">Daraz</div><div class="provider pathao">Pathao Courier</div><div class="provider uber">Uber</div>
+      </div>
+      <div class="callout"><b>Important:</b> all included records are made-up test data. The project does not connect to real provider accounts or live devices.</div>
+      <h3 style="margin-top: 7mm">What a user can do</h3>
+      <div class="grid-3">
+        <div class="card"><div class="number">1</div><b>Search</b><p class="muted">Find a synthetic user using an exact 11-digit phone number.</p></div>
+        <div class="card"><div class="number">2</div><b>Review</b><p class="muted">See one combined activity timeline from all four sources.</p></div>
+        <div class="card"><div class="number">3</div><b>Understand</b><p class="muted">Use maps, charts, summaries, filters, and a printable report.</p></div>
+      </div>
+      <h3 style="margin-top: 7mm">The project at a glance</h3>
+      <div class="grid-3">
+        <div class="card soft"><div class="metric">100</div><p>shared synthetic users</p></div>
+        <div class="card soft"><div class="metric">5,708</div><p>included activity records</p></div>
+        <div class="card soft"><div class="metric">6 months</div><p>of demonstration data</p></div>
+      </div>
+      <div class="callout warning"><b>Safety boundary:</b> ADAP does not perform live tracking, facial recognition, criminal prediction, guilt scoring, or autonomous targeting.</div>
+      <div class="footer"><span>ADAP · Simple Working Guide</span><span>2</span></div>
+    </section>
+
+    <section class="page topline">
+      <span class="pill">2 · Architecture</span>
+      <h2>How data moves through the app</h2>
+      <p class="lead">The browser never reads the CSV files directly. The server loads, checks, and prepares the data before sending only the requested result to the screen.</p>
+      <div class="flow">
+        <div class="box"><b>Browser</b><small>Search, profile, timeline, map, charts</small></div><div class="arrow">›</div>
+        <div class="box"><b>Next.js API</b><small>Checks the request and calls the data layer</small></div><div class="arrow">›</div>
+        <div class="box"><b>Provider adapters</b><small>Read each source in a common way</small></div>
+      </div>
+      <div class="flow" style="grid-template-columns: 1fr 8mm 1fr 8mm 1fr">
+        <div class="box"><b>CSV files</b><small>Stay inside the server-side data folder</small></div><div class="arrow">›</div>
+        <div class="box"><b>Validation + indexes</b><small>Reject bad rows; index phone and user ID</small></div><div class="arrow">›</div>
+        <div class="box"><b>Unified activities</b><small>Common fields for sorting and filtering</small></div>
+      </div>
+      <h3 style="margin-top: 6mm">Why there are adapters</h3>
+      <p>Each provider CSV has different field names. For example, one source may use an order time while another uses a request time. Each adapter translates its own rows into the same <b>normalized activity</b> shape.</p>
+      <div class="grid-2">
+        <div class="card soft"><b>Before normalization</b><ul><li>Different timestamps</li><li>Different activity types</li><li>Different provider details</li></ul></div>
+        <div class="card soft"><b>After normalization</b><ul><li>One <code>occurredAt</code> time</li><li>One provider label</li><li>One searchable and sortable model</li></ul></div>
+      </div>
+      <div class="callout"><b>Result:</b> timeline, analytics, map, and report code can work with one model instead of understanding four CSV formats.</div>
+      <div class="footer"><span>ADAP · Simple Working Guide</span><span>3</span></div>
+    </section>
+
+    <section class="page topline">
+      <span class="pill">3 · Request walkthrough</span>
+      <h2>What happens when you search</h2>
+      <div class="grid-2">
+        <div class="card"><div class="number">1</div><h3>Enter a phone number</h3><p>The user enters an exact 11-digit number, such as <code>01000000001</code>.</p></div>
+        <div class="card"><div class="number">2</div><h3>Validate the request</h3><p>The API checks that the value has the correct format. Bad input gets a safe error.</p></div>
+        <div class="card"><div class="number">3</div><h3>Query all adapters</h3><p>The server asks Foodpanda, Daraz, Pathao, and Uber adapters at the same time.</p></div>
+        <div class="card"><div class="number">4</div><h3>Use fast indexes</h3><p>Each dataset already has lookups by phone and user ID, so matching rows can be found quickly.</p></div>
+        <div class="card"><div class="number">5</div><h3>Combine the records</h3><p>Records are normalized, merged, and sorted by the real event time—not by the source update time.</p></div>
+        <div class="card"><div class="number">6</div><h3>Return only the result</h3><p>The API sends a consistent JSON response. The page renders the profile or chosen view.</p></div>
+      </div>
+      <h3 style="margin-top: 7mm">Partial failures do not break everything</h3>
+      <p>The four provider requests use a partial-failure-tolerant pattern. If one provider fails, successful results from the others can still be shown, and the failed provider is reported in response metadata.</p>
+      <pre>Search → API validation → 4 provider queries → normalize → sort → response → screen</pre>
+      <div class="callout warning"><b>Simple authentication:</b> protected screens use a demonstration session cookie. This gate is useful for the demo, but it must be replaced with production-grade identity and authorization for real use.</div>
+      <div class="footer"><span>ADAP · Simple Working Guide</span><span>4</span></div>
+    </section>
+
+    <section class="page topline">
+      <span class="pill">4 · Main screens</span>
+      <h2>What each part of the interface does</h2>
+      <table>
+        <thead><tr><th style="width: 26%">Screen</th><th>Simple purpose</th></tr></thead>
+        <tbody>
+          <tr><td><b>Dashboard</b></td><td>Search by phone number and see provider health, user totals, and record totals.</td></tr>
+          <tr><td><b>Users</b></td><td>Browse a summary-only directory without loading every raw provider record.</td></tr>
+          <tr><td><b>Profile</b></td><td>See identity summary, provider sections, recent activity, notes, and bookmarks.</td></tr>
+          <tr><td><b>Timeline</b></td><td>Combine activities and filter by provider, date, or status. It also supports CSV export.</td></tr>
+          <tr><td><b>Map</b></td><td>Plot recorded historical points and optionally connect event points in time order.</td></tr>
+          <tr><td><b>Analytics</b></td><td>Calculate descriptive charts, activity frequency, date patterns, and provider counts.</td></tr>
+          <tr><td><b>Report</b></td><td>Build a printable user summary that a browser can save as PDF.</td></tr>
+          <tr><td><b>Geofences</b></td><td>Simulate whether historical points entered or exited a drawn circle.</td></tr>
+          <tr><td><b>Cases / Audit</b></td><td>Store demonstration case information and UI actions in the current browser.</td></tr>
+          <tr><td><b>Data sources</b></td><td>Show adapter status, record counts, invalid rows, and parse health.</td></tr>
+        </tbody>
+      </table>
+      <h3>Where work happens</h3>
+      <div class="grid-2">
+        <div class="card soft"><b>On the server</b><ul><li>Reading and validating CSV files</li><li>Searching and filtering activity</li><li>Normalizing provider records</li><li>Calculating API results</li></ul></div>
+        <div class="card soft"><b>In the browser</b><ul><li>Displaying pages and charts</li><li>Map interaction</li><li>Local notes, bookmarks, cases, and audit items</li><li>Print / Save as PDF</li></ul></div>
+      </div>
+      <div class="footer"><span>ADAP · Simple Working Guide</span><span>5</span></div>
+    </section>
+
+    <section class="page topline">
+      <span class="pill">5 · Files and technology</span>
+      <h2>How the code is organized</h2>
+      <table>
+        <thead><tr><th style="width: 38%">Folder or file</th><th>Responsibility</th></tr></thead>
+        <tbody>
+          <tr><td class="mini-path">data/*.csv</td><td>Four synthetic datasets. They are not in the public web folder.</td></tr>
+          <tr><td class="mini-path">src/lib/data/</td><td>CSV schemas, parsing, validation, indexes, and normalization.</td></tr>
+          <tr><td class="mini-path">src/lib/providers/</td><td>The common adapter interface plus four provider implementations.</td></tr>
+          <tr><td class="mini-path">src/app/api/</td><td>Validated route handlers that return safe JSON responses.</td></tr>
+          <tr><td class="mini-path">src/app/</td><td>Next.js pages and routes.</td></tr>
+          <tr><td class="mini-path">src/components/</td><td>Reusable interface parts for maps, charts, profiles, cases, and more.</td></tr>
+          <tr><td class="mini-path">proxy.ts</td><td>The demonstration session-cookie gate for protected routes.</td></tr>
+        </tbody>
+      </table>
+      <h3>Core technology</h3>
+      <div class="grid-3">
+        <div class="card"><b>Next.js + React</b><p class="muted">Pages, server routes, and interactive UI.</p></div>
+        <div class="card"><b>Zod</b><p class="muted">Checks requests and every CSV row.</p></div>
+        <div class="card"><b>csv-parse</b><p class="muted">Turns CSV text into records.</p></div>
+        <div class="card"><b>Leaflet</b><p class="muted">Displays historical points on a map.</p></div>
+        <div class="card"><b>Recharts</b><p class="muted">Draws analytics charts.</p></div>
+        <div class="card"><b>Vitest</b><p class="muted">Tests loading, filters, navigation, and geofences.</p></div>
+      </div>
+      <h3 style="margin-top: 7mm">Caching in simple words</h3>
+      <p>The first request in a warm server process reads and validates the CSV files. ADAP keeps the prepared datasets in memory, so later requests can reuse them. In serverless hosting, each server instance has its own cache.</p>
+      <div class="footer"><span>ADAP · Simple Working Guide</span><span>6</span></div>
+    </section>
+
+    <section class="page topline">
+      <span class="pill">6 · Run and remember</span>
+      <h2>How to run the project</h2>
+      <p>Requirements: Node.js 20.9 or newer and npm.</p>
+      <pre>npm install
+npm run dev</pre>
+      <p>Open <code>http://localhost:3000</code>, then sign in with the demonstration account:</p>
+      <div class="grid-2">
+        <div class="card soft"><b>Username</b><p><code>analyst</code></p></div>
+        <div class="card soft"><b>Password</b><p><code>adap123</code></p></div>
+      </div>
+      <h3 style="margin-top: 7mm">Useful checks</h3>
+      <pre>npm test
+npm run lint
+npm run build</pre>
+      <h3 style="margin-top: 7mm">The simplest summary</h3>
+      <div class="callout"><b>ADAP reads four private synthetic CSV files, validates them, finds matching user records through adapters, converts them into one common activity format, and shows the results through secure-ish demo pages and APIs.</b></div>
+      <h3 style="margin-top: 7mm">Before any real-world use</h3>
+      <ul>
+        <li><span class="check">✓</span> Replace the demo login with real identity, roles, and authorization.</li>
+        <li><span class="check">✓</span> Move browser-local cases, notes, and audit records to protected persistent storage.</li>
+        <li><span class="check">✓</span> Add encryption, access review, retention rules, monitoring, and formal data agreements.</li>
+        <li><span class="check">✓</span> Keep the safety boundary clear: the current application is a synthetic demonstration.</li>
+      </ul>
+      <div class="footer"><span>ADAP · Simple Working Guide</span><span>7</span></div>
+    </section>
+  </body>
+</html>

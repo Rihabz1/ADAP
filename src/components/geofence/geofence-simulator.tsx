@@ -54,7 +54,7 @@ const dhakaPlaces = [
 ] as const;
 
 export function GeofenceSimulator() {
-  const [identifier, setIdentifier] = useState(examplePhoneNumbers[0]);
+  const [identifier, setIdentifier] = useState<string>(examplePhoneNumbers[0]);
   const [selectedPlace, setSelectedPlace] = useState("custom");
   const [name, setName] = useState("Custom Zone");
   const [lat, setLat] = useState("23.8103");
