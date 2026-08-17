@@ -94,6 +94,14 @@ button {
   background: white;
   padding: 0.72rem 0.85rem;
   color: #18273b;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+.field:focus {
+  border-color: #1a6b67;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(22 100 94 / 0.12);
+  outline: none;
 }
 .field::placeholder {
   color: #94a0af;
@@ -170,17 +178,17 @@ td {
 .leaflet-tooltip.sequence-number-label::before {
   display: none;
 }
-.leaflet-tooltip.sequence-foodpanda {
+.leaflet-tooltip.sequence-foodi {
   background: #dc3264;
 }
-.leaflet-tooltip.sequence-daraz {
+.leaflet-tooltip.sequence-rokomari {
   background: #ef6c2f;
 }
 .leaflet-tooltip.sequence-pathao {
-  background: #17a269;
-}
-.leaflet-tooltip.sequence-uber {
   background: #334155;
+}
+.leaflet-tooltip.sequence-steadfast {
+  background: #17a269;
 }
 
 @media print {

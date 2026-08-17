@@ -37,7 +37,7 @@ export default async function DashboardPage() {
         </h2>
         <SearchBox />
         <p className="mt-4 text-xs text-slate-400">
-          Try 01000000001, 01000000025, or 01000000050
+          Try 01809070598, 01645545273, or 01539050502
         </p>
       </section>
       <section className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

@@ -10,9 +10,9 @@ import type {
 } from "@/lib/types";
 
 const occurred = (provider: Provider, row: ProviderRecord) =>
-  provider === "foodpanda" || provider === "daraz"
+  provider === "foodi" || provider === "rokomari"
     ? (row as { order_time: string }).order_time
-    : provider === "pathao"
+    : provider === "steadfast"
       ? (row as { booking_time: string }).booking_time
       : (row as { request_time: string }).request_time;
 

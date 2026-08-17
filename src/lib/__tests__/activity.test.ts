@@ -8,7 +8,7 @@ import {
 import type { LocationEvent, NormalizedActivity } from "../types";
 const base: NormalizedActivity = {
   id: "A",
-  provider: "uber",
+  provider: "pathao",
   userId: "USR001",
   phone: "01000000001",
   customerName: "User 001",
@@ -38,12 +38,12 @@ describe("activity utilities", () => {
     const food = {
       ...base,
       id: "F",
-      provider: "foodpanda" as const,
+      provider: "foodi" as const,
       activityType: "food_order" as const,
     };
     expect(
       filterActivities([base, food], {
-        providers: ["uber"],
+        providers: ["pathao"],
         from: "2026-08-01",
         to: "2026-08-01",
       }),
@@ -66,19 +66,19 @@ describe("activity utilities", () => {
       title: activityId,
     });
     const merged = sortLocationEventsAscending([
-      point("uber-late", "uber", "2026-08-03T10:00:00+06:00"),
-      point("food-early", "foodpanda", "2026-08-01T10:00:00+06:00"),
-      point("pathao-middle", "pathao", "2026-08-02T10:00:00+06:00"),
+      point("pathao-late", "pathao", "2026-08-03T10:00:00+06:00"),
+      point("food-early", "foodi", "2026-08-01T10:00:00+06:00"),
+      point("courier-middle", "steadfast", "2026-08-02T10:00:00+06:00"),
     ]);
     expect(merged.map((item) => item.activityId)).toEqual([
       "food-early",
-      "pathao-middle",
-      "uber-late",
+      "courier-middle",
+      "pathao-late",
     ]);
     expect(
       sortLocationEventsAscending(
-        merged.filter((item) => item.provider === "uber"),
+        merged.filter((item) => item.provider === "pathao"),
       ).map((item) => item.activityId),
-    ).toEqual(["uber-late"]);
+    ).toEqual(["pathao-late"]);
   });
 });

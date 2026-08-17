@@ -32,7 +32,7 @@ export function AuditLog() {
               <thead>
                 <tr>
                   <th>Time</th>
-                  <th>Analyst</th>
+                  <th>System Admin</th>
                   <th>Action</th>
                   <th>Target</th>
                 </tr>

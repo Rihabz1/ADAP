@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { getSearchDestination } from "@/lib/navigation";
+import { examplePhoneNumbers } from "@/lib/search-examples";
 
 const publicRoutes = ["/", "/login"];
 
@@ -47,12 +48,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (publicRoutes.includes(pathname)) return <>{children}</>;
   const currentIdentifier = validPathIdentifier ?? lastIdentifier;
   const userRoute = `/users/${currentIdentifier}`;
+  const showHeaderSearch = !["/dashboard", "/users", "/audit"].includes(
+    pathname,
+  );
   const primary = [
     { href: "/dashboard", label: "Dashboard", icon: Gauge },
     { href: "/users", label: "Users", icon: Users },
     {
-      href: `${userRoute}/timeline`,
-      label: "Timeline",
+      href: `${userRoute}/profile`,
+      label: "Profile",
       icon: Activity,
     },
     {
@@ -71,7 +75,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const isActive = (label: string, href: string) => {
     if (label === "Users")
       return pathname === "/users" || pathname === userRoute;
-    if (["Timeline", "Map", "Analytics"].includes(label))
+    if (["Profile", "Map", "Analytics"].includes(label))
       return pathname === href;
     return pathname === href;
   };
@@ -154,32 +158,40 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </aside>
       <div className="lg:pl-64">
         <header className="sticky top-0 z-20 flex h-17 items-center gap-3 border-b border-slate-200 bg-white/95 px-4 pl-16 backdrop-blur lg:px-7">
-          <form
-            onSubmit={submit}
-            className="relative hidden max-w-md flex-1 sm:block"
-          >
-            <Search
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-              size={16}
-            />
-            <input
-              className="field has-leading-icon py-2 text-sm"
-              value={query}
-              onChange={(e) => setQuery(e.target.value.replace(/\D/g, ""))}
-              placeholder="Search by phone number..."
-              aria-label="Search by phone number"
-              inputMode="tel"
-              maxLength={11}
-              pattern="[0-9]{11}"
-              required
-            />
-          </form>
+          {showHeaderSearch && (
+            <form
+              onSubmit={submit}
+              className="relative hidden max-w-md flex-1 sm:block"
+            >
+              <Search
+                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                size={16}
+              />
+              <input
+                className="field has-leading-icon py-2 text-sm"
+                value={query}
+                onChange={(e) => setQuery(e.target.value.replace(/\D/g, ""))}
+                placeholder={`Try ${examplePhoneNumbers[0]}`}
+                aria-label="Search by phone number"
+                list="header-phone-suggestions"
+                inputMode="tel"
+                maxLength={11}
+                pattern="[0-9]{11}"
+                required
+              />
+              <datalist id="header-phone-suggestions">
+                {examplePhoneNumbers.map((phone) => (
+                  <option value={phone} key={phone} />
+                ))}
+              </datalist>
+            </form>
+          )}
           <div className="ml-auto flex items-center gap-2">
             <span className="grid size-8 place-items-center rounded-full bg-slate-900 text-xs font-bold text-white">
-              AN
+              SA
             </span>
             <span className="hidden text-sm font-semibold sm:block">
-              Analyst
+              System Admin
             </span>
           </div>
         </header>

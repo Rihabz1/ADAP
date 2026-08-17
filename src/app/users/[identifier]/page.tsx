@@ -19,8 +19,8 @@ export default async function UserPage({
         title="No user found."
         body="Check the identifier or try one of the demonstration profiles."
         action={
-          <Link className="btn-primary" href="/users/01000000001">
-            Try 01000000001
+          <Link className="btn-primary" href="/users/USR001">
+            Try USR001
           </Link>
         }
       />

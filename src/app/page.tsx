@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   ArrowRight,
   BarChart3,
@@ -14,26 +15,27 @@ import {
 
 const sources = [
   {
-    name: "Foodpanda",
+    name: "Foodi",
     label: "Food delivery events",
     icon: Utensils,
     color: "#db3263",
   },
   {
-    name: "Daraz",
+    name: "Rokomari",
     label: "Commerce order events",
     icon: ShoppingBag,
     color: "#ef6b2e",
   },
   {
-    name: "Pathao Courier",
+    name: "Steadfast Courier",
     label: "Parcel delivery events",
     icon: Package,
     color: "#16a269",
   },
-  { name: "Uber", label: "Recorded trip events", icon: Car, color: "#334155" },
+  { name: "Pathao", label: "Recorded ride events", icon: Car, color: "#334155" },
 ];
 export default function Home() {
+  redirect("/login");
   return (
     <div className="min-h-screen bg-[#071426] text-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
@@ -148,13 +150,13 @@ export default function Home() {
               EXPLORE EXAMPLE PROFILES
             </p>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {["001", "025", "050", "100"].map((n) => (
+              {["USR001", "USR025", "USR050", "USR100"].map((id) => (
                 <Link
-                  key={n}
-                  href={`/login?next=/users/01000000${n}`}
+                  key={id}
+                  href={`/login?next=/users/${id}`}
                   className="group flex items-center justify-between rounded-xl border border-white/10 px-4 py-4 hover:border-teal-300/40"
                 >
-                  <b>01000000{n}</b>
+                  <b>{id}</b>
                   <ArrowRight
                     size={17}
                     className="text-slate-500 group-hover:text-teal-300"

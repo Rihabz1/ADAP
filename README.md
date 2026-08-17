@@ -1,8 +1,8 @@
 # ADAP
 
-ADAP (Application Data Analysis Platform) is a production-style Next.js demonstration of multi-source activity analysis using **only synthetic CSV data**. It correlates test events from Foodpanda, Daraz, Pathao Courier, and Uber through server-side provider adapters and a normalized activity model.
+ADAP (Application Data Analysis Platform) is a Next.js application for multi-source activity analysis. It correlates events from Foodi, Pathao ride sharing, Rokomari, and Steadfast Courier through server-side provider adapters and a normalized activity model.
 
-> **Synthetic Data Demonstration:** No real service-provider, telecom, GPS, law-enforcement, or user information is used. The app does not perform live tracking, criminal prediction, guilt/threat scoring, facial recognition, or autonomous targeting.
+> **Sensitive data warning:** The supplied CSV files contain personal names and phone numbers. Keep them private, restrict access, and do not commit or deploy them to a public environment. The app does not perform live tracking, criminal prediction, guilt/threat scoring, facial recognition, or autonomous targeting.
 
 ## Features
 
@@ -56,23 +56,23 @@ The repository includes:
 
 ```text
 data/
-├── foodpanda_demo_100_users_6_months.csv
-├── daraz_demo_100_users_6_months.csv
-├── pathao_courier_demo_100_users_6_months.csv
-└── uber_demo_100_users_6_months.csv
+├── foodi_demo_100_users_6_months_english.csv
+├── pathao_ride_demo_100_users_6_months_english.csv
+├── rokomari_demo_100_users_6_months_english.csv
+└── steadfast_demo_100_users_6_months_english.csv
 ```
 
-Core identity fields are `user_id`, `phone`, and `customer_name`. Chronology uses `order_time` for Foodpanda/Daraz, `booking_time` for Pathao, and `request_time` for Uber. `source_updated_at` is retained separately and is never used as event time. Provider-specific fields are validated in [schemas.ts](src/lib/data/schemas.ts).
+Core identity fields are `user_id`, `phone`, and `customer_name`. Chronology uses `order_time` for Foodi/Rokomari, `request_time` for Pathao, and `booking_time` for Steadfast. `source_updated_at` is retained separately and is never used as event time. Provider-specific fields are validated in [schemas.ts](src/lib/data/schemas.ts).
 
 Current source health:
 
 | Provider       | Valid records |                     Users |
 | -------------- | ------------: | ------------------------: |
-| Foodpanda      |         1,637 |                       100 |
-| Daraz          |           824 |                       100 |
-| Pathao Courier |         1,058 |                       100 |
-| Uber           |         2,189 |                       100 |
-| **Total**      |     **5,708** | **100 shared identities** |
+| Foodi          |         1,054 |                       100 |
+| Pathao         |         1,189 |                       100 |
+| Rokomari       |           896 |                       100 |
+| Steadfast      |           887 |                       100 |
+| **Total**      |     **4,026** | **100 shared identities** |
 
 The application calculates these values at runtime; this table documents the included source snapshot.
 
@@ -107,14 +107,9 @@ Password: adap123
 
 This is an intentionally simple demonstration cookie gate. Replace it with a production identity provider before using the architecture in a real protected environment.
 
-Example synthetic users:
+Example user IDs (phone numbers are intentionally omitted from documentation):
 
-| User ID  | Phone         |
-| -------- | ------------- |
-| `USR001` | `01000000001` |
-| `USR025` | `01000000025` |
-| `USR050` | `01000000050` |
-| `USR100` | `01000000100` |
+`USR001`, `USR025`, `USR050`, `USR100`
 
 ## Routes
 
@@ -160,7 +155,7 @@ Errors return `400`, `404`, or `500` without internal stack traces:
 
 | Endpoint                            | Description                                     |
 | ----------------------------------- | ----------------------------------------------- |
-| `GET /api/search?query=01000000001` | Resolve an exact phone number                   |
+| `GET /api/search?query=%2B880...`    | Resolve an exact phone number                   |
 | `GET /api/users`                    | Summary directory only; no raw provider records |
 | `GET /api/users/USR001`             | Profile summary and calculated statistics       |
 | `GET /api/users/USR001/latest`      | Newest item by `occurredAt`                     |
@@ -174,7 +169,7 @@ Errors return `400`, `404`, or `500` without internal stack traces:
 Timeline, stats, and locations support:
 
 ```text
-provider=uber,pathao
+provider=pathao,steadfast
 from=2026-07-01
 to=2026-08-09
 status=completed
@@ -186,10 +181,10 @@ page=1
 Examples:
 
 ```text
-GET /api/users/01000000001/timeline?provider=uber&from=2026-07-01&to=2026-08-09
-GET /api/users/USR001/timeline?provider=uber,pathao&limit=25&page=2
+GET /api/users/USR001/timeline?provider=pathao&from=2026-07-01&to=2026-08-09
+GET /api/users/USR001/timeline?provider=pathao,steadfast&limit=25&page=2
 GET /api/users/USR001/stats?from=2026-05-01
-GET /api/users/USR001/locations?provider=foodpanda
+GET /api/users/USR001/locations?provider=foodi
 ```
 
 In development only, append `simulateProviderFailure=pathao` to timeline/stats/locations or provider-status requests to demonstrate graceful partial failure.
@@ -199,7 +194,7 @@ Example timeline metadata:
 ```json
 {
   "success": true,
-  "data": [{ "id": "UB0000009", "provider": "uber", "activityType": "ride" }],
+  "data": [{ "id": "TRIP0009", "provider": "pathao", "activityType": "ride" }],
   "meta": {
     "total": 19,
     "page": 1,

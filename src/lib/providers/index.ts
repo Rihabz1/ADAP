@@ -1,7 +1,7 @@
-import { darazAdapter } from "./daraz";
-import { foodpandaAdapter } from "./foodpanda";
+import { foodiAdapter } from "./foodi";
 import { pathaoAdapter } from "./pathao";
-import { uberAdapter } from "./uber";
+import { rokomariAdapter } from "./rokomari";
+import { steadfastAdapter } from "./steadfast";
 import type {
   ActivityFilters,
   NormalizedActivity,
@@ -9,10 +9,10 @@ import type {
 } from "@/lib/types";
 
 export const adapters = [
-  foodpandaAdapter,
-  darazAdapter,
+  foodiAdapter,
   pathaoAdapter,
-  uberAdapter,
+  rokomariAdapter,
+  steadfastAdapter,
 ];
 
 export async function getAllActivities(

@@ -4,8 +4,6 @@ export function getSearchDestination(pathname: string, identifier: string) {
     ? "/map"
     : pathname.endsWith("/analytics")
       ? "/analytics"
-      : pathname.endsWith("/timeline")
-        ? "/timeline"
-        : "";
+      : "/profile";
   return `/users/${encodeURIComponent(normalized)}${section}`;
 }

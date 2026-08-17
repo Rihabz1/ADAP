@@ -18,7 +18,7 @@ export async function getUser(identifier: string) {
   };
 }
 export async function getDirectory(): Promise<NormalizedUser[]> {
-  const ids = [...getStore().foodpanda.byUserId.keys()].sort();
+  const ids = [...getStore().foodi.byUserId.keys()].sort();
   return Promise.all(
     ids.map(async (id) => {
       const result = await getAllActivities(id);

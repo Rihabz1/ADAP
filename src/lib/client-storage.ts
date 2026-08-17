@@ -24,7 +24,7 @@ export function audit(action: string, target: string) {
     id: crypto.randomUUID(),
     action,
     target: target.slice(0, 200),
-    author: "Analyst",
+    author: "System Admin",
     createdAt: new Date().toISOString(),
   });
   writeLocal(keys.audit, items.slice(0, 500));

@@ -3,33 +3,34 @@ import fs from "node:fs";
 import path from "node:path";
 import { parse } from "csv-parse/sync";
 import { z } from "zod";
+import { normalizeIdentifier } from "@/lib/activity";
 import type {
-  DarazRecord,
-  FoodpandaRecord,
+  FoodiRecord,
   PathaoRecord,
   Provider,
   ProviderRecord,
-  UberRecord,
+  RokomariRecord,
+  SteadfastRecord,
 } from "@/lib/types";
 import {
-  darazSchema,
-  foodpandaSchema,
+  foodiSchema,
   pathaoSchema,
-  uberSchema,
+  rokomariSchema,
+  steadfastSchema,
 } from "./schemas";
 
 const files: Record<Provider, string> = {
-  foodpanda: "foodpanda_demo_100_users_6_months.csv",
-  daraz: "daraz_demo_100_users_6_months.csv",
-  pathao: "pathao_courier_demo_100_users_6_months.csv",
-  uber: "uber_demo_100_users_6_months.csv",
+  foodi: "foodi_demo_100_users_6_months_english.csv",
+  pathao: "pathao_ride_demo_100_users_6_months_english.csv",
+  rokomari: "rokomari_demo_100_users_6_months_english.csv",
+  steadfast: "steadfast_demo_100_users_6_months_english.csv",
 };
 
 const schemas: Record<Provider, z.ZodType> = {
-  foodpanda: foodpandaSchema,
-  daraz: darazSchema,
+  foodi: foodiSchema,
   pathao: pathaoSchema,
-  uber: uberSchema,
+  rokomari: rokomariSchema,
+  steadfast: steadfastSchema,
 };
 
 export interface Dataset<T extends ProviderRecord = ProviderRecord> {
@@ -39,10 +40,10 @@ export interface Dataset<T extends ProviderRecord = ProviderRecord> {
   byPhone: Map<string, T[]>;
 }
 type Store = {
-  foodpanda: Dataset<FoodpandaRecord>;
-  daraz: Dataset<DarazRecord>;
+  foodi: Dataset<FoodiRecord>;
   pathao: Dataset<PathaoRecord>;
-  uber: Dataset<UberRecord>;
+  rokomari: Dataset<RokomariRecord>;
+  steadfast: Dataset<SteadfastRecord>;
 };
 
 declare global {
@@ -64,10 +65,7 @@ export function parseCsvRows<T extends ProviderRecord>(
   let invalidRows = 0;
   for (const row of raw) {
     const parsed = schema.safeParse(row);
-    if (
-      !parsed.success ||
-      (parsed.data as { synthetic?: boolean }).synthetic !== true
-    ) {
+    if (!parsed.success) {
       invalidRows += 1;
       continue;
     }
@@ -82,7 +80,8 @@ function index<T extends ProviderRecord>(rows: T[]) {
   for (const row of rows) {
     const uid = row.user_id.toUpperCase();
     byUserId.set(uid, [...(byUserId.get(uid) ?? []), row]);
-    byPhone.set(row.phone, [...(byPhone.get(row.phone) ?? []), row]);
+    const phone = normalizeIdentifier(row.phone);
+    byPhone.set(phone, [...(byPhone.get(phone) ?? []), row]);
   }
   return { byUserId, byPhone };
 }
@@ -101,10 +100,10 @@ export function getStore(): Store {
   // A process-global cache prevents repeated parsing during warm Vercel invocations and local HMR.
   if (!globalThis.__sentinelStore) {
     globalThis.__sentinelStore = {
-      foodpanda: load("foodpanda"),
-      daraz: load("daraz"),
+      foodi: load("foodi"),
       pathao: load("pathao"),
-      uber: load("uber"),
+      rokomari: load("rokomari"),
+      steadfast: load("steadfast"),
     } as Store;
   }
   return globalThis.__sentinelStore;
@@ -115,7 +114,7 @@ export function getRows<T extends ProviderRecord>(
   identifier: string,
 ): T[] {
   const dataset = getStore()[provider] as Dataset<T>;
-  const normalized = identifier.trim();
+  const normalized = normalizeIdentifier(identifier);
   return normalized.toUpperCase().startsWith("USR")
     ? (dataset.byUserId.get(normalized.toUpperCase()) ?? [])
     : (dataset.byPhone.get(normalized) ?? []);

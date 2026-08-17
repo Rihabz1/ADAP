@@ -1,7 +1,7 @@
-export const providers = ["foodpanda", "daraz", "pathao", "uber"] as const;
+export const providers = ["foodi", "pathao", "rokomari", "steadfast"] as const;
 export type Provider = (typeof providers)[number];
 
-export interface FoodpandaRecord {
+export interface FoodiRecord {
   user_id: string;
   phone: string;
   customer_name: string;
@@ -18,7 +18,7 @@ export interface FoodpandaRecord {
   source_updated_at: string;
   synthetic: string;
 }
-export interface DarazRecord {
+export interface RokomariRecord {
   user_id: string;
   phone: string;
   customer_name: string;
@@ -36,7 +36,7 @@ export interface DarazRecord {
   source_updated_at: string;
   synthetic: string;
 }
-export interface PathaoRecord {
+export interface SteadfastRecord {
   user_id: string;
   phone: string;
   customer_name: string;
@@ -55,7 +55,7 @@ export interface PathaoRecord {
   source_updated_at: string;
   synthetic: string;
 }
-export interface UberRecord {
+export interface PathaoRecord {
   user_id: string;
   phone: string;
   customer_name: string;
@@ -76,7 +76,7 @@ export interface UberRecord {
   synthetic: string;
 }
 export type ProviderRecord =
-  FoodpandaRecord | DarazRecord | PathaoRecord | UberRecord;
+  FoodiRecord | PathaoRecord | RokomariRecord | SteadfastRecord;
 
 export interface ActivityLocation {
   area: string;

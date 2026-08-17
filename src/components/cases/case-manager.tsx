@@ -227,7 +227,7 @@ export function CaseManager() {
                         notes: [
                           {
                             id: crypto.randomUUID(),
-                            author: "Analyst",
+                            author: "System Admin",
                             createdAt: new Date().toISOString(),
                             text: note.trim(),
                           },

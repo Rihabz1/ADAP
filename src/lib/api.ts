@@ -6,13 +6,13 @@ export const identifierSchema = z
   .string()
   .trim()
   .regex(
-    /^(USR\d{3}|\d{11})$/i,
-    "Use a valid User ID or 11-digit phone number",
+    /^(USR\d{3}|\+?\d{10,15})$/i,
+    "Use a valid User ID or phone number",
   );
 export const phoneSearchSchema = z
   .string()
   .trim()
-  .regex(/^\d{11}$/, "Use an exact 11-digit phone number");
+  .regex(/^\+?\d{10,15}$/, "Use an exact phone number");
 export const filterSchema = z.object({
   provider: z
     .string()

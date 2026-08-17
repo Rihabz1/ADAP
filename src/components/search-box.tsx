@@ -3,8 +3,8 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Search } from "lucide-react";
 import { audit } from "@/lib/client-storage";
+import { examplePhoneNumbers } from "@/lib/search-examples";
 
-const examples = ["01000000001", "01000000025", "01000000050"];
 export function SearchBox() {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -15,7 +15,7 @@ export function SearchBox() {
     if (!/^\d{11}$/.test(value)) return;
     localStorage.setItem("adap:last-user", value);
     audit("SEARCH", value);
-    router.push(`/users/${encodeURIComponent(value)}`);
+    router.push(`/users/${encodeURIComponent(value)}/profile`);
   };
   return (
     <div className="relative z-10">
@@ -24,15 +24,13 @@ export function SearchBox() {
           <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             value={query}
-            onChange={(e) => setQuery(e.target.value.replace(/\D/g, ""))}
+            onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setFocused(true)}
             onBlur={() => setTimeout(() => setFocused(false), 150)}
             className="field has-leading-icon h-14 text-base shadow-sm"
-            placeholder="01000000001"
+            placeholder={`Try ${examplePhoneNumbers[0]}`}
             aria-label="Search user by phone number"
-            inputMode="tel"
             maxLength={11}
-            pattern="[0-9]{11}"
             required
           />
           {focused && (
@@ -40,19 +38,19 @@ export function SearchBox() {
               <p className="px-4 pb-2 pt-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 Example phone numbers
               </p>
-              {examples.map((phone) => (
+              {examplePhoneNumbers.map((identifier) => (
                 <button
                   type="button"
                   onMouseDown={() => {
-                    setQuery(phone);
-                    localStorage.setItem("adap:last-user", phone);
-                    audit("SEARCH", phone);
-                    router.push(`/users/${phone}`);
+                    setQuery(identifier);
+                    localStorage.setItem("adap:last-user", identifier);
+                    audit("SEARCH", identifier);
+                    router.push(`/users/${identifier}/profile`);
                   }}
-                  key={phone}
+                  key={identifier}
                   className="flex w-full items-center justify-between border-t border-slate-100 px-4 py-3 text-left text-slate-800 hover:bg-slate-50"
                 >
-                  <b className="font-mono text-sm">{phone}</b>
+                  <b className="font-mono text-sm">{identifier}</b>
                   <ArrowRight size={15} className="text-slate-400" />
                 </button>
               ))}

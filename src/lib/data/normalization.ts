@@ -1,11 +1,11 @@
 import type {
-  DarazRecord,
-  FoodpandaRecord,
+  FoodiRecord,
   NormalizedActivity,
   PathaoRecord,
   Provider,
   ProviderRecord,
-  UberRecord,
+  RokomariRecord,
+  SteadfastRecord,
 } from "@/lib/types";
 
 const location = (area: string, lat: string, lon: string) => ({
@@ -23,8 +23,8 @@ export function normalizeRecord(
   provider: Provider,
   record: ProviderRecord,
 ): NormalizedActivity {
-  if (provider === "foodpanda") {
-    const r = record as FoodpandaRecord;
+  if (provider === "foodi") {
+    const r = record as FoodiRecord;
     return {
       id: r.order_id,
       provider,
@@ -46,8 +46,8 @@ export function normalizeRecord(
       },
     };
   }
-  if (provider === "daraz") {
-    const r = record as DarazRecord;
+  if (provider === "rokomari") {
+    const r = record as RokomariRecord;
     return {
       id: r.order_id,
       provider,
@@ -70,8 +70,8 @@ export function normalizeRecord(
       },
     };
   }
-  if (provider === "pathao") {
-    const r = record as PathaoRecord;
+  if (provider === "steadfast") {
+    const r = record as SteadfastRecord;
     return {
       id: r.parcel_id,
       provider,
@@ -90,7 +90,7 @@ export function normalizeRecord(
       metadata: { role: r.user_role, parcelType: r.parcel_type },
     };
   }
-  const r = record as UberRecord;
+  const r = record as PathaoRecord;
   return {
     id: r.trip_id,
     provider,

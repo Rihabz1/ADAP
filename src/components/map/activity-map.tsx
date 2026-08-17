@@ -24,10 +24,10 @@ export function ActivityMap({
   name: string;
 }) {
   const [selected, setSelected] = useState<Provider[]>([
-    "foodpanda",
-    "daraz",
+    "foodi",
     "pathao",
-    "uber",
+    "rokomari",
+    "steadfast",
   ]);
   const [sequence, setSequence] = useState(false);
   const [from, setFrom] = useState("");

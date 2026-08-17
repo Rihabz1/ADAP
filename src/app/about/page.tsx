@@ -12,7 +12,7 @@ export default function AboutPage() {
       <PageTitle
         eyebrow="About this project"
         title="Transparent by design"
-        description="ADAP illustrates multi-source analysis patterns without connecting to real services, devices, or private users."
+        description="ADAP analyzes the locally supplied provider CSV datasets without connecting to live services or devices."
       />
       <section className="card p-6 sm:p-8">
         <h2 className="text-xl font-bold">Purpose and safety boundary</h2>
@@ -41,7 +41,7 @@ export default function AboutPage() {
           </div>
           <ArrowDown className="text-slate-300" />
           <div className="grid w-full gap-3 sm:grid-cols-4">
-            {["Foodpanda", "Daraz", "Pathao", "Uber"].map((v) => (
+            {["Foodi", "Pathao", "Rokomari", "Steadfast"].map((v) => (
               <div
                 className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-4 text-sm font-bold"
                 key={v}

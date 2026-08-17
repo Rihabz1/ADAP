@@ -14,7 +14,7 @@ const event = (
   time: string,
 ): LocationEvent => ({
   activityId: time,
-  provider: "uber",
+  provider: "pathao",
   role: "origin",
   area: "Area",
   latitude,

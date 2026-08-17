@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import type { NormalizedUser } from "@/lib/types";
 import { formatDateTime } from "@/lib/format";
 import { audit } from "@/lib/client-storage";
+import { examplePhoneNumbers } from "@/lib/search-examples";
 export function UsersDirectory({ users }: { users: NormalizedUser[] }) {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"id" | "activity">("id");
@@ -38,10 +39,16 @@ export function UsersDirectory({ users }: { users: NormalizedUser[] }) {
               setQuery(e.target.value.replace(/\D/g, ""));
               setPage(1);
             }}
-            placeholder="Search by phone number"
+            placeholder={`Try ${examplePhoneNumbers[0]}`}
+            list="directory-phone-suggestions"
             inputMode="tel"
             maxLength={11}
           />
+          <datalist id="directory-phone-suggestions">
+            {examplePhoneNumbers.map((phone) => (
+              <option value={phone} key={phone} />
+            ))}
+          </datalist>
         </label>
         <button
           className="btn-secondary"

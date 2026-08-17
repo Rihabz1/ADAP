@@ -36,10 +36,10 @@ export function AnalyticsDashboard({
 }) {
   const user = activities[0];
   const [selected, setSelected] = useState<Provider[]>([
-    "foodpanda",
-    "daraz",
+    "foodi",
     "pathao",
-    "uber",
+    "rokomari",
+    "steadfast",
   ]);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");

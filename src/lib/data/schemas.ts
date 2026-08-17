@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const common = {
   user_id: z.string().regex(/^USR\d{3}$/i),
-  phone: z.string().regex(/^\d{11}$/),
+  phone: z.string().regex(/^\+?\d{10,15}$/),
   customer_name: z.string().min(1),
   source_updated_at: z.iso.datetime({ offset: true }),
   synthetic: z.string().transform((value) => value.toLowerCase() === "true"),
@@ -10,7 +10,7 @@ const common = {
 const coordinate = z.string().refine((value) => Number.isFinite(Number(value)));
 const numeric = z.string().refine((value) => Number.isFinite(Number(value)));
 
-export const foodpandaSchema = z.object({
+export const foodiSchema = z.object({
   ...common,
   order_id: z.string(),
   order_time: z.iso.datetime({ offset: true }),
@@ -23,7 +23,7 @@ export const foodpandaSchema = z.object({
   payment_method: z.string(),
   order_status: z.string(),
 });
-export const darazSchema = z.object({
+export const rokomariSchema = z.object({
   ...common,
   order_id: z.string(),
   order_time: z.iso.datetime({ offset: true }),
@@ -37,7 +37,7 @@ export const darazSchema = z.object({
   payment_method: z.string(),
   order_status: z.string(),
 });
-export const pathaoSchema = z.object({
+export const steadfastSchema = z.object({
   ...common,
   parcel_id: z.string(),
   user_role: z.string(),
@@ -52,7 +52,7 @@ export const pathaoSchema = z.object({
   delivery_charge_bdt: numeric,
   parcel_status: z.string(),
 });
-export const uberSchema = z.object({
+export const pathaoSchema = z.object({
   ...common,
   trip_id: z.string(),
   request_time: z.iso.datetime({ offset: true }),

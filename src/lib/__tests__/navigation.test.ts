@@ -8,9 +8,9 @@ describe("context-aware user search", () => {
     );
   });
 
-  it("keeps timeline and analytics context", () => {
-    expect(getSearchDestination("/users/USR001/timeline", "01000000025")).toBe(
-      "/users/01000000025/timeline",
+  it("keeps profile and analytics context", () => {
+    expect(getSearchDestination("/users/USR001/profile", "01000000025")).toBe(
+      "/users/01000000025/profile",
     );
     expect(getSearchDestination("/users/USR001/analytics", "USR050")).toBe(
       "/users/USR050/analytics",
@@ -18,6 +18,8 @@ describe("context-aware user search", () => {
   });
 
   it("uses the profile route from global pages", () => {
-    expect(getSearchDestination("/dashboard", "USR100")).toBe("/users/USR100");
+    expect(getSearchDestination("/dashboard", "01000000025")).toBe(
+      "/users/01000000025/profile",
+    );
   });
 });

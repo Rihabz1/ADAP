@@ -1,6 +1,7 @@
 "use client";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { Bell, MapPin, Play, Save, ShieldCheck } from "lucide-react";
+import { Bell, MapPin, Play, Save } from "lucide-react";
+import { examplePhoneNumbers } from "@/lib/search-examples";
 import type { Geofence, GeofenceEvent, LocationEvent } from "@/lib/types";
 import { simulateGeofence } from "@/lib/geofence";
 import { formatDateTime } from "@/lib/format";
@@ -53,7 +54,7 @@ const dhakaPlaces = [
 ] as const;
 
 export function GeofenceSimulator() {
-  const [identifier, setIdentifier] = useState("01000000001");
+  const [identifier, setIdentifier] = useState(examplePhoneNumbers[0]);
   const [selectedPlace, setSelectedPlace] = useState("custom");
   const [name, setName] = useState("Custom Zone");
   const [lat, setLat] = useState("23.8103");
@@ -135,16 +136,7 @@ export function GeofenceSimulator() {
       <PageTitle
         eyebrow="Historical simulation"
         title="Geofence Simulator"
-        description="Evaluate recorded coordinates against a circle. This does not monitor devices or real-time GPS."
       />
-      <div className="mb-5 flex gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-        <ShieldCheck className="shrink-0" size={19} />
-        <p>
-          <b>Historical geofence simulation.</b> Transitions occur between
-          discrete records; they do not prove the path taken between those
-          points.
-        </p>
-      </div>
       <div className="grid gap-5 xl:grid-cols-[380px_1fr]">
         <aside className="space-y-5">
           <form onSubmit={run} className="card space-y-4 p-5">
@@ -162,10 +154,17 @@ export function GeofenceSimulator() {
                   setLocations([]);
                 }}
                 inputMode="tel"
+                list="geofence-phone-suggestions"
+                placeholder={`Try ${examplePhoneNumbers[0]}`}
                 maxLength={11}
                 required
                 pattern="[0-9]{11}"
               />
+              <datalist id="geofence-phone-suggestions">
+                {examplePhoneNumbers.map((phone) => (
+                  <option value={phone} key={phone} />
+                ))}
+              </datalist>
             </label>
             <label className="block text-xs font-bold text-slate-500">
               Location

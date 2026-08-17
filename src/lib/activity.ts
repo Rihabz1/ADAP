@@ -6,12 +6,15 @@ import type {
 } from "./types";
 
 export function normalizeIdentifier(value: string) {
-  return value.trim().toUpperCase().startsWith("USR")
-    ? value.trim().toUpperCase()
-    : value.trim();
+  const trimmed = value.trim();
+  if (trimmed.toUpperCase().startsWith("USR")) return trimmed.toUpperCase();
+  const digits = trimmed.replace(/\D/g, "");
+  return digits.startsWith("880") && digits.length === 13
+    ? `0${digits.slice(3)}`
+    : digits;
 }
 export function validIdentifier(value: string) {
-  return /^(USR\d{3}|\d{11})$/i.test(value.trim());
+  return /^(USR\d{3}|\+?\d{10,15})$/i.test(value.trim());
 }
 export function sortActivities(
   items: NormalizedActivity[],
@@ -99,8 +102,8 @@ export function countBy<T extends string>(items: T[]) {
   );
 }
 export const providerLabel: Record<Provider, string> = {
-  foodpanda: "Foodpanda",
-  daraz: "Daraz",
-  pathao: "Pathao Courier",
-  uber: "Uber",
+  foodi: "Foodi",
+  pathao: "Pathao",
+  rokomari: "Rokomari",
+  steadfast: "Steadfast Courier",
 };

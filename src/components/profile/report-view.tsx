@@ -51,7 +51,7 @@ export function ReportView({
           <div className="text-right text-sm">
             <b>Generated</b>
             <p>{formatDateTime(new Date())}</p>
-            <p className="mt-2 text-xs text-slate-500">Analyst</p>
+            <p className="mt-2 text-xs text-slate-500">System Admin</p>
           </div>
         </div>
       </header>
@@ -106,7 +106,7 @@ export function ReportView({
           Provider Statistics
         </h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-4">
-          {(["foodpanda", "daraz", "pathao", "uber"] as Provider[]).map((p) => (
+          {(["foodi", "pathao", "rokomari", "steadfast"] as Provider[]).map((p) => (
             <div className="rounded-lg border border-slate-200 p-3" key={p}>
               <ProviderBadge provider={p} />
               <b className="mt-3 block text-xl">{a.byProvider[p] ?? 0}</b>
@@ -151,7 +151,7 @@ export function ReportView({
       </section>
       <section className="mt-8">
         <h2 className="border-b border-slate-200 pb-2 text-lg font-bold">
-          Analyst Notes
+          System Admin Notes
         </h2>
         {notes.length ? (
           <div className="mt-3 space-y-3">

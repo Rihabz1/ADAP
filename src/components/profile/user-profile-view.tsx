@@ -30,10 +30,9 @@ import {
   StatCard,
   providerConfig,
 } from "@/components/ui";
-import { ProfileTabs } from "./profile-tabs";
 import { ActivityTable } from "./activity-table";
 
-type Mode = "overview" | "timeline";
+type Mode = "overview" | "profile";
 export function UserProfileView({
   activities,
   mode = "overview",
@@ -51,12 +50,12 @@ export function UserProfileView({
   const [providers, setProviders] = useState<Provider[]>(
     initialProvider
       ? [initialProvider]
-      : ["foodpanda", "daraz", "pathao", "uber"],
+      : ["foodi", "pathao", "rokomari", "steadfast"],
   );
   const [from, setFrom] = useState(initialFrom);
   const [to, setTo] = useState(initialTo);
   const [status, setStatus] = useState("");
-  const [limit, setLimit] = useState(mode === "timeline" ? 30 : 10);
+  const [limit, setLimit] = useState(mode === "profile" ? 30 : 10);
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
   const [notes, setNotes] = useState<CaseNote[]>([]);
   const [note, setNote] = useState("");
@@ -102,7 +101,7 @@ export function UserProfileView({
     if (!text) return;
     const item = {
       id: crypto.randomUUID(),
-      author: "Analyst",
+      author: "System Admin",
       createdAt: new Date().toISOString(),
       text,
     };
@@ -121,7 +120,7 @@ export function UserProfileView({
     setTo(new Date(max).toISOString().slice(0, 10));
   };
   const clear = () => {
-    setProviders(["foodpanda", "daraz", "pathao", "uber"]);
+    setProviders(["foodi", "pathao", "rokomari", "steadfast"]);
     setFrom("");
     setTo("");
     setStatus("");
@@ -239,7 +238,7 @@ export function UserProfileView({
         <StatCard label="6-month count" value={activities.length} />
       </section>
       <section className="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {(["foodpanda", "daraz", "pathao", "uber"] as Provider[]).map(
+        {(["foodi", "pathao", "rokomari", "steadfast"] as Provider[]).map(
           (provider) => {
             const items = activities.filter((a) => a.provider === provider);
             const last = latestActivity(items);
@@ -263,9 +262,9 @@ export function UserProfileView({
                 <p className="eyebrow mt-5">{providerLabel[provider]}</p>
                 <p className="mt-2 font-bold">
                   {items.length}{" "}
-                  {provider === "uber"
+                  {provider === "pathao"
                     ? "rides"
-                    : provider === "pathao"
+                    : provider === "steadfast"
                       ? "parcels"
                       : "orders"}
                 </p>
@@ -325,16 +324,17 @@ export function UserProfileView({
           </div>
         </section>
       )}
-      <ProfileTabs
-        identifier={user.userId}
-        active={mode}
-        provider={initialProvider}
-      />
-      {(mode === "timeline" || initialProvider) && (
+      {(mode === "profile" || initialProvider) && (
         <>
           <section className="card mb-5 p-4 no-print">
             <div className="flex flex-wrap gap-2">
-              {(["foodpanda", "daraz", "pathao", "uber"] as Provider[]).map(
+              <Link
+                href={`/users/${user.userId}`}
+                className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-bold text-slate-600 hover:border-teal-600 hover:bg-teal-50 hover:text-teal-800"
+              >
+                Overview
+              </Link>
+              {(["foodi", "pathao", "rokomari", "steadfast"] as Provider[]).map(
                 (p) => (
                   <button
                     key={p}
@@ -460,7 +460,7 @@ export function UserProfileView({
                   <h2 className="mt-1 font-bold">Recent recorded events</h2>
                 </div>
                 <Link
-                  href={`/users/${user.userId}/timeline`}
+                  href={`/users/${user.userId}/profile`}
                   className="text-sm font-bold text-teal-700"
                 >
                   View all →
@@ -479,7 +479,7 @@ export function UserProfileView({
                 {daily.map(([date, items]) => (
                   <div key={date}>
                     <Link
-                      href={`/users/${user.userId}/timeline?from=${date}&to=${date}`}
+                      href={`/users/${user.userId}/profile?from=${date}&to=${date}`}
                       className="text-sm font-bold text-teal-700"
                     >
                       {formatDate(date)} →
@@ -516,7 +516,7 @@ export function UserProfileView({
                 {calendar.map(([date, count]) => (
                   <Link
                     title={`${date}: ${count} events`}
-                    href={`/users/${user.userId}/timeline?from=${date}&to=${date}`}
+                    href={`/users/${user.userId}/profile?from=${date}&to=${date}`}
                     key={date}
                     className="size-4 rounded-sm"
                     style={{
@@ -530,7 +530,7 @@ export function UserProfileView({
             <section className="card p-5">
               <div className="flex items-center gap-2">
                 <MessageSquarePlus size={18} className="text-teal-700" />
-                <h2 className="font-bold">Analyst Notes</h2>
+                <h2 className="font-bold">System Admin Notes</h2>
               </div>
               <div className="mt-4 flex gap-2">
                 <input
