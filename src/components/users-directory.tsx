@@ -5,7 +5,10 @@ import { useMemo, useState } from "react";
 import type { NormalizedUser } from "@/lib/types";
 import { formatDateTime } from "@/lib/format";
 import { audit } from "@/lib/client-storage";
-import { examplePhoneNumbers } from "@/lib/search-examples";
+import {
+  examplePhoneNumbers,
+  sanitizePhoneInput,
+} from "@/lib/search-examples";
 export function UsersDirectory({ users }: { users: NormalizedUser[] }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -44,13 +47,13 @@ export function UsersDirectory({ users }: { users: NormalizedUser[] }) {
             className="field has-leading-icon"
             value={query}
             onChange={(e) => {
-              setQuery(e.target.value.replace(/\D/g, ""));
+              setQuery(sanitizePhoneInput(e.target.value));
               setPage(1);
             }}
             placeholder={`Try ${examplePhoneNumbers[0]}`}
             list="directory-phone-suggestions"
             inputMode="tel"
-            maxLength={11}
+            maxLength={14}
           />
           <datalist id="directory-phone-suggestions">
             {examplePhoneNumbers.map((phone) => (

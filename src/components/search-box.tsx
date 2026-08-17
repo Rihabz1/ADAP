@@ -3,7 +3,11 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Search } from "lucide-react";
 import { audit } from "@/lib/client-storage";
-import { examplePhoneNumbers } from "@/lib/search-examples";
+import {
+  examplePhoneNumbers,
+  sanitizePhoneInput,
+} from "@/lib/search-examples";
+import { isSupportedUserIdentifier } from "@/lib/navigation";
 
 export function SearchBox() {
   const router = useRouter();
@@ -12,7 +16,7 @@ export function SearchBox() {
   const submit = (e: FormEvent) => {
     e.preventDefault();
     const value = query.trim();
-    if (!/^\d{11}$/.test(value)) return;
+    if (!isSupportedUserIdentifier(value)) return;
     localStorage.setItem("adap:last-user", value);
     audit("SEARCH", value);
     router.push(`/users/${encodeURIComponent(value)}/profile`);
@@ -24,13 +28,15 @@ export function SearchBox() {
           <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => setQuery(sanitizePhoneInput(e.target.value))}
             onFocus={() => setFocused(true)}
             onBlur={() => setTimeout(() => setFocused(false), 150)}
             className="field has-leading-icon h-14 text-base shadow-[0_8px_24px_rgba(15,42,82,0.06)]"
             placeholder="Phone number"
             aria-label="Search user by phone number"
-            maxLength={11}
+            inputMode="tel"
+            maxLength={14}
+            pattern="(?:[0-9]{11}|\+880[0-9]{10})"
             required
           />
           {focused && (
@@ -45,7 +51,9 @@ export function SearchBox() {
                     setQuery(identifier);
                     localStorage.setItem("adap:last-user", identifier);
                     audit("SEARCH", identifier);
-                    router.push(`/users/${identifier}/profile`);
+                    router.push(
+                      `/users/${encodeURIComponent(identifier)}/profile`,
+                    );
                   }}
                   key={identifier}
                   className="flex w-full items-center justify-between border-t border-slate-100 px-4 py-3 text-left text-slate-800 hover:bg-slate-50"

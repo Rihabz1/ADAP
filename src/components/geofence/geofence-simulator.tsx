@@ -1,7 +1,10 @@
 "use client";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Bell, MapPin, Play, Save } from "lucide-react";
-import { examplePhoneNumbers } from "@/lib/search-examples";
+import {
+  examplePhoneNumbers,
+  sanitizePhoneInput,
+} from "@/lib/search-examples";
 import type { Geofence, GeofenceEvent, LocationEvent } from "@/lib/types";
 import { simulateGeofence } from "@/lib/geofence";
 import { formatDateTime } from "@/lib/format";
@@ -61,6 +64,7 @@ export function GeofenceSimulator() {
   const [lon, setLon] = useState("90.4125");
   const [radius, setRadius] = useState("2");
   const [locations, setLocations] = useState<LocationEvent[]>([]);
+  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [saved, setSaved] = useState<Geofence[]>([]);
@@ -98,6 +102,7 @@ export function GeofenceSimulator() {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setUserName("");
     const response = await fetch(
       `/api/users/${encodeURIComponent(identifier.trim())}/locations`,
     );
@@ -108,6 +113,7 @@ export function GeofenceSimulator() {
       return;
     }
     setLocations(body.data as LocationEvent[]);
+    setUserName(body.meta?.user?.customerName ?? "");
     audit("GEOFENCE_SIMULATION_EXECUTED", `${identifier}: ${name}`);
     setLoading(false);
   }
@@ -137,7 +143,7 @@ export function GeofenceSimulator() {
         eyebrow="Historical simulation"
         title="Geofence Simulator"
       />
-      <div className="grid gap-5 xl:grid-cols-[380px_1fr]">
+      <div className="grid items-start gap-5 xl:grid-cols-[380px_1fr]">
         <aside className="space-y-5">
           <form onSubmit={run} className="card space-y-4 p-5">
             <div>
@@ -150,15 +156,16 @@ export function GeofenceSimulator() {
                 className="field mt-1"
                 value={identifier}
                 onChange={(e) => {
-                  setIdentifier(e.target.value.replace(/\D/g, ""));
+                  setIdentifier(sanitizePhoneInput(e.target.value));
                   setLocations([]);
+                  setUserName("");
                 }}
                 inputMode="tel"
                 list="geofence-phone-suggestions"
                 placeholder={`Try ${examplePhoneNumbers[0]}`}
-                maxLength={11}
+                maxLength={14}
                 required
-                pattern="[0-9]{11}"
+                pattern="(?:[0-9]{11}|\+880[0-9]{10})"
               />
               <datalist id="geofence-phone-suggestions">
                 {examplePhoneNumbers.map((phone) => (
@@ -297,8 +304,7 @@ export function GeofenceSimulator() {
             </div>
           )}
         </aside>
-        <section className="space-y-5">
-          <div className="card p-2">
+        <section className="card p-2">
             <GeofenceMapShell
               latitude={activeFence?.latitude ?? 23.8103}
               longitude={activeFence?.longitude ?? 90.4125}
@@ -315,10 +321,11 @@ export function GeofenceSimulator() {
               Click the map to move the geofence center. After loading a user,
               results update as the center or radius changes.
             </p>
-          </div>
-          {events.length ? (
-            <>
-              <div className="grid gap-3 sm:grid-cols-3">
+        </section>
+        {events.length ? (
+          <>
+            <div className="space-y-5">
+              <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
                 <StatCard
                   label="Inside records"
                   value={inside.length}
@@ -328,14 +335,14 @@ export function GeofenceSimulator() {
                 <StatCard label="Exited zone" value={exited.length} />
               </div>
               <div className="card p-5">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Bell size={18} className="text-amber-600" />
                   <h2 className="font-bold">Alerts</h2>
                   <span className="rounded-full bg-blue-50 px-2 py-1 text-[10px] font-bold text-blue-700">
                     INFORMATIONAL
                   </span>
                 </div>
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="mt-4 grid gap-3">
                   <Alert
                     text={`${inside.length} activities recorded inside ${name}`}
                     active={inside.length > 0}
@@ -354,7 +361,21 @@ export function GeofenceSimulator() {
                   />
                 </div>
               </div>
-              <div className="card table-wrap">
+            </div>
+            <div className="card min-w-0 overflow-hidden">
+              <div className="border-b border-slate-100 p-5">
+                <p className="eyebrow">Simulation results</p>
+                <h2 className="mt-1 font-bold">Geofence timeline</h2>
+                {userName && (
+                  <p className="mt-1 text-sm text-slate-500">
+                    Historical activity for{" "}
+                    <span className="font-semibold text-[#0B2A55]">
+                      {userName}
+                    </span>
+                  </p>
+                )}
+              </div>
+              <div className="table-wrap">
                 <table>
                   <thead>
                     <tr>
@@ -398,15 +419,15 @@ export function GeofenceSimulator() {
                   </tbody>
                 </table>
               </div>
-            </>
-          ) : (
-            <div className="card p-5 text-center">
-              <p className="text-sm text-slate-500">
-                Run the simulation to plot the user&apos;s historical records.
-              </p>
             </div>
-          )}
-        </section>
+          </>
+        ) : (
+          <div className="card p-5 text-center xl:col-start-2">
+            <p className="text-sm text-slate-500">
+              Run the simulation to plot the user&apos;s historical records.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

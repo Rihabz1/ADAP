@@ -3,7 +3,7 @@ import type { Provider } from "@/lib/types";
 import { providerLabel } from "@/lib/activity";
 
 export const providerConfig = {
-  foodi: { icon: Utensils, color: "#dc3264", soft: "#fff0f5" },
+  foodi: { icon: Utensils, color: "#dc2626", soft: "#fef2f2" },
   pathao: { icon: Car, color: "#334155", soft: "#f1f5f9" },
   rokomari: { icon: ShoppingBag, color: "#ef6c2f", soft: "#fff4ed" },
   steadfast: { icon: Package, color: "#17a269", soft: "#ecfdf5" },

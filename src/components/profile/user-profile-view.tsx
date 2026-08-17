@@ -79,14 +79,6 @@ export function UserProfileView({
   const analytics = useMemo(() => calculateAnalytics(filtered), [filtered]);
   const latest = latestActivity(filtered);
   const statuses = [...new Set(activities.map((a) => a.status))].sort();
-  const toggleProvider = (provider: Provider) => {
-    setProviders((current) =>
-      current.includes(provider)
-        ? current.filter((p) => p !== provider)
-        : [...current, provider],
-    );
-    audit("PROVIDER_FILTERED", provider);
-  };
   const toggleBookmark = (id: string) => {
     const next = new Set(bookmarks);
     if (next.has(id)) next.delete(id);
@@ -280,7 +272,7 @@ export function UserProfileView({
               const Icon = c.icon;
               return (
                 <Link
-                  href={`/users/${user.phone}?provider=${provider}`}
+                  href={`/users/${user.phone}/profile?provider=${provider}`}
                   key={provider}
                   className="card p-4 transition hover:-translate-y-0.5 hover:shadow-md"
                 >
@@ -324,20 +316,21 @@ export function UserProfileView({
           <section className="card mb-5 p-4 no-print">
             <div className="flex flex-wrap gap-2">
               <Link
-                href={`/users/${user.phone}`}
-                className="rounded-xl border border-[#03809A] bg-[#03809A]/[0.06] px-4 py-2.5 text-sm font-semibold text-[#002556] transition hover:bg-[#03809A]/[0.1]"
+                href={`/users/${user.phone}/profile`}
+                className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${!initialProvider ? "border-[#03809A] bg-[#03809A]/[0.06] text-[#002556] hover:bg-[#03809A]/[0.1]" : "border-slate-200 bg-white/60 text-slate-400 hover:border-slate-300 hover:text-slate-600"}`}
               >
                 Overview
               </Link>
               {(["foodi", "pathao", "rokomari", "steadfast"] as Provider[]).map(
                 (p) => (
-                  <button
+                  <Link
                     key={p}
-                    onClick={() => toggleProvider(p)}
-                    className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${providers.includes(p) ? "border-[#03809A] bg-[#03809A]/[0.06] text-[#002556] hover:bg-[#03809A]/[0.1]" : "border-slate-200 bg-white/60 text-slate-400 hover:border-slate-300 hover:text-slate-600"}`}
+                    href={`/users/${user.phone}/profile?provider=${p}`}
+                    onClick={() => audit("PROVIDER_FILTERED", p)}
+                    className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${initialProvider === p ? "border-[#03809A] bg-[#03809A]/[0.06] text-[#002556] hover:bg-[#03809A]/[0.1]" : "border-slate-200 bg-white/60 text-slate-400 hover:border-slate-300 hover:text-slate-600"}`}
                   >
                     {providerLabel[p]}
-                  </button>
+                  </Link>
                 ),
               )}
               <span className="hidden flex-1 xl:block" />

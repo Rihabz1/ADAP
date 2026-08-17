@@ -24,9 +24,15 @@ export async function GET(
       if (!all.activities.length) return fail("No user found.", 404);
     }
     const locations = toLocations(result.activities);
+    const user = result.activities[0];
     return ok(locations.slice(0, 400), {
       total: locations.length,
       providerFailures: result.failures,
+      user: {
+        userId: user.userId,
+        phone: user.phone,
+        customerName: user.customerName,
+      },
     });
   } catch (error) {
     return safeError(error);

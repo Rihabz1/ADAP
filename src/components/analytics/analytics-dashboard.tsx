@@ -29,6 +29,11 @@ const weekdays = [
   "Thursday",
   "Friday",
 ];
+const formatHourLabel = (hour: number) =>
+  `${String(hour).padStart(2, "0")} ${hour < 12 ? "AM" : "PM"}`;
+
+const hourTicks = [0, 3, 6, 9, 12, 15, 18, 21, 23].map(formatHourLabel);
+
 export function AnalyticsDashboard({
   activities,
 }: {
@@ -67,10 +72,13 @@ export function AnalyticsDashboard({
     name: name.slice(0, 3),
     value: a.byWeekday[name] ?? 0,
   }));
-  const hourData = Array.from({ length: 24 }, (_, hour) => ({
-    name: String(hour).padStart(2, "0"),
-    value: a.byHour[String(hour).padStart(2, "0")] ?? 0,
-  }));
+  const hourData = Array.from({ length: 24 }, (_, hour) => {
+    const key = String(hour).padStart(2, "0");
+    return {
+      name: formatHourLabel(hour),
+      value: a.byHour[key] ?? 0,
+    };
+  });
   const statusData = Object.entries(a.statuses).map(([name, value]) => ({
     name,
     value,
@@ -191,9 +199,17 @@ export function AnalyticsDashboard({
         </Chart>
         <Chart title="Activity by Hour">
           <ResponsiveContainer width="100%" height={280}>
-            <LineChart data={hourData}>
+            <LineChart
+              data={hourData}
+              margin={{ top: 5, right: 28, bottom: 5, left: 0 }}
+            >
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="name" interval={2} />
+              <XAxis
+                dataKey="name"
+                ticks={hourTicks}
+                interval={0}
+                tick={{ fontSize: 11 }}
+              />
               <YAxis allowDecimals={false} />
               <Tooltip />
               <Line
@@ -211,7 +227,7 @@ export function AnalyticsDashboard({
             <BarChart layout="vertical" data={a.topAreas}>
               <CartesianGrid strokeDasharray="3 3" horizontal={false} />
               <XAxis type="number" allowDecimals={false} />
-              <YAxis type="category" dataKey="area" width={95} />
+              <YAxis type="category" dataKey="area" width={125} />
               <Tooltip />
               <Bar dataKey="count" fill="#0f766e" radius={[0, 5, 5, 0]} />
             </BarChart>

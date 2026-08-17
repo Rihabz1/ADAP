@@ -23,7 +23,10 @@ import {
   getUserNavigationSection,
   isSupportedUserIdentifier,
 } from "@/lib/navigation";
-import { examplePhoneNumbers } from "@/lib/search-examples";
+import {
+  examplePhoneNumbers,
+  sanitizePhoneInput,
+} from "@/lib/search-examples";
 
 const publicRoutes = ["/", "/login"];
 
@@ -90,7 +93,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     event.preventDefault();
     const identifier = query.trim();
     if (!identifier) return;
-    if (!/^\d{11}$/.test(identifier)) return;
+    if (!isSupportedUserIdentifier(identifier)) return;
     const normalized = identifier;
     setLastIdentifier(normalized);
     localStorage.setItem("adap:last-user", normalized);
@@ -178,13 +181,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <input
                 className="field has-leading-icon py-2 text-sm"
                 value={query}
-                onChange={(e) => setQuery(e.target.value.replace(/\D/g, ""))}
+                onChange={(e) => setQuery(sanitizePhoneInput(e.target.value))}
                 placeholder={`Try ${examplePhoneNumbers[0]}`}
                 aria-label="Search by phone number"
                 list="header-phone-suggestions"
                 inputMode="tel"
-                maxLength={11}
-                pattern="[0-9]{11}"
+                maxLength={14}
+                pattern="(?:[0-9]{11}|\+880[0-9]{10})"
                 required
               />
               <datalist id="header-phone-suggestions">
