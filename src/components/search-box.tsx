@@ -27,14 +27,14 @@ export function SearchBox() {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setFocused(true)}
             onBlur={() => setTimeout(() => setFocused(false), 150)}
-            className="field has-leading-icon h-14 text-base shadow-sm"
-            placeholder={`Try ${examplePhoneNumbers[0]}`}
+            className="field has-leading-icon h-14 text-base shadow-[0_8px_24px_rgba(15,42,82,0.06)]"
+            placeholder="Phone number"
             aria-label="Search user by phone number"
             maxLength={11}
             required
           />
           {focused && (
-            <div className="absolute left-0 right-0 top-[calc(100%+.5rem)] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
+            <div className="absolute left-0 right-0 top-[calc(100%+.5rem)] z-50 overflow-hidden rounded-2xl border border-white bg-white/95 shadow-[0_20px_50px_rgba(15,42,82,0.16)] backdrop-blur-xl">
               <p className="px-4 pb-2 pt-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 Example phone numbers
               </p>
@@ -57,9 +57,11 @@ export function SearchBox() {
             </div>
           )}
         </div>
-        <button className="btn-primary h-14 px-7">
+        <button
+          className="btn-primary size-14 shrink-0 transition duration-200"
+          aria-label="Search"
+        >
           <Search size={18} />
-          Search
         </button>
       </form>
     </div>

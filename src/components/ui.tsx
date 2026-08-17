@@ -34,17 +34,21 @@ export function PageTitle({
   title,
   description,
   action,
+  compact = false,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   action?: React.ReactNode;
+  compact?: boolean;
 }) {
   return (
-    <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+    <div
+      className={`${compact ? "mb-4" : "mb-6"} flex flex-col justify-between gap-3 sm:flex-row sm:items-end`}
+    >
       <div>
         {eyebrow && <p className="eyebrow mb-2">{eyebrow}</p>}
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+        <h1 className="text-2xl font-bold tracking-[-0.035em] text-[#0B2A55] sm:text-3xl">
           {title}
         </h1>
         {description && (
@@ -69,12 +73,13 @@ export function StatCard({
   icon?: React.ReactNode;
 }) {
   return (
-    <div className="card p-5">
+    <div className="card group relative overflow-hidden p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(15,42,82,0.1)]">
+      <span className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent opacity-0 transition group-hover:opacity-100" />
       <div className="mb-4 flex items-center justify-between">
         <p className="eyebrow">{label}</p>
         {icon}
       </div>
-      <div className="metric text-slate-900">{value}</div>
+      <div className="metric text-[#0B2A55]">{value}</div>
       {helper && <p className="mt-1 text-xs text-slate-500">{helper}</p>}
     </div>
   );

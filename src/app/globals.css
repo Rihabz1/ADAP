@@ -2,14 +2,14 @@
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  --navy: #081426;
-  --navy-2: #0d1c32;
-  --ink: #142033;
-  --muted: #637083;
-  --line: #e5eaf0;
+  --navy: #0b2a55;
+  --navy-2: #123d72;
+  --ink: #0b2a55;
+  --muted: #64748b;
+  --line: #dfe8f2;
   --surface: #ffffff;
-  --canvas: #f4f7fa;
-  --accent: #1f6f68;
+  --canvas: #f4f8fc;
+  --accent: #00a6b6;
 }
 
 * {
@@ -38,18 +38,37 @@ button {
   cursor: pointer;
 }
 :focus-visible {
-  outline: 3px solid #56b6aa;
+  outline: 3px solid rgb(37 99 235 / 0.32);
   outline-offset: 2px;
 }
 
+.app-shell-bg {
+  background-color: var(--canvas);
+  background-image:
+    radial-gradient(circle at 12% 4%, rgb(37 99 235 / 0.07), transparent 25rem),
+    radial-gradient(
+      circle at 92% 82%,
+      rgb(6 182 212 / 0.08),
+      transparent 28rem
+    ),
+    radial-gradient(circle, rgb(11 42 85 / 0.045) 1px, transparent 1px);
+  background-size:
+    auto,
+    auto,
+    30px 30px;
+}
+
 .card {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  box-shadow: 0 1px 2px rgb(8 20 38 / 0.04);
+  background: rgb(255 255 255 / 0.78);
+  border: 1px solid rgb(255 255 255 / 0.92);
+  border-radius: 20px;
+  box-shadow:
+    0 16px 42px rgb(15 42 82 / 0.07),
+    0 0 0 1px rgb(148 163 184 / 0.12);
+  backdrop-filter: blur(18px);
 }
 .eyebrow {
-  color: #708096;
+  color: #64748b;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -66,14 +85,17 @@ button {
   justify-content: center;
   gap: 0.5rem;
   border: 0;
-  border-radius: 10px;
-  background: #16645e;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #002556, #03809a);
+  box-shadow: 0 10px 24px rgb(3 128 154 / 0.2);
   color: white;
   padding: 0.72rem 1rem;
   font-weight: 700;
 }
 .btn-primary:hover {
-  background: #10534e;
+  box-shadow: 0 14px 30px rgb(3 128 154 / 0.28);
+  filter: brightness(1.03);
+  transform: translateY(-1px);
 }
 .btn-secondary {
   display: inline-flex;
@@ -81,26 +103,28 @@ button {
   justify-content: center;
   gap: 0.5rem;
   border: 1px solid #d9e0e8;
-  border-radius: 10px;
-  background: white;
-  color: #26364b;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.8);
+  color: #0b2a55;
   padding: 0.68rem 0.9rem;
   font-weight: 650;
 }
 .field {
   width: 100%;
-  border: 1px solid #d8e0e8;
-  border-radius: 10px;
-  background: white;
+  border: 1px solid #dbe5ef;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 0.88);
   padding: 0.72rem 0.85rem;
-  color: #18273b;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+  color: #0b2a55;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
     background-color 0.2s ease;
 }
 .field:focus {
-  border-color: #1a6b67;
+  border-color: #03809a;
   background: #fff;
-  box-shadow: 0 0 0 4px rgb(22 100 94 / 0.12);
+  box-shadow: 0 0 0 4px rgb(3 128 154 / 0.11);
   outline: none;
 }
 .field::placeholder {
@@ -145,6 +169,23 @@ td {
   width: 100%;
   border-radius: 14px;
   z-index: 1;
+}
+.activity-map-page .leaflet-container {
+  height: clamp(380px, calc(100vh - 20.5rem), 640px);
+}
+.activity-map-frame:fullscreen {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+@media (max-width: 1023px) {
+  .activity-map-page .leaflet-container {
+    height: max(380px, 58vh);
+  }
+}
+.activity-map-frame:fullscreen .leaflet-container {
+  height: 100vh;
+  border-radius: 0;
 }
 .provider-marker {
   align-items: center;

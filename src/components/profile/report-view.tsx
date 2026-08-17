@@ -59,9 +59,7 @@ export function ReportView({
         <div>
           <p className="eyebrow">User profile</p>
           <h2 className="mt-2 text-xl font-bold">{user.customerName}</h2>
-          <p className="mt-1">
-            {user.userId} · {user.phone}
-          </p>
+          <p className="mt-1">{user.phone}</p>
           <p className="mt-2 text-xs text-slate-500">User</p>
         </div>
         <div>

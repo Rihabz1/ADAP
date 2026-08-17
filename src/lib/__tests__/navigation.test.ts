@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { getSearchDestination } from "../navigation";
+import {
+  getSearchDestination,
+  getUserNavigationSection,
+  isSupportedUserIdentifier,
+} from "../navigation";
 
 describe("context-aware user search", () => {
   it("keeps map searches on the map", () => {
@@ -21,5 +25,13 @@ describe("context-aware user search", () => {
     expect(getSearchDestination("/dashboard", "01000000025")).toBe(
       "/users/01000000025/profile",
     );
+  });
+
+  it("recognizes international phone identifiers and their active section", () => {
+    expect(isSupportedUserIdentifier("+8801728917865")).toBe(true);
+    expect(getUserNavigationSection("/users/+8801728917865/profile")).toBe(
+      "profile",
+    );
+    expect(getUserNavigationSection("/users/+8801728917865/map")).toBe("map");
   });
 });

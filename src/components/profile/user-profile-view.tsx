@@ -12,7 +12,6 @@ import {
   MessageSquarePlus,
   Network,
   Plus,
-  UserRound,
 } from "lucide-react";
 import type { CaseNote, NormalizedActivity, Provider } from "@/lib/types";
 import { calculateAnalytics } from "@/lib/analytics";
@@ -157,7 +156,7 @@ export function UserProfileView({
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${user.userId}-filtered-activities.csv`;
+    link.download = `${user.phone}-filtered-activities.csv`;
     link.click();
     URL.revokeObjectURL(url);
     audit("CSV_EXPORTED", `${user.userId} (${filtered.length})`);
@@ -186,151 +185,147 @@ export function UserProfileView({
     .slice(0, 4);
   return (
     <div className="mx-auto max-w-[1500px]">
-      <PageTitle
-        eyebrow="User profile"
-        title={user.customerName}
-        description={`${user.userId} · ${user.phone}`}
-        action={
-          <div className="flex flex-wrap gap-2 no-print">
-            <button onClick={exportCsv} className="btn-secondary">
-              <Download size={16} />
-              Export CSV
-            </button>
-            <Link
-              href={`/users/${user.userId}/report`}
-              className="btn-primary"
-              onClick={() => audit("REPORT_GENERATED", user.userId)}
-            >
-              <FileText size={16} />
-              Generate report
-            </Link>
-          </div>
-        }
-      />
-      <div className="mb-6 flex items-center gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-800">
-        <UserRound size={20} />
-        <div>
-          <b>User</b>
-          <span className="ml-2 text-blue-600">
-            Shared test identity across four sources
-          </span>
-        </div>
-      </div>
-      <section className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-        <StatCard label="Total activities" value={filtered.length} />
-        <StatCard
-          label="Latest activity"
-          value={latest ? formatDate(latest.occurredAt) : "—"}
-        />
-        <StatCard
-          label="Active providers"
-          value={new Set(filtered.map((a) => a.provider)).size}
-        />
-        <StatCard
-          label="Most frequent"
-          value={
-            analytics.mostActiveProvider === "—"
-              ? "—"
-              : providerLabel[analytics.mostActiveProvider]
+      <div className="xl:min-h-[calc(100vh-6.5rem)]">
+        <PageTitle
+          eyebrow="User profile"
+          title={user.customerName}
+          description={user.phone}
+          compact
+          action={
+            <div className="flex flex-wrap gap-2 no-print">
+              <button onClick={exportCsv} className="btn-secondary">
+                <Download size={16} />
+                Export CSV
+              </button>
+              <Link
+                href={`/users/${user.userId}/report`}
+                className="btn-primary"
+                onClick={() => audit("REPORT_GENERATED", user.userId)}
+              >
+                <FileText size={16} />
+                Generate report
+              </Link>
+            </div>
           }
         />
-        <StatCard label="Frequent area" value={analytics.mostFrequentArea} />
-        <StatCard label="6-month count" value={activities.length} />
-      </section>
-      <section className="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {(["foodi", "pathao", "rokomari", "steadfast"] as Provider[]).map(
-          (provider) => {
-            const items = activities.filter((a) => a.provider === provider);
-            const last = latestActivity(items);
-            const c = providerConfig[provider];
-            const Icon = c.icon;
-            return (
-              <Link
-                href={`/users/${user.userId}?provider=${provider}`}
-                key={provider}
-                className="card p-5 transition hover:-translate-y-0.5 hover:shadow-md"
-              >
-                <div className="flex justify-between">
-                  <span
-                    className="grid size-10 place-items-center rounded-xl"
-                    style={{ background: c.soft, color: c.color }}
-                  >
-                    <Icon size={19} />
-                  </span>
-                  <span className="text-xs text-slate-400">View records →</span>
-                </div>
-                <p className="eyebrow mt-5">{providerLabel[provider]}</p>
-                <p className="mt-2 font-bold">
-                  {items.length}{" "}
-                  {provider === "pathao"
-                    ? "rides"
-                    : provider === "steadfast"
-                      ? "parcels"
-                      : "orders"}
-                </p>
-                <p className="mt-1 truncate text-xs text-slate-500">
-                  Latest:{" "}
-                  {last ? formatDateTime(last.occurredAt) : "No records"}
-                </p>
-                <p className="mt-1 truncate text-xs text-slate-500">
-                  {last?.origin
-                    ? `${last.origin.area} → ${last.destination?.area}`
-                    : `Delivery: ${last?.destination?.area ?? "—"}`}
-                </p>
-              </Link>
-            );
-          },
-        )}
-      </section>
-      {latest && (
-        <section className="card mb-6 overflow-hidden">
-          <div className="grid lg:grid-cols-[230px_1fr]">
-            <div className="bg-[#10243a] p-6 text-white">
-              <p className="text-[10px] font-bold tracking-[.16em] text-teal-300">
-                LATEST RECORDED ACTIVITY
-              </p>
-              <div className="mt-4">
-                <ProviderBadge provider={latest.provider} />
-              </div>
-              <p className="mt-4 text-xl font-bold">
-                {formatDate(latest.occurredAt)}
-              </p>
-              <p className="mt-1 text-sm text-slate-300">
-                {formatTime(latest.occurredAt)} · Asia/Dhaka
-              </p>
-            </div>
-            <div className="flex flex-col justify-between gap-4 p-6 sm:flex-row sm:items-center">
-              <div>
-                <p className="text-lg font-bold">{latest.title}</p>
-                <p className="mt-2 text-sm text-slate-500">
-                  {latest.origin
-                    ? `${latest.origin.area} → ${latest.destination?.area}`
-                    : `Recorded delivery location: ${latest.destination?.area}`}
-                </p>
-                <p className="mt-2 text-xs text-slate-400">
-                  Provider record updated{" "}
-                  {formatDateTime(latest.sourceUpdatedAt)}
-                </p>
-              </div>
-              <div className="text-left sm:text-right">
-                <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold capitalize text-emerald-700">
-                  {latest.status.replaceAll("_", " ")}
-                </span>
-                <p className="mt-3 text-xs uppercase tracking-wider text-slate-400">
-                  {latest.activityType.replaceAll("_", " ")}
-                </p>
-              </div>
-            </div>
-          </div>
+        <section className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 [&>.card]:p-4 [&_.metric]:whitespace-nowrap [&_.metric]:text-[1.75rem]">
+          <StatCard label="Total activities" value={filtered.length} />
+          <StatCard
+            label="Latest activity"
+            value={latest ? formatDate(latest.occurredAt) : "—"}
+          />
+          <StatCard
+            label="Active providers"
+            value={new Set(filtered.map((a) => a.provider)).size}
+          />
+          <StatCard
+            label="Most frequent"
+            value={
+              analytics.mostActiveProvider === "—"
+                ? "—"
+                : providerLabel[analytics.mostActiveProvider]
+            }
+          />
+          <StatCard label="Frequent area" value={analytics.mostFrequentArea} />
+          <StatCard label="6-month count" value={activities.length} />
         </section>
-      )}
+        {latest && (
+          <section className="card mb-4 overflow-hidden">
+            <div className="grid lg:grid-cols-[200px_1fr]">
+              <div className="bg-gradient-to-br from-[#002556] to-[#03809A] p-4 text-white">
+                <p className="text-[10px] font-bold tracking-[.16em] text-cyan-100">
+                  LATEST RECORDED ACTIVITY
+                </p>
+                <div className="mt-2.5">
+                  <ProviderBadge provider={latest.provider} />
+                </div>
+                <p className="mt-2.5 text-base font-bold">
+                  {formatDate(latest.occurredAt)}
+                </p>
+                <p className="mt-1 text-xs text-cyan-50/80">
+                  {formatTime(latest.occurredAt)} · Asia/Dhaka
+                </p>
+              </div>
+              <div className="flex flex-col justify-between gap-3 p-4 sm:flex-row sm:items-center">
+                <div>
+                  <p className="text-lg font-bold">{latest.title}</p>
+                  <p className="mt-1.5 text-sm text-slate-500">
+                    {latest.origin
+                      ? `${latest.origin.area} → ${latest.destination?.area}`
+                      : `Recorded delivery location: ${latest.destination?.area}`}
+                  </p>
+                  <p className="mt-1.5 text-xs text-slate-400">
+                    Provider record updated{" "}
+                    {formatDateTime(latest.sourceUpdatedAt)}
+                  </p>
+                </div>
+                <div className="text-left sm:text-right">
+                  <span className="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold capitalize text-emerald-700">
+                    {latest.status.replaceAll("_", " ")}
+                  </span>
+                  <p className="mt-3 text-xs uppercase tracking-wider text-slate-400">
+                    {latest.activityType.replaceAll("_", " ")}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+        <section className="mb-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {(["foodi", "pathao", "rokomari", "steadfast"] as Provider[]).map(
+            (provider) => {
+              const items = activities.filter((a) => a.provider === provider);
+              const last = latestActivity(items);
+              const c = providerConfig[provider];
+              const Icon = c.icon;
+              return (
+                <Link
+                  href={`/users/${user.phone}?provider=${provider}`}
+                  key={provider}
+                  className="card p-4 transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <div className="flex justify-between">
+                    <span
+                      className="grid size-9 place-items-center rounded-xl"
+                      style={{ background: c.soft, color: c.color }}
+                    >
+                      <Icon size={19} />
+                    </span>
+                    <span className="text-xs text-slate-400">
+                      View records →
+                    </span>
+                  </div>
+                  <p className="eyebrow mt-3">{providerLabel[provider]}</p>
+                  <p className="mt-1.5 font-bold">
+                    {items.length}{" "}
+                    {provider === "pathao"
+                      ? "rides"
+                      : provider === "steadfast"
+                        ? "parcels"
+                        : "orders"}
+                  </p>
+                  <p className="mt-1 truncate text-xs text-slate-500">
+                    Latest:{" "}
+                    {last ? formatDateTime(last.occurredAt) : "No records"}
+                  </p>
+                  <p className="mt-1 truncate text-xs text-slate-500">
+                    {last?.origin
+                      ? `${last.origin.area} → ${last.destination?.area}`
+                      : `Delivery: ${last?.destination?.area ?? "—"}`}
+                  </p>
+                </Link>
+              );
+            },
+          )}
+        </section>
+      </div>
       {(mode === "profile" || initialProvider) && (
         <>
           <section className="card mb-5 p-4 no-print">
             <div className="flex flex-wrap gap-2">
               <Link
-                href={`/users/${user.userId}`}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-bold text-slate-600 hover:border-teal-600 hover:bg-teal-50 hover:text-teal-800"
+                href={`/users/${user.phone}`}
+                className="rounded-xl border border-[#03809A] bg-[#03809A]/[0.06] px-4 py-2.5 text-sm font-semibold text-[#002556] transition hover:bg-[#03809A]/[0.1]"
               >
                 Overview
               </Link>
@@ -339,7 +334,7 @@ export function UserProfileView({
                   <button
                     key={p}
                     onClick={() => toggleProvider(p)}
-                    className={`rounded-lg border px-3 py-2 text-xs font-bold ${providers.includes(p) ? "border-teal-600 bg-teal-50 text-teal-800" : "border-slate-200 text-slate-400"}`}
+                    className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${providers.includes(p) ? "border-[#03809A] bg-[#03809A]/[0.06] text-[#002556] hover:bg-[#03809A]/[0.1]" : "border-slate-200 bg-white/60 text-slate-400 hover:border-slate-300 hover:text-slate-600"}`}
                   >
                     {providerLabel[p]}
                   </button>

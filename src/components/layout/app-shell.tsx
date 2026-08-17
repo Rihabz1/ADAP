@@ -18,7 +18,11 @@ import {
 } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import adapLogo from "../../../data/adap_logo.png";
-import { getSearchDestination } from "@/lib/navigation";
+import {
+  getSearchDestination,
+  getUserNavigationSection,
+  isSupportedUserIdentifier,
+} from "@/lib/navigation";
 import { examplePhoneNumbers } from "@/lib/search-examples";
 
 const publicRoutes = ["/", "/login"];
@@ -33,7 +37,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     ? decodeURIComponent(matchedIdentifier)
     : null;
   const validPathIdentifier =
-    pathnameIdentifier && /^(USR\d{3}|\d{11})$/i.test(pathnameIdentifier)
+    pathnameIdentifier && isSupportedUserIdentifier(pathnameIdentifier)
       ? pathnameIdentifier.toUpperCase()
       : null;
   const [lastIdentifier, setLastIdentifier] = useState("USR001");
@@ -44,7 +48,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       return;
     }
     const saved = localStorage.getItem("adap:last-user");
-    if (saved && /^(USR\d{3}|\d{11})$/i.test(saved))
+    if (saved && isSupportedUserIdentifier(saved))
       setLastIdentifier(saved.toUpperCase());
   }, [validPathIdentifier]);
   if (publicRoutes.includes(pathname)) return <>{children}</>;
@@ -74,11 +78,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     { href: "/geofences", label: "Geofences", icon: ShieldCheck },
     { href: "/audit", label: "Audit Log", icon: FileClock },
   ];
+  const userNavigationSection = getUserNavigationSection(pathname);
   const isActive = (label: string, href: string) => {
-    if (label === "Users")
-      return pathname === "/users" || pathname === userRoute;
-    if (["Profile", "Map", "Analytics"].includes(label))
-      return pathname === href;
+    if (label === "Users") return userNavigationSection === "users";
+    if (label === "Profile") return userNavigationSection === "profile";
+    if (label === "Map") return userNavigationSection === "map";
+    if (label === "Analytics") return userNavigationSection === "analytics";
     return pathname === href;
   };
   const submit = (event: FormEvent) => {
@@ -92,9 +97,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     router.push(getSearchDestination(pathname, normalized));
   };
   return (
-    <div className="min-h-screen bg-[#f4f7fa]">
+    <div className="app-shell-bg min-h-screen text-[#0B2A55]">
       <button
-        className="fixed left-4 top-4 z-50 rounded-lg bg-[#0b1a2e] p-2 text-white lg:hidden"
+        className="fixed left-4 top-4 z-50 rounded-xl border border-white/90 bg-white/85 p-2 text-[#0B2A55] shadow-lg backdrop-blur-xl lg:hidden"
         onClick={() => setOpen(!open)}
         aria-label="Toggle navigation"
       >
@@ -102,21 +107,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </button>
       {open && (
         <button
-          className="fixed inset-0 z-30 bg-black/30 lg:hidden"
+          className="fixed inset-0 z-30 bg-[#0B2A55]/20 backdrop-blur-sm lg:hidden"
           onClick={() => setOpen(false)}
           aria-label="Close navigation overlay"
         />
       )}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-[#081426] text-slate-300 transition-transform lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-white/90 bg-white/82 text-slate-600 shadow-[12px_0_40px_rgba(15,42,82,0.07)] backdrop-blur-2xl transition-transform lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}
       >
         <Link
           href="/dashboard"
-          className="border-b border-white/10 px-4 pb-3 pt-4"
+          className="border-b border-slate-200/70 px-4 pb-3 pt-4"
           onClick={() => setOpen(false)}
           aria-label="ADAP dashboard"
         >
-          <span className="flex h-20 items-start justify-center overflow-hidden rounded-xl bg-white shadow-sm">
+          <span className="flex h-20 items-start justify-center overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_10px_28px_rgba(15,42,82,0.08)]">
             <Image
               src={adapLogo}
               alt="ADAP — Application Data Analysis Platform"
@@ -134,13 +139,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               key={label}
               href={href}
               onClick={() => setOpen(false)}
-              className={`mb-1 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm ${isActive(label, href) ? "bg-white/10 text-white" : "hover:bg-white/5 hover:text-white"}`}
+              style={isActive(label, href) ? { color: "#ffffff" } : undefined}
+              className={`mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${isActive(label, href) ? "bg-gradient-to-r from-[#002556] to-[#03809A] text-white shadow-[0_8px_20px_rgba(3,128,154,0.22)]" : "text-slate-600 hover:bg-blue-50/80 hover:text-[#0B2A55]"}`}
             >
               <Icon size={17} />
               {label}
             </Link>
           ))}
-          <div className="mx-2 my-4 border-t border-white/10" />
+          <div className="mx-2 my-4 border-t border-slate-200/80" />
           <span className="flex cursor-not-allowed items-center gap-3 px-3 py-2.5 text-sm opacity-40">
             <Settings size={17} />
             Settings
@@ -152,14 +158,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             router.push("/login");
             router.refresh();
           }}
-          className="m-3 flex items-center gap-3 rounded-lg border border-white/10 px-3 py-2.5 text-sm hover:bg-white/5"
+          className="m-3 flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white/60 px-3 py-2.5 text-sm text-slate-600 transition hover:border-slate-300 hover:bg-white hover:text-[#0B2A55]"
         >
           <LogOut size={17} />
           Sign out
         </button>
       </aside>
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 flex h-17 items-center gap-3 border-b border-slate-200 bg-white/95 px-4 pl-16 backdrop-blur lg:px-7">
+        <header className="sticky top-0 z-20 flex h-17 items-center gap-3 border-b border-white/90 bg-white/72 px-4 pl-16 shadow-[0_8px_30px_rgba(15,42,82,0.04)] backdrop-blur-2xl lg:px-7">
           {showHeaderSearch && (
             <form
               onSubmit={submit}
@@ -189,7 +195,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </form>
           )}
           <div className="ml-auto flex items-center gap-2">
-            <span className="grid size-8 place-items-center rounded-full bg-slate-900 text-xs font-bold text-white">
+            <span className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-[#002556] to-[#03809A] text-xs font-bold text-white shadow-[0_8px_18px_rgba(3,128,154,0.22)]">
               SA
             </span>
             <span className="hidden text-sm font-semibold sm:block">
@@ -197,7 +203,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </span>
           </div>
         </header>
-        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="relative p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   );

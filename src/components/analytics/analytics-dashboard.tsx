@@ -79,101 +79,105 @@ export function AnalyticsDashboard({
     setSelected((s) => (s.includes(p) ? s.filter((x) => x !== p) : [...s, p]));
   return (
     <div className="mx-auto max-w-[1500px]">
-      <PageTitle
-        eyebrow="Descriptive statistics"
-        title={`${user.customerName} analytics`}
-        description="Calculated dynamically from this user's selected recorded activities."
-      />
-      <section className="card mb-5 p-4">
-        <div className="flex flex-wrap gap-2">
-          {(Object.keys(providerConfig) as Provider[]).map((p) => (
-            <button
-              onClick={() => toggle(p)}
-              key={p}
-              className={`rounded-lg border px-3 py-2 text-xs font-bold ${selected.includes(p) ? "border-teal-600 bg-teal-50 text-teal-800" : "border-slate-200 text-slate-400"}`}
-            >
-              {providerLabel[p]}
-            </button>
-          ))}
-          <span className="flex-1" />
-          <label className="text-xs text-slate-500">
-            From
-            <input
-              type="date"
-              className="field ml-2 w-auto py-2"
-              value={from}
-              onChange={(e) => setFrom(e.target.value)}
-            />
-          </label>
-          <label className="text-xs text-slate-500">
-            To
-            <input
-              type="date"
-              className="field ml-2 w-auto py-2"
-              value={to}
-              onChange={(e) => setTo(e.target.value)}
-            />
-          </label>
-        </div>
-      </section>
-      <section className="mb-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          label="Recorded events"
-          value={a.total}
-          icon={<BarChart3 size={18} className="text-teal-700" />}
+      <div className="xl:min-h-[calc(100vh-6.5rem)]">
+        <PageTitle
+          eyebrow="Descriptive statistics"
+          title={`${user.customerName} analytics`}
+          compact
         />
-        <StatCard
-          label="Most active day"
-          value={a.mostActiveDay}
-          icon={<TrendingUp size={18} className="text-teal-700" />}
-        />
-        <StatCard
-          label="Frequent area"
-          value={a.mostFrequentArea}
-          icon={<MapPin size={18} className="text-teal-700" />}
-        />
-        <StatCard
-          label="Average value"
-          value={formatMoney(a.averageValue)}
-          icon={<Clock size={18} className="text-teal-700" />}
-        />
-      </section>
-      <div className="grid gap-5 xl:grid-cols-2">
-        <Chart title="Activities by Provider">
-          <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={providerData}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="name" />
-              <YAxis allowDecimals={false} />
-              <Tooltip />
-              <Bar dataKey="value" radius={[6, 6, 0, 0]}>
-                {providerData.map((d) => (
-                  <Cell
-                    key={d.provider}
-                    fill={providerConfig[d.provider].color}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </Chart>
-        <Chart title="Activity Over Time">
-          <ResponsiveContainer width="100%" height={280}>
-            <LineChart data={monthData}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="name" />
-              <YAxis allowDecimals={false} />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="#0f766e"
-                strokeWidth={3}
-                dot={{ r: 4 }}
+        <section className="card mb-3 p-3">
+          <div className="flex flex-wrap gap-2">
+            {(Object.keys(providerConfig) as Provider[]).map((p) => (
+              <button
+                onClick={() => toggle(p)}
+                key={p}
+                className={`rounded-xl border px-3 py-2 text-xs font-bold transition ${selected.includes(p) ? "border-[#03809A] bg-[#03809A]/[0.06] text-[#002556]" : "border-slate-200 bg-white/60 text-slate-400"}`}
+              >
+                {providerLabel[p]}
+              </button>
+            ))}
+            <span className="flex-1" />
+            <label className="text-xs text-slate-500">
+              From
+              <input
+                type="date"
+                className="field ml-2 w-auto py-2"
+                value={from}
+                onChange={(e) => setFrom(e.target.value)}
               />
-            </LineChart>
-          </ResponsiveContainer>
-        </Chart>
+            </label>
+            <label className="text-xs text-slate-500">
+              To
+              <input
+                type="date"
+                className="field ml-2 w-auto py-2"
+                value={to}
+                onChange={(e) => setTo(e.target.value)}
+              />
+            </label>
+          </div>
+        </section>
+        <section className="mb-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-4 [&>.card]:p-4 [&_.metric]:whitespace-nowrap [&_.metric]:text-[1.75rem]">
+          <StatCard
+            label="Recorded events"
+            value={a.total}
+            icon={<BarChart3 size={18} className="text-[#03809A]" />}
+          />
+          <StatCard
+            label="Most active day"
+            value={a.mostActiveDay}
+            icon={<TrendingUp size={18} className="text-[#03809A]" />}
+          />
+          <StatCard
+            label="Frequent area"
+            value={a.mostFrequentArea}
+            icon={<MapPin size={18} className="text-[#03809A]" />}
+          />
+          <StatCard
+            label="Average value"
+            value={formatMoney(a.averageValue)}
+            icon={<Clock size={18} className="text-[#03809A]" />}
+          />
+        </section>
+        <div className="grid gap-4 xl:grid-cols-2">
+          <Chart title="Activities by Provider" compact>
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={providerData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="name" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                  {providerData.map((d) => (
+                    <Cell
+                      key={d.provider}
+                      fill={providerConfig[d.provider].color}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </Chart>
+          <Chart title="Activity Over Time" compact>
+            <ResponsiveContainer width="100%" height={220}>
+              <LineChart data={monthData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="name" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#0f766e"
+                  strokeWidth={3}
+                  dot={{ r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </Chart>
+        </div>
+      </div>
+      <div className="grid gap-5 xl:grid-cols-2">
         <Chart title="Activity by Day of Week">
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={dayData}>
@@ -281,14 +285,16 @@ export function AnalyticsDashboard({
 function Chart({
   title,
   children,
+  compact = false,
 }: {
   title: string;
   children: React.ReactNode;
+  compact?: boolean;
 }) {
   return (
-    <section className="card p-5">
+    <section className={`card ${compact ? "p-4" : "p-5"}`}>
       <p className="eyebrow mb-1">Analysis</p>
-      <h2 className="mb-5 font-bold">{title}</h2>
+      <h2 className={`${compact ? "mb-3" : "mb-5"} font-bold`}>{title}</h2>
       {children}
     </section>
   );

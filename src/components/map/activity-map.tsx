@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CircleMarker,
   MapContainer,
@@ -7,13 +7,24 @@ import {
   Popup,
   TileLayer,
   Tooltip,
+  useMap,
 } from "react-leaflet";
-import { Layers3, Route } from "lucide-react";
+import { Layers3, Maximize2, Minimize2, Route } from "lucide-react";
 import type { LocationEvent, Provider } from "@/lib/types";
 import { providerLabel, sortLocationEventsAscending } from "@/lib/activity";
 import { formatDateTime } from "@/lib/format";
 import { providerConfig, PageTitle } from "@/components/ui";
 import { audit } from "@/lib/client-storage";
+
+function MapResizeSync({ fullscreen }: { fullscreen: boolean }) {
+  const map = useMap();
+  useEffect(() => {
+    const timeout = window.setTimeout(() => map.invalidateSize(), 100);
+    return () => window.clearTimeout(timeout);
+  }, [fullscreen, map]);
+  return null;
+}
+
 export function ActivityMap({
   locations,
   identifier,
@@ -30,8 +41,26 @@ export function ActivityMap({
     "steadfast",
   ]);
   const [sequence, setSequence] = useState(false);
+  const [sequenceNoticeVisible, setSequenceNoticeVisible] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const mapFrameRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!sequenceNoticeVisible) return;
+    const timeout = window.setTimeout(
+      () => setSequenceNoticeVisible(false),
+      2000,
+    );
+    return () => window.clearTimeout(timeout);
+  }, [sequenceNoticeVisible]);
+  useEffect(() => {
+    const syncFullscreenState = () =>
+      setFullscreen(document.fullscreenElement === mapFrameRef.current);
+    document.addEventListener("fullscreenchange", syncFullscreenState);
+    return () =>
+      document.removeEventListener("fullscreenchange", syncFullscreenState);
+  }, []);
   const visible = useMemo(
     () =>
       sortLocationEventsAscending(
@@ -53,18 +82,18 @@ export function ActivityMap({
   const toggle = (p: Provider) =>
     setSelected((s) => (s.includes(p) ? s.filter((x) => x !== p) : [...s, p]));
   return (
-    <div className="mx-auto max-w-[1500px]">
+    <div className="activity-map-page mx-auto max-w-[1500px]">
       <PageTitle
         eyebrow="Historical recorded points"
         title={`${name} activity map`}
-        description="This map visualizes only recorded event coordinates. It does not infer exact routes or continuous movement."
+        compact
       />
-      <div className="card mb-4 flex flex-wrap items-center gap-2 p-4">
+      <div className="card mb-3 flex flex-wrap items-center gap-2 p-3">
         {(Object.keys(providerConfig) as Provider[]).map((p) => (
           <button
             onClick={() => toggle(p)}
             key={p}
-            className={`rounded-lg border px-3 py-2 text-xs font-bold ${selected.includes(p) ? "border-teal-600 bg-teal-50 text-teal-800" : "border-slate-200 text-slate-400"}`}
+            className={`rounded-xl border px-3 py-2 text-xs font-bold transition ${selected.includes(p) ? "border-[#03809A] bg-[#03809A]/[0.06] text-[#002556]" : "border-slate-200 bg-white/60 text-slate-400"}`}
           >
             {providerLabel[p]}
           </button>
@@ -89,9 +118,11 @@ export function ActivityMap({
           />
         </label>
         <button
-          className={`btn-secondary ${sequence ? "border-teal-600 text-teal-700" : ""}`}
+          className={`btn-secondary ${sequence ? "border-[#03809A] text-[#03809A]" : ""}`}
           onClick={() => {
-            setSequence(!sequence);
+            const nextSequence = !sequence;
+            setSequence(nextSequence);
+            setSequenceNoticeVisible(nextSequence);
             audit("MAP_SEQUENCE_TOGGLED", identifier);
           }}
         >
@@ -99,13 +130,14 @@ export function ActivityMap({
           Activity Sequence
         </button>
       </div>
-      <div className="card relative p-2">
+      <div ref={mapFrameRef} className="activity-map-frame card relative p-2">
         <MapContainer
           key={`${center[0]}-${center[1]}`}
           center={center}
           zoom={12}
           scrollWheelZoom
         >
+          <MapResizeSync fullscreen={fullscreen} />
           <TileLayer
             attribution="&copy; OpenStreetMap contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -173,18 +205,33 @@ export function ActivityMap({
             </div>
           ))}
         </div>
-      </div>
-      {sequence && (
-        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-          <b>Historical event sequence · Earliest to latest.</b> Numbers merge
-          all selected providers into one ascending chronology. With one
-          provider selected, only that provider is numbered. Lines connect
-          recorded points and do not represent the exact route traveled.
+        {sequenceNoticeVisible && (
+          <div className="absolute left-1/2 top-5 z-[600] max-w-sm -translate-x-1/2 rounded-xl border border-amber-200/80 bg-amber-50/95 p-3 text-xs leading-5 text-amber-900 shadow-lg backdrop-blur">
+            <b>Historical event sequence · Earliest to latest.</b> Lines connect
+            recorded points and do not represent the exact route traveled.
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={async () => {
+            if (document.fullscreenElement) {
+              await document.exitFullscreen();
+              return;
+            }
+            await mapFrameRef.current?.requestFullscreen();
+          }}
+          className="absolute right-5 top-5 z-[600] grid size-10 place-items-center rounded-xl border border-white bg-white/95 text-[#002556] shadow-lg backdrop-blur transition hover:bg-white"
+          aria-label={
+            fullscreen ? "Exit full screen map" : "Open full screen map"
+          }
+          title={fullscreen ? "Exit full screen" : "Full screen"}
+        >
+          {fullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+        </button>
+        <div className="absolute bottom-5 right-5 z-[500] rounded-full border border-white bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-lg backdrop-blur">
+          {visible.length} recorded points
         </div>
-      )}
-      <p className="mt-3 text-xs text-slate-500">
-        Showing {visible.length} recorded location points.
-      </p>
+      </div>
     </div>
   );
 }

@@ -9,7 +9,6 @@ export default async function UsersPage() {
       <PageTitle
         eyebrow="User directory"
         title="Users"
-        description="A summary-only directory. User activity remains server-side until an individual profile is requested."
       />
       <UsersDirectory users={users} />
     </div>
