@@ -142,6 +142,11 @@ export function GeofenceSimulator() {
       <PageTitle
         eyebrow="Historical simulation"
         title="Geofence Simulator"
+        description={
+          userName
+            ? `User: ${userName} (${identifier})`
+            : "Simulate historical activity within a selected area."
+        }
       />
       <div className="grid items-start gap-5 xl:grid-cols-[380px_1fr]">
         <aside className="space-y-5">

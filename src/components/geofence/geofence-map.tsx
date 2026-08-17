@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Maximize2, Minimize2 } from "lucide-react";
 import {
   Circle,
   CircleMarker,
@@ -15,6 +16,17 @@ import type { GeofenceEvent } from "@/lib/types";
 import { providerLabel } from "@/lib/activity";
 import { formatDateTime } from "@/lib/format";
 import { providerConfig } from "@/components/ui";
+
+function MapResizeSync({ fullscreen }: { fullscreen: boolean }) {
+  const map = useMap();
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => map.invalidateSize(), 100);
+    return () => window.clearTimeout(timeout);
+  }, [fullscreen, map]);
+
+  return null;
+}
 
 function MapViewport({
   latitude,
@@ -77,14 +89,29 @@ export function GeofenceMap({
   events: GeofenceEvent[];
   onCenterChange: (latitude: number, longitude: number) => void;
 }) {
+  const [fullscreen, setFullscreen] = useState(false);
+  const mapFrameRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const syncFullscreenState = () =>
+      setFullscreen(document.fullscreenElement === mapFrameRef.current);
+    document.addEventListener("fullscreenchange", syncFullscreenState);
+    return () =>
+      document.removeEventListener("fullscreenchange", syncFullscreenState);
+  }, []);
+
   return (
-    <div className="relative">
+    <div
+      ref={mapFrameRef}
+      className="geofence-map-frame relative bg-white"
+    >
       <MapContainer
         center={[latitude, longitude]}
         zoom={13}
         scrollWheelZoom
-        style={{ height: "500px" }}
+        style={{ height: fullscreen ? "100vh" : "500px" }}
       >
+        <MapResizeSync fullscreen={fullscreen} />
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -167,6 +194,21 @@ export function GeofenceMap({
           );
         })}
       </MapContainer>
+      <button
+        type="button"
+        onClick={async () => {
+          if (document.fullscreenElement) {
+            await document.exitFullscreen();
+            return;
+          }
+          await mapFrameRef.current?.requestFullscreen();
+        }}
+        className="absolute right-4 top-4 z-[600] grid size-10 place-items-center rounded-xl border border-white bg-white/95 text-[#002556] shadow-lg backdrop-blur transition hover:bg-white"
+        aria-label={fullscreen ? "Exit full screen map" : "Open full screen map"}
+        title={fullscreen ? "Exit full screen" : "Full screen"}
+      >
+        {fullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+      </button>
       <div className="pointer-events-none absolute bottom-4 left-4 z-[500] rounded-lg bg-white/95 p-3 text-xs shadow-lg">
         <p className="mb-2 font-bold">Geofence legend</p>
         <div className="mb-1 flex items-center gap-2">

@@ -177,7 +177,7 @@ export function UserProfileView({
     .slice(0, 4);
   return (
     <div className="mx-auto max-w-[1500px]">
-      <div className="xl:min-h-[calc(100vh-6.5rem)]">
+      <div>
         <PageTitle
           eyebrow="User profile"
           title={user.customerName}

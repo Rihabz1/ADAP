@@ -87,7 +87,7 @@ export function AnalyticsDashboard({
     setSelected((s) => (s.includes(p) ? s.filter((x) => x !== p) : [...s, p]));
   return (
     <div className="mx-auto max-w-[1500px]">
-      <div className="xl:min-h-[calc(100vh-6.5rem)]">
+      <div>
         <PageTitle
           eyebrow="Descriptive statistics"
           title={`${user.customerName} analytics`}
@@ -185,7 +185,7 @@ export function AnalyticsDashboard({
           </Chart>
         </div>
       </div>
-      <div className="grid gap-5 xl:grid-cols-2">
+      <div className="mt-5 grid gap-5 xl:grid-cols-2">
         <Chart title="Activity by Day of Week">
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={dayData}>

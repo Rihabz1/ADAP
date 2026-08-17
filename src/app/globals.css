@@ -187,6 +187,9 @@ td {
   height: 100vh;
   border-radius: 0;
 }
+.geofence-map-frame:fullscreen .leaflet-container {
+  border-radius: 0;
+}
 .provider-marker {
   align-items: center;
   border: 3px solid white;

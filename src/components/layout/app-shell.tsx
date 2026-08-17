@@ -57,9 +57,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (publicRoutes.includes(pathname)) return <>{children}</>;
   const currentIdentifier = validPathIdentifier ?? lastIdentifier;
   const userRoute = `/users/${currentIdentifier}`;
-  const showHeaderSearch = !["/dashboard", "/users", "/audit"].includes(
-    pathname,
-  );
+  const showHeaderSearch = ![
+    "/dashboard",
+    "/users",
+    "/geofences",
+    "/audit",
+  ].includes(pathname);
   const primary = [
     { href: "/dashboard", label: "Dashboard", icon: Gauge },
     { href: "/users", label: "Users", icon: Users },
