@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { haversineKm, simulateGeofence } from "../geofence";
+import { haversineKm, pointInPolygon, simulateGeofence } from "../geofence";
 import type { Geofence, LocationEvent } from "../types";
 const fence: Geofence = {
   id: "f",
@@ -42,5 +42,39 @@ describe("geofence calculations", () => {
     ]);
     expect(result[1].transition).toBe("entered");
     expect(result[2].transition).toBe("exited");
+  });
+  it("classifies points inside custom polygon zones", () => {
+    const polygon: Geofence = {
+      id: "custom",
+      name: "Custom zone",
+      shape: "polygon",
+      points: [
+        { latitude: 23.78, longitude: 90.38 },
+        { latitude: 23.82, longitude: 90.38 },
+        { latitude: 23.82, longitude: 90.43 },
+        { latitude: 23.78, longitude: 90.43 },
+      ],
+    };
+    expect(
+      pointInPolygon(
+        { latitude: 23.8, longitude: 90.4 },
+        polygon.shape === "polygon" ? polygon.points : [],
+      ),
+    ).toBe(true);
+    expect(
+      pointInPolygon(
+        { latitude: 23.85, longitude: 90.4 },
+        polygon.shape === "polygon" ? polygon.points : [],
+      ),
+    ).toBe(false);
+    const result = simulateGeofence(
+      [
+        event(23.85, 90.4, "2026-01-01T10:00:00+06:00"),
+        event(23.8, 90.4, "2026-01-01T11:00:00+06:00"),
+      ],
+      polygon,
+    );
+    expect(result.map((item) => item.state)).toEqual(["outside", "inside"]);
+    expect(result[1].transition).toBe("entered");
   });
 });

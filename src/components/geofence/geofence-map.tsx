@@ -6,16 +6,32 @@ import {
   Circle,
   CircleMarker,
   MapContainer,
+  Marker,
+  Polygon,
+  Polyline,
   Popup,
   TileLayer,
   Tooltip,
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import type { GeofenceEvent } from "@/lib/types";
+import { divIcon } from "leaflet";
+import type {
+  Geofence,
+  GeofenceEvent,
+  GeofencePoint,
+} from "@/lib/types";
 import { providerLabel } from "@/lib/activity";
 import { formatDateTime } from "@/lib/format";
+import { polygonCenter } from "@/lib/geofence";
 import { providerConfig } from "@/components/ui";
+
+const polygonVertexIcon = divIcon({
+  className: "geofence-vertex-marker",
+  html: "<span></span>",
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+});
 
 function MapResizeSync({ fullscreen }: { fullscreen: boolean }) {
   const map = useMap();
@@ -29,68 +45,99 @@ function MapResizeSync({ fullscreen }: { fullscreen: boolean }) {
 }
 
 function MapViewport({
-  latitude,
-  longitude,
-  radiusKm,
+  fence,
+  draftPoints,
+  preserveView,
   events,
 }: {
-  latitude: number;
-  longitude: number;
-  radiusKm: number;
+  fence: Geofence | null;
+  draftPoints: GeofencePoint[];
+  preserveView: boolean;
   events: GeofenceEvent[];
 }) {
   const map = useMap();
 
   useEffect(() => {
-    const latitudeOffset = radiusKm / 111;
-    const longitudeOffset =
-      radiusKm / (111 * Math.max(Math.cos((latitude * Math.PI) / 180), 0.1));
+    if (preserveView) return;
+    const zonePoints: [number, number][] =
+      fence?.shape === "polygon"
+        ? fence.points.map((point) => [point.latitude, point.longitude])
+        : draftPoints.length
+          ? draftPoints.map((point) => [point.latitude, point.longitude])
+          : fence
+            ? [
+                [fence.latitude - fence.radiusKm / 111, fence.longitude],
+                [fence.latitude + fence.radiusKm / 111, fence.longitude],
+              ]
+            : [[23.8103, 90.4125]];
     const bounds: [number, number][] = [
-      [latitude - latitudeOffset, longitude - longitudeOffset],
-      [latitude + latitudeOffset, longitude + longitudeOffset],
+      ...zonePoints,
       ...events.map(
         (event) => [event.latitude, event.longitude] as [number, number],
       ),
     ];
-
+    if (bounds.length === 1) {
+      map.setView(bounds[0], 13, { animate: false });
+      return;
+    }
     map.fitBounds(bounds, {
       animate: false,
       maxZoom: 15,
       padding: [36, 36],
     });
-  }, [events, latitude, longitude, map, radiusKm]);
+  }, [draftPoints, events, fence, map, preserveView]);
 
   return null;
 }
 
 function MapClickHandler({
-  onCenterChange,
+  enabled,
+  onMapClick,
 }: {
-  onCenterChange: (latitude: number, longitude: number) => void;
+  enabled: boolean;
+  onMapClick: (latitude: number, longitude: number) => void;
 }) {
   useMapEvents({
     click(event) {
-      onCenterChange(event.latlng.lat, event.latlng.lng);
+      if (enabled) onMapClick(event.latlng.lat, event.latlng.lng);
     },
   });
   return null;
 }
 
 export function GeofenceMap({
-  latitude,
-  longitude,
-  radiusKm,
+  fence,
+  draftPoints,
+  drawingPolygon,
   events,
-  onCenterChange,
+  onMapClick,
+  onPointChange,
 }: {
-  latitude: number;
-  longitude: number;
-  radiusKm: number;
+  fence: Geofence | null;
+  draftPoints: GeofencePoint[];
+  drawingPolygon: boolean;
   events: GeofenceEvent[];
-  onCenterChange: (latitude: number, longitude: number) => void;
+  onMapClick: (latitude: number, longitude: number) => void;
+  onPointChange: (
+    index: number,
+    latitude: number,
+    longitude: number,
+  ) => void;
 }) {
   const [fullscreen, setFullscreen] = useState(false);
   const mapFrameRef = useRef<HTMLDivElement>(null);
+  const polygonPoints =
+    fence?.shape === "polygon" ? fence.points : draftPoints;
+  const center =
+    fence?.shape === "polygon"
+      ? polygonCenter(fence.points)
+      : fence
+        ? { latitude: fence.latitude, longitude: fence.longitude }
+        : polygonCenter(
+            draftPoints.length
+              ? draftPoints
+              : [{ latitude: 23.8103, longitude: 90.4125 }],
+          );
 
   useEffect(() => {
     const syncFullscreenState = () =>
@@ -103,13 +150,14 @@ export function GeofenceMap({
   return (
     <div
       ref={mapFrameRef}
-      className="geofence-map-frame relative bg-white"
+      className={`geofence-map-frame bg-white ${fullscreen ? "is-expanded fixed inset-0 z-[9999] h-screen w-screen" : "relative"}`}
     >
       <MapContainer
-        center={[latitude, longitude]}
+        center={[center.latitude, center.longitude]}
         zoom={13}
         scrollWheelZoom
         style={{ height: fullscreen ? "100vh" : "500px" }}
+        className={drawingPolygon ? "cursor-crosshair" : undefined}
       >
         <MapResizeSync fullscreen={fullscreen} />
         <TileLayer
@@ -117,36 +165,79 @@ export function GeofenceMap({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapViewport
-          latitude={latitude}
-          longitude={longitude}
-          radiusKm={radiusKm}
+          fence={fence}
+          draftPoints={draftPoints}
+          preserveView={polygonPoints.length > 0}
           events={events}
         />
-        <MapClickHandler onCenterChange={onCenterChange} />
-        <Circle
-          center={[latitude, longitude]}
-          radius={radiusKm * 1000}
-          pathOptions={{
-            color: "#0f766e",
-            fillColor: "#14b8a6",
-            fillOpacity: 0.14,
-            weight: 2,
-          }}
+        <MapClickHandler
+          enabled={fence?.shape !== "polygon" || drawingPolygon}
+          onMapClick={onMapClick}
         />
-        <CircleMarker
-          center={[latitude, longitude]}
-          radius={7}
-          pathOptions={{
-            color: "white",
-            fillColor: "#0f766e",
-            fillOpacity: 1,
-            weight: 3,
-          }}
-        >
-          <Tooltip direction="top" offset={[0, -7]}>
-            Geofence center
-          </Tooltip>
-        </CircleMarker>
+        {fence && fence.shape !== "polygon" && (
+          <>
+            <Circle
+              center={[fence.latitude, fence.longitude]}
+              radius={fence.radiusKm * 1000}
+              pathOptions={{
+                color: "#0f766e",
+                fillColor: "#14b8a6",
+                fillOpacity: 0.14,
+                weight: 2,
+              }}
+            />
+            <CircleMarker
+              center={[fence.latitude, fence.longitude]}
+              radius={7}
+              pathOptions={{
+                color: "white",
+                fillColor: "#0f766e",
+                fillOpacity: 1,
+                weight: 3,
+              }}
+            >
+              <Tooltip direction="top" offset={[0, -7]}>
+                Geofence center
+              </Tooltip>
+            </CircleMarker>
+          </>
+        )}
+        {polygonPoints.length >= 3 ? (
+          <Polygon
+            positions={polygonPoints.map((point) => [point.latitude, point.longitude])}
+            pathOptions={{
+              color: "#2563eb",
+              fillColor: "#38bdf8",
+              fillOpacity: drawingPolygon ? 0.12 : 0.2,
+              weight: 3,
+              dashArray: drawingPolygon ? "7 6" : undefined,
+            }}
+          />
+        ) : polygonPoints.length >= 2 ? (
+          <Polyline
+            positions={polygonPoints.map((point) => [point.latitude, point.longitude])}
+            pathOptions={{ color: "#2563eb", weight: 3, dashArray: "7 6" }}
+          />
+        ) : null}
+        {polygonPoints.map((point, index) => (
+          <Marker
+            key={`${point.latitude}-${point.longitude}-${index}`}
+            position={[point.latitude, point.longitude]}
+            icon={polygonVertexIcon}
+            draggable
+            bubblingMouseEvents={false}
+            eventHandlers={{
+              dragend(event) {
+                const position = event.target.getLatLng();
+                onPointChange(index, position.lat, position.lng);
+              },
+            }}
+          >
+            <Tooltip direction="top" offset={[0, -10]}>
+              Drag vertex {index + 1} to reshape zone
+            </Tooltip>
+          </Marker>
+        ))}
         {events.map((event, index) => {
           const transitionColor =
             event.transition === "entered"
@@ -176,7 +267,8 @@ export function GeofenceMap({
                   </p>
                   <p>{formatDateTime(event.occurredAt)}</p>
                   <p>
-                    {event.distanceKm.toFixed(2)} km from center · {event.state}
+                    {event.distanceKm.toFixed(2)} km reference distance ·{" "}
+                    {event.state}
                   </p>
                   {event.transition && (
                     <p className="capitalize">
@@ -194,16 +286,27 @@ export function GeofenceMap({
           );
         })}
       </MapContainer>
+      {drawingPolygon && (
+        <div className="pointer-events-none absolute left-1/2 top-4 z-[600] -translate-x-1/2 rounded-full bg-[#002556]/95 px-4 py-2 text-xs font-bold text-white shadow-lg">
+          Click map to add vertex {draftPoints.length + 1}
+        </div>
+      )}
       <button
         type="button"
         onClick={async () => {
-          if (document.fullscreenElement) {
-            await document.exitFullscreen();
+          if (fullscreen) {
+            if (document.fullscreenElement) await document.exitFullscreen();
+            setFullscreen(false);
             return;
           }
-          await mapFrameRef.current?.requestFullscreen();
+          setFullscreen(true);
+          try {
+            await mapFrameRef.current?.requestFullscreen();
+          } catch {
+            // Keep the fixed full-window fallback when native fullscreen is unavailable.
+          }
         }}
-        className="absolute right-4 top-4 z-[600] grid size-10 place-items-center rounded-xl border border-white bg-white/95 text-[#002556] shadow-lg backdrop-blur transition hover:bg-white"
+        className="absolute right-4 top-4 z-[1000] grid size-10 place-items-center rounded-xl border border-white bg-white/95 text-[#002556] shadow-lg backdrop-blur transition hover:bg-white"
         aria-label={fullscreen ? "Exit full screen map" : "Open full screen map"}
         title={fullscreen ? "Exit full screen" : "Full screen"}
       >

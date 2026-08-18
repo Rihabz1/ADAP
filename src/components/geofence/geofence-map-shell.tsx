@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { GeofenceEvent } from "@/lib/types";
+import type { Geofence, GeofenceEvent, GeofencePoint } from "@/lib/types";
 
 const GeofenceMap = dynamic(
   () => import("./geofence-map").then((module) => module.GeofenceMap),
@@ -12,25 +12,32 @@ const GeofenceMap = dynamic(
 );
 
 export function GeofenceMapShell({
-  latitude,
-  longitude,
-  radiusKm,
+  fence,
+  draftPoints,
+  drawingPolygon,
   events,
-  onCenterChange,
+  onMapClick,
+  onPointChange,
 }: {
-  latitude: number;
-  longitude: number;
-  radiusKm: number;
+  fence: Geofence | null;
+  draftPoints: GeofencePoint[];
+  drawingPolygon: boolean;
   events: GeofenceEvent[];
-  onCenterChange: (latitude: number, longitude: number) => void;
+  onMapClick: (latitude: number, longitude: number) => void;
+  onPointChange: (
+    index: number,
+    latitude: number,
+    longitude: number,
+  ) => void;
 }) {
   return (
     <GeofenceMap
-      latitude={latitude}
-      longitude={longitude}
-      radiusKm={radiusKm}
+      fence={fence}
+      draftPoints={draftPoints}
+      drawingPolygon={drawingPolygon}
       events={events}
-      onCenterChange={onCenterChange}
+      onMapClick={onMapClick}
+      onPointChange={onPointChange}
     />
   );
 }
