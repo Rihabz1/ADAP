@@ -137,13 +137,25 @@ export interface LocationEvent {
   status: string;
   title: string;
 }
-export interface Geofence {
+export interface GeofencePoint {
+  latitude: number;
+  longitude: number;
+}
+export interface CircleGeofence {
   id: string;
   name: string;
+  shape?: "circle";
   latitude: number;
   longitude: number;
   radiusKm: number;
 }
+export interface PolygonGeofence {
+  id: string;
+  name: string;
+  shape: "polygon";
+  points: GeofencePoint[];
+}
+export type Geofence = CircleGeofence | PolygonGeofence;
 export interface GeofenceEvent extends LocationEvent {
   distanceKm: number;
   state: "inside" | "outside";

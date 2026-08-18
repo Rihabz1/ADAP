@@ -1,11 +1,26 @@
 "use client";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { Bell, MapPin, Play, Save } from "lucide-react";
+import {
+  Bell,
+  Circle as CircleIcon,
+  MapPin,
+  Pentagon,
+  Play,
+  RotateCcw,
+  Save,
+  Trash2,
+  Undo2,
+} from "lucide-react";
 import {
   examplePhoneNumbers,
   sanitizePhoneInput,
 } from "@/lib/search-examples";
-import type { Geofence, GeofenceEvent, LocationEvent } from "@/lib/types";
+import type {
+  Geofence,
+  GeofenceEvent,
+  GeofencePoint,
+  LocationEvent,
+} from "@/lib/types";
 import { simulateGeofence } from "@/lib/geofence";
 import { formatDateTime } from "@/lib/format";
 import { audit, keys, readLocal, writeLocal } from "@/lib/client-storage";
@@ -57,12 +72,15 @@ const dhakaPlaces = [
 ] as const;
 
 export function GeofenceSimulator() {
+  const [zoneMode, setZoneMode] = useState<"circle" | "polygon">("circle");
   const [identifier, setIdentifier] = useState<string>(examplePhoneNumbers[0]);
   const [selectedPlace, setSelectedPlace] = useState("custom");
   const [name, setName] = useState("Custom Zone");
   const [lat, setLat] = useState("23.8103");
   const [lon, setLon] = useState("90.4125");
   const [radius, setRadius] = useState("2");
+  const [polygonPoints, setPolygonPoints] = useState<GeofencePoint[]>([]);
+  const [polygonComplete, setPolygonComplete] = useState(false);
   const [locations, setLocations] = useState<LocationEvent[]>([]);
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -70,6 +88,15 @@ export function GeofenceSimulator() {
   const [saved, setSaved] = useState<Geofence[]>([]);
   useEffect(() => setSaved(readLocal(keys.geofences, [])), []);
   const activeFence = useMemo<Geofence | null>(() => {
+    if (zoneMode === "polygon") {
+      if (polygonPoints.length < 3) return null;
+      return {
+        id: "preview",
+        name: name.trim() || "Custom Zone",
+        shape: "polygon",
+        points: polygonPoints,
+      };
+    }
     if (!lat.trim() || !lon.trim() || !radius.trim()) return null;
     const latitude = Number(lat);
     const longitude = Number(lon);
@@ -89,17 +116,27 @@ export function GeofenceSimulator() {
     return {
       id: "preview",
       name: name.trim() || "Custom Zone",
+      shape: "circle",
       latitude,
       longitude,
       radiusKm,
     };
-  }, [lat, lon, name, radius]);
+  }, [lat, lon, name, polygonPoints, radius, zoneMode]);
   const events = useMemo<GeofenceEvent[]>(
     () => (activeFence ? simulateGeofence(locations, activeFence) : []),
     [activeFence, locations],
   );
   async function run(e: FormEvent) {
     e.preventDefault();
+    if (!activeFence) {
+      setError(
+        zoneMode === "polygon"
+          ? `Add at least three map points. Current points: ${polygonPoints.length}.`
+          : "Enter a valid circle center and radius.",
+      );
+      return;
+    }
+    if (zoneMode === "polygon") setPolygonComplete(true);
     setLoading(true);
     setError("");
     setUserName("");
@@ -114,7 +151,10 @@ export function GeofenceSimulator() {
     }
     setLocations(body.data as LocationEvent[]);
     setUserName(body.meta?.user?.customerName ?? "");
-    audit("GEOFENCE_SIMULATION_EXECUTED", `${identifier}: ${name}`);
+    audit(
+      "GEOFENCE_SIMULATION_EXECUTED",
+      `${identifier}: ${name} (${zoneMode})`,
+    );
     setLoading(false);
   }
   const save = () => {
@@ -126,7 +166,7 @@ export function GeofenceSimulator() {
     const next = [fence, ...saved];
     setSaved(next);
     writeLocal(keys.geofences, next);
-    audit("GEOFENCE_SAVED", name);
+    audit("GEOFENCE_SAVED", `${name} (${zoneMode})`);
   };
   const inside = events.filter((e) => e.state === "inside");
   const entered = events.filter((e) => e.transition === "entered");
@@ -153,7 +193,26 @@ export function GeofenceSimulator() {
           <form onSubmit={run} className="card space-y-4 p-5">
             <div>
               <p className="eyebrow">Simulation inputs</p>
-              <h2 className="mt-1 font-bold">Create circle geofence</h2>
+              <h2 className="mt-1 font-bold">Create geofence</h2>
+            </div>
+            <div className="grid grid-cols-2 rounded-xl bg-slate-100 p-1">
+              <button
+                type="button"
+                onClick={() => setZoneMode("circle")}
+                className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs font-bold transition ${zoneMode === "circle" ? "bg-white text-[#0B2A55] shadow-sm" : "text-slate-500"}`}
+              >
+                <CircleIcon size={15} /> Circle
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setZoneMode("polygon");
+                  if (!polygonPoints.length) setName("Custom Zone");
+                }}
+                className={`flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs font-bold transition ${zoneMode === "polygon" ? "bg-white text-[#0B2A55] shadow-sm" : "text-slate-500"}`}
+              >
+                <Pentagon size={15} /> Custom zone
+              </button>
             </div>
             <label className="block text-xs font-bold text-slate-500">
               User phone number
@@ -178,7 +237,8 @@ export function GeofenceSimulator() {
                 ))}
               </datalist>
             </label>
-            <label className="block text-xs font-bold text-slate-500">
+            {zoneMode === "circle" && (
+              <label className="block text-xs font-bold text-slate-500">
               Location
               <select
                 className="field mt-1"
@@ -208,61 +268,126 @@ export function GeofenceSimulator() {
                   ))}
                 </optgroup>
               </select>
-            </label>
+              </label>
+            )}
             <label className="block text-xs font-bold text-slate-500">
               Name
               <input
                 className="field mt-1"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                readOnly={selectedPlace !== "custom"}
+                readOnly={zoneMode === "circle" && selectedPlace !== "custom"}
                 maxLength={60}
                 required
               />
             </label>
-            <div className="grid grid-cols-2 gap-3">
-              <label className="block text-xs font-bold text-slate-500">
-                Center latitude
-                <input
-                  className="field mt-1"
-                  type="number"
-                  step="any"
-                  min="-90"
-                  max="90"
-                  value={lat}
-                  onChange={(e) => setLat(e.target.value)}
-                  readOnly={selectedPlace !== "custom"}
-                  required
-                />
-              </label>
-              <label className="block text-xs font-bold text-slate-500">
-                Center longitude
-                <input
-                  className="field mt-1"
-                  type="number"
-                  step="any"
-                  min="-180"
-                  max="180"
-                  value={lon}
-                  onChange={(e) => setLon(e.target.value)}
-                  readOnly={selectedPlace !== "custom"}
-                  required
-                />
-              </label>
-            </div>
-            <label className="block text-xs font-bold text-slate-500">
-              Radius (km)
-              <input
-                className="field mt-1"
-                type="number"
-                min="0.1"
-                max="100"
-                step="0.1"
-                value={radius}
-                onChange={(e) => setRadius(e.target.value)}
-                required
-              />
-            </label>
+            {zoneMode === "circle" ? (
+              <>
+                <div className="grid grid-cols-2 gap-3">
+                  <label className="block text-xs font-bold text-slate-500">
+                    Center latitude
+                    <input
+                      className="field mt-1"
+                      type="number"
+                      step="any"
+                      min="-90"
+                      max="90"
+                      value={lat}
+                      onChange={(e) => setLat(e.target.value)}
+                      readOnly={selectedPlace !== "custom"}
+                      required
+                    />
+                  </label>
+                  <label className="block text-xs font-bold text-slate-500">
+                    Center longitude
+                    <input
+                      className="field mt-1"
+                      type="number"
+                      step="any"
+                      min="-180"
+                      max="180"
+                      value={lon}
+                      onChange={(e) => setLon(e.target.value)}
+                      readOnly={selectedPlace !== "custom"}
+                      required
+                    />
+                  </label>
+                </div>
+                <label className="block text-xs font-bold text-slate-500">
+                  Radius (km)
+                  <input
+                    className="field mt-1"
+                    type="number"
+                    min="0.1"
+                    max="100"
+                    step="0.1"
+                    value={radius}
+                    onChange={(e) => setRadius(e.target.value)}
+                    required
+                  />
+                </label>
+              </>
+            ) : (
+              <div className="rounded-xl border border-blue-100 bg-blue-50/60 p-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-bold text-blue-900">
+                      {polygonComplete ? "Custom zone ready" : "Draw on the map"}
+                    </p>
+                    <p className="mt-1 text-xs text-blue-700">
+                      {polygonPoints.length} vertices{" "}
+                      {polygonPoints.length < 3
+                        ? "· minimum 3"
+                        : polygonComplete
+                          ? "· locked"
+                          : "· ready to run"}
+                    </p>
+                  </div>
+                  <span className={`size-2.5 rounded-full ${polygonComplete ? "bg-emerald-500" : "bg-blue-500"}`} />
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {polygonComplete ? (
+                    <button
+                      type="button"
+                      className="btn-secondary px-3 py-2 text-xs"
+                      onClick={() => setPolygonComplete(false)}
+                    >
+                      <RotateCcw size={14} /> Edit zone
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        className="btn-secondary px-3 py-2 text-xs"
+                        disabled={!polygonPoints.length}
+                        onClick={() => setPolygonPoints((points) => points.slice(0, -1))}
+                      >
+                        <Undo2 size={14} /> Undo
+                      </button>
+                      <button
+                        type="button"
+                        className="btn-primary px-3 py-2 text-xs"
+                        disabled={polygonPoints.length < 3}
+                        onClick={() => setPolygonComplete(true)}
+                      >
+                        <Pentagon size={14} /> Finish zone
+                      </button>
+                    </>
+                  )}
+                  <button
+                    type="button"
+                    className="btn-secondary px-3 py-2 text-xs"
+                    disabled={!polygonPoints.length}
+                    onClick={() => {
+                      setPolygonPoints([]);
+                      setPolygonComplete(false);
+                    }}
+                  >
+                    <Trash2 size={14} /> Clear
+                  </button>
+                </div>
+              </div>
+            )}
             {error && (
               <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
                 {error}
@@ -278,6 +403,7 @@ export function GeofenceSimulator() {
                 onClick={save}
                 className="btn-secondary"
                 aria-label="Save geofence"
+                disabled={!activeFence}
               >
                 <Save size={16} />
               </button>
@@ -294,6 +420,13 @@ export function GeofenceSimulator() {
                     onClick={() => {
                       setSelectedPlace("custom");
                       setName(f.name);
+                      if (f.shape === "polygon") {
+                        setZoneMode("polygon");
+                        setPolygonPoints(f.points);
+                        setPolygonComplete(true);
+                        return;
+                      }
+                      setZoneMode("circle");
                       setLat(String(f.latitude));
                       setLon(String(f.longitude));
                       setRadius(String(f.radiusKm));
@@ -301,7 +434,9 @@ export function GeofenceSimulator() {
                   >
                     <b>{f.name}</b>
                     <span className="mt-1 block text-xs text-slate-500">
-                      {f.radiusKm} km radius
+                      {f.shape === "polygon"
+                        ? `Custom zone · ${f.points.length} vertices`
+                        : `${f.radiusKm} km radius`}
                     </span>
                   </button>
                 ))}
@@ -310,22 +445,41 @@ export function GeofenceSimulator() {
           )}
         </aside>
         <section className="card p-2">
-            <GeofenceMapShell
-              latitude={activeFence?.latitude ?? 23.8103}
-              longitude={activeFence?.longitude ?? 90.4125}
-              radiusKm={activeFence?.radiusKm ?? 2}
-              events={events}
-              onCenterChange={(latitude, longitude) => {
+          <GeofenceMapShell
+            fence={activeFence}
+            draftPoints={zoneMode === "polygon" ? polygonPoints : []}
+            drawingPolygon={zoneMode === "polygon" && !polygonComplete}
+            events={events}
+            onMapClick={(latitude, longitude) => {
+              if (zoneMode === "polygon") {
+                setPolygonPoints((points) => [
+                  ...points,
+                  { latitude, longitude },
+                ]);
+                setError("");
+                return;
+              }
                 setSelectedPlace("custom");
                 setName("Custom Zone");
                 setLat(latitude.toFixed(6));
                 setLon(longitude.toFixed(6));
-              }}
-            />
-            <p className="px-3 py-2 text-xs text-slate-500">
-              Click the map to move the geofence center. After loading a user,
-              results update as the center or radius changes.
-            </p>
+            }}
+            onPointChange={(index, latitude, longitude) => {
+              setPolygonPoints((points) =>
+                points.map((point, pointIndex) =>
+                  pointIndex === index ? { latitude, longitude } : point,
+                ),
+              );
+              setError("");
+            }}
+          />
+          <p className="px-3 py-2 text-xs text-slate-500">
+            {zoneMode === "polygon"
+              ? polygonComplete
+                ? "Drag any blue vertex to reshape the zone. Choose Edit zone to add or remove vertices."
+                : "Click to add vertices or drag a blue vertex to reposition it. Three points are enough to run."
+              : "Click the map to move the circle center. Results update when the center or radius changes."}
+          </p>
         </section>
         {events.length ? (
           <>
@@ -387,7 +541,7 @@ export function GeofenceSimulator() {
                       <th>Time</th>
                       <th>Provider</th>
                       <th>Recorded area</th>
-                      <th>Distance</th>
+                      <th>Reference distance</th>
                       <th>State / transition</th>
                     </tr>
                   </thead>
