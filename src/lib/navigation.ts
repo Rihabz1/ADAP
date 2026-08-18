@@ -1,4 +1,9 @@
-export type UserNavigationSection = "users" | "profile" | "map" | "analytics";
+export type UserNavigationSection =
+  | "users"
+  | "profile"
+  | "map"
+  | "analytics"
+  | "patterns";
 
 export function isSupportedUserIdentifier(identifier: string) {
   return /^(USR\d{3}|\d{11}|\+880\d{10})$/i.test(identifier);
@@ -11,7 +16,7 @@ export function getUserNavigationSection(
     return "users";
   }
   const section = pathname.match(
-    /^\/users\/[^/]+\/(profile|map|analytics)\/?$/,
+    /^\/users\/[^/]+\/(profile|map|analytics|patterns)\/?$/,
   )?.[1];
   return (section as UserNavigationSection | undefined) ?? null;
 }
@@ -22,6 +27,8 @@ export function getSearchDestination(pathname: string, identifier: string) {
     ? "/map"
     : pathname.endsWith("/analytics")
       ? "/analytics"
+      : pathname.endsWith("/patterns")
+        ? "/patterns"
       : "/profile";
   return `/users/${encodeURIComponent(normalized)}${section}`;
 }

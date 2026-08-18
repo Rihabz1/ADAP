@@ -7,6 +7,7 @@ import {
   BarChart3,
   FileClock,
   Gauge,
+  GitBranch,
   LogOut,
   Map,
   Menu,
@@ -81,6 +82,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       label: "Analytics",
       icon: BarChart3,
     },
+    {
+      href: `${userRoute}/patterns`,
+      label: "Patterns",
+      icon: GitBranch,
+    },
     { href: "/geofences", label: "Geofences", icon: ShieldCheck },
     { href: "/audit", label: "Audit Log", icon: FileClock },
   ];
@@ -90,6 +96,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     if (label === "Profile") return userNavigationSection === "profile";
     if (label === "Map") return userNavigationSection === "map";
     if (label === "Analytics") return userNavigationSection === "analytics";
+    if (label === "Patterns") return userNavigationSection === "patterns";
     return pathname === href;
   };
   const submit = (event: FormEvent) => {

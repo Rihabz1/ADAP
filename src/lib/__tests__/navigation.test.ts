@@ -19,6 +19,9 @@ describe("context-aware user search", () => {
     expect(getSearchDestination("/users/USR001/analytics", "USR050")).toBe(
       "/users/USR050/analytics",
     );
+    expect(getSearchDestination("/users/USR001/patterns", "USR091")).toBe(
+      "/users/USR091/patterns",
+    );
   });
 
   it("uses the profile route from global pages", () => {
@@ -33,5 +36,8 @@ describe("context-aware user search", () => {
       "profile",
     );
     expect(getUserNavigationSection("/users/+8801728917865/map")).toBe("map");
+    expect(getUserNavigationSection("/users/USR001/patterns")).toBe(
+      "patterns",
+    );
   });
 });
