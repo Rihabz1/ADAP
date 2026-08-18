@@ -252,3 +252,4 @@ Vitest covers CSV parsing, phone/User ID lookup, event-time latest calculation, 
 - A production evolution could add a real identity provider, encrypted persistent storage, server-side authorization/audit, and formally authorized provider adapters.
 
 Provider names are used only as source labels. The interface and icons are generic and do not copy provider products.
+////
