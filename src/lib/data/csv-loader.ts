@@ -20,10 +20,10 @@ import {
 } from "./schemas";
 
 const files: Record<Provider, string> = {
-  foodi: "foodi_demo_100_users_6_months_english.csv",
-  pathao: "pathao_ride_demo_100_users_6_months_english.csv",
-  rokomari: "rokomari_demo_100_users_6_months_english.csv",
-  steadfast: "steadfast_demo_100_users_6_months_english.csv",
+  foodi: "foodi_demo_100_users_6_months_with_riders.csv",
+  pathao: "pathao_ride_demo_100_users_6_months_with_riders.csv",
+  rokomari: "rokomari_demo_100_users_6_months_with_riders.csv",
+  steadfast: "steadfast_demo_100_users_6_months_with_riders.csv",
 };
 
 const schemas: Record<Provider, z.ZodType> = {

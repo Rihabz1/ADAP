@@ -1,6 +1,25 @@
 export const providers = ["foodi", "pathao", "rokomari", "steadfast"] as const;
 export type Provider = (typeof providers)[number];
 
+export interface RiderFields {
+  provider_name: string;
+  rider_id: string;
+  rider_name: string;
+  rider_phone: string;
+  rider_role: string;
+  rider_vehicle_type: string;
+  rider_vehicle_number: string;
+  rider_joined_at: string;
+  rider_rating: string;
+  rider_status: string;
+  rider_primary_area: string;
+  rider_dataset_activity_count: string;
+  rider_dataset_completed_count: string;
+  rider_total_completed_activities: string;
+  rider_first_activity_at: string;
+  rider_last_activity_at: string;
+}
+
 export interface FoodiRecord {
   user_id: string;
   phone: string;
@@ -76,7 +95,8 @@ export interface PathaoRecord {
   synthetic: string;
 }
 export type ProviderRecord =
-  FoodiRecord | PathaoRecord | RokomariRecord | SteadfastRecord;
+  (FoodiRecord | PathaoRecord | RokomariRecord | SteadfastRecord) &
+    Partial<RiderFields>;
 
 export interface ActivityLocation {
   area: string;
@@ -140,6 +160,27 @@ export interface LocationEvent {
 export interface GeofencePoint {
   latitude: number;
   longitude: number;
+}
+export interface NormalizedRider {
+  provider: Provider;
+  providerName: string;
+  riderId: string;
+  riderName: string;
+  riderPhone: string;
+  riderRole: string;
+  vehicleType: string;
+  vehicleNumber: string;
+  joinedAt: string;
+  rating: number | null;
+  status: string;
+  primaryArea: string;
+  datasetActivityCount: number;
+  datasetCompletedCount: number;
+  totalCompletedActivities: number;
+  firstActivityAt: string | null;
+  lastActivityAt: string | null;
+  activityCount: number;
+  completedCount: number;
 }
 export interface CircleGeofence {
   id: string;

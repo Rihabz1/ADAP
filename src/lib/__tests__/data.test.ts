@@ -8,7 +8,11 @@ import type { FoodiRecord, SteadfastRecord } from "../types";
 describe("CSV data and normalization", () => {
   it("parses and validates CSV rows", () => {
     const csv = fs.readFileSync(
-      path.join(process.cwd(), "data", "foodi_demo_100_users_6_months_english.csv"),
+      path.join(
+        process.cwd(),
+        "data",
+        "foodi_demo_100_users_6_months_with_riders.csv",
+      ),
       "utf8",
     );
     const result = parseCsvRows<FoodiRecord>(csv, foodiSchema);

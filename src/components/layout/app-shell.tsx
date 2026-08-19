@@ -11,6 +11,7 @@ import {
   LogOut,
   Map,
   Menu,
+  Bike,
   Search,
   Settings,
   ShieldCheck,
@@ -61,6 +62,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const showHeaderSearch = ![
     "/dashboard",
     "/users",
+    "/riders",
     "/geofences",
     "/audit",
   ].includes(pathname);
@@ -88,6 +90,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     },
     { href: "/geofences", label: "Geofences", icon: ShieldCheck },
     { href: "/users", label: "Data Subjects", icon: Users },
+    { href: "/riders", label: "Riders", icon: Bike },
     { href: "/audit", label: "Audit Log", icon: FileClock },
   ];
   const userNavigationSection = getUserNavigationSection(pathname);
