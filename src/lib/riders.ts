@@ -1,5 +1,8 @@
 import { getStore } from "./data/csv-loader";
+import { normalizeRecord } from "./data/normalization";
+import { sortActivities } from "./activity";
 import { providers, type NormalizedRider, type ProviderRecord } from "./types";
+import type { NormalizedActivity, Provider } from "./types";
 
 function toNumber(value: string | undefined) {
   const parsed = Number(value);
@@ -63,4 +66,25 @@ export async function getRiderDirectory(): Promise<NormalizedRider[]> {
       Date.parse(b.lastActivityAt ?? "") - Date.parse(a.lastActivityAt ?? "") ||
       a.riderName.localeCompare(b.riderName),
   );
+}
+
+export async function getRiderDetail(
+  provider: Provider,
+  riderId: string,
+): Promise<{ rider: NormalizedRider; activities: NormalizedActivity[] } | null> {
+  const riders = await getRiderDirectory();
+  const rider = riders.find(
+    (item) => item.provider === provider && item.riderId === riderId,
+  );
+  if (!rider) return null;
+
+  const rows = (getStore()[provider].rows as ProviderRecord[]).filter(
+    (row) => row.rider_id === riderId,
+  );
+  const activities = sortActivities(
+    rows.map((row) => normalizeRecord(provider, row)),
+    "desc",
+  );
+
+  return { rider, activities };
 }

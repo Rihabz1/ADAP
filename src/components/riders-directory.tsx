@@ -1,17 +1,22 @@
 "use client";
 import { ArrowUpDown, ChevronLeft, ChevronRight, Search, Star } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { formatDateTime } from "@/lib/format";
-import type { NormalizedRider } from "@/lib/types";
-import { ProviderBadge } from "./ui";
+import { providerLabel } from "@/lib/activity";
+import { providers, type NormalizedRider, type Provider } from "@/lib/types";
+import { ProviderBadge, providerConfig } from "./ui";
 
 export function RidersDirectory({ riders }: { riders: NormalizedRider[] }) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
+  const [provider, setProvider] = useState<Provider | "all">("all");
   const [sort, setSort] = useState<"activity" | "rating" | "name">("activity");
   const [page, setPage] = useState(1);
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase();
     return riders
+      .filter((rider) => provider === "all" || rider.provider === provider)
       .filter((rider) =>
         [
           rider.riderName,
@@ -33,9 +38,15 @@ export function RidersDirectory({ riders }: { riders: NormalizedRider[] }) {
           Date.parse(b.lastActivityAt ?? "") - Date.parse(a.lastActivityAt ?? "")
         );
       });
-  }, [query, riders, sort]);
+  }, [provider, query, riders, sort]);
   const pages = Math.max(1, Math.ceil(filtered.length / 12));
   const visible = filtered.slice((page - 1) * 12, page * 12);
+  const selectedProviderStyle = {
+    background: "#E6F7FA",
+    borderColor: "#03809A",
+    boxShadow: "0 0 0 3px rgb(3 128 154 / 0.14)",
+    color: "#002556",
+  };
   return (
     <>
       <div className="grid gap-4 md:grid-cols-4">
@@ -90,9 +101,57 @@ export function RidersDirectory({ riders }: { riders: NormalizedRider[] }) {
           Sort: {sort === "activity" ? "Activity" : sort === "rating" ? "Rating" : "Name"}
         </button>
       </div>
+      <div className="mb-5 flex flex-wrap gap-2">
+        <button
+          className="btn-secondary px-3 py-2 text-sm"
+          style={provider === "all" ? selectedProviderStyle : undefined}
+          aria-pressed={provider === "all"}
+          onClick={() => {
+            setProvider("all");
+            setPage(1);
+          }}
+        >
+          All providers
+        </button>
+        {providers.map((item) => {
+          const Icon = providerConfig[item].icon;
+          return (
+            <button
+              key={item}
+              className="btn-secondary px-3 py-2 text-sm"
+              style={provider === item ? selectedProviderStyle : undefined}
+              aria-pressed={provider === item}
+              onClick={() => {
+                setProvider(item);
+                setPage(1);
+              }}
+            >
+              <Icon size={16} />
+              {providerLabel[item]}
+            </button>
+          );
+        })}
+      </div>
       <div className="grid gap-4 xl:grid-cols-2">
         {visible.map((rider) => (
-          <article key={`${rider.provider}:${rider.riderId}`} className="card p-5">
+          <article
+            key={`${rider.provider}:${rider.riderId}`}
+            className="card cursor-pointer p-5 transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(15,42,82,0.1)]"
+            role="link"
+            tabIndex={0}
+            onClick={() =>
+              router.push(
+                `/riders/${rider.provider}/${encodeURIComponent(rider.riderId)}`,
+              )
+            }
+            onKeyDown={(event) => {
+              if (event.key !== "Enter" && event.key !== " ") return;
+              event.preventDefault();
+              router.push(
+                `/riders/${rider.provider}/${encodeURIComponent(rider.riderId)}`,
+              );
+            }}
+          >
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <div className="mb-2 flex flex-wrap items-center gap-2">
