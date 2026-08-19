@@ -45,7 +45,7 @@ export default async function DataSourcesPage() {
                   <b className="mt-1 block">{s.records.toLocaleString()}</b>
                 </div>
                 <div>
-                  <p className="eyebrow">Users</p>
+                  <p className="eyebrow">Data subjects</p>
                   <b className="mt-1 block">{s.users}</b>
                 </div>
                 <div>

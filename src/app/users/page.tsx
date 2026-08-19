@@ -7,8 +7,8 @@ export default async function UsersPage() {
   return (
     <div className="mx-auto max-w-7xl">
       <PageTitle
-        eyebrow="User directory"
-        title="Users"
+        eyebrow="Data subject directory"
+        title="Data subjects"
       />
       <UsersDirectory users={users} />
     </div>

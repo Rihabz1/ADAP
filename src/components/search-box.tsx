@@ -33,7 +33,7 @@ export function SearchBox() {
             onBlur={() => setTimeout(() => setFocused(false), 150)}
             className="field has-leading-icon h-14 text-base shadow-[0_8px_24px_rgba(15,42,82,0.06)]"
             placeholder="Phone number"
-            aria-label="Search user by phone number"
+            aria-label="Search data subject by phone number"
             inputMode="tel"
             maxLength={14}
             pattern="(?:[0-9]{11}|\+880[0-9]{10})"

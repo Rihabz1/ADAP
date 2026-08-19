@@ -117,7 +117,7 @@ export function LoginExperience() {
                   Login
                 </p>
                 <h1 className="mt-3 text-3xl font-bold tracking-[-0.035em] text-[#0B2A55] sm:text-4xl">
-                  Welcome Back
+                  Welcome
                 </h1>
                 <p className="mt-2 text-sm text-slate-500">
                   Please sign in to continue

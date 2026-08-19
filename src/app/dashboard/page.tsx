@@ -27,10 +27,10 @@ export default async function DashboardPage() {
         <div className="relative grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <div>
             <p className="text-xs font-bold uppercase tracking-[.16em] text-[#00A6B6]">
-              Cross-provider search
+              Cross platform search
             </p>
             <h2 className="mt-2 text-2xl font-bold tracking-[-0.03em] text-[#0B2A55]">
-              Find a user
+              Find a data subject
             </h2>
           </div>
           <div>
@@ -40,7 +40,7 @@ export default async function DashboardPage() {
       </section>
       <section className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          label="Users"
+          label="Data subjects"
           value={users.toLocaleString()}
           helper="Shared identities"
           icon={

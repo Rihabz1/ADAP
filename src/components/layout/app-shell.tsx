@@ -66,7 +66,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   ].includes(pathname);
   const primary = [
     { href: "/dashboard", label: "Dashboard", icon: Gauge },
-    { href: "/users", label: "Users", icon: Users },
     {
       href: `${userRoute}/profile`,
       label: "Profile",
@@ -88,11 +87,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       icon: GitBranch,
     },
     { href: "/geofences", label: "Geofences", icon: ShieldCheck },
+    { href: "/users", label: "Data Subjects", icon: Users },
     { href: "/audit", label: "Audit Log", icon: FileClock },
   ];
   const userNavigationSection = getUserNavigationSection(pathname);
   const isActive = (label: string, href: string) => {
-    if (label === "Users") return userNavigationSection === "users";
+    if (label === "Data Subjects") return userNavigationSection === "users";
     if (label === "Profile") return userNavigationSection === "profile";
     if (label === "Map") return userNavigationSection === "map";
     if (label === "Analytics") return userNavigationSection === "analytics";
@@ -134,11 +134,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           onClick={() => setOpen(false)}
           aria-label="ADAP dashboard"
         >
-          <span className="flex h-20 items-start justify-center overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_10px_28px_rgba(15,42,82,0.08)]">
+          <span className="flex h-28 items-start justify-center overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_10px_28px_rgba(15,42,82,0.08)]">
             <Image
               src={adapLogo}
               alt="ADAP — Application Data Analysis Platform"
-              className="h-auto w-[calc(100%-1rem)] -translate-y-[3.625rem]"
+              className="h-full w-auto max-w-full scale-[1.4] object-contain"
               priority
             />
           </span>

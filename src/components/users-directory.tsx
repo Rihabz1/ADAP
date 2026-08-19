@@ -42,7 +42,7 @@ export function UsersDirectory({ users }: { users: NormalizedUser[] }) {
             className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
             size={17}
           />
-          <span className="sr-only">Search user directory</span>
+          <span className="sr-only">Search data subject directory</span>
           <input
             className="field has-leading-icon"
             value={query}
@@ -121,7 +121,7 @@ export function UsersDirectory({ users }: { users: NormalizedUser[] }) {
         </table>
         <div className="flex items-center justify-between px-5 py-4 text-sm text-slate-500">
           <span>
-            {filtered.length} users · Page {page} of {pages}
+            {filtered.length} data subjects · Page {page} of {pages}
           </span>
           <div className="flex gap-2">
             <button
