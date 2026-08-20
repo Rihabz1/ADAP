@@ -11,6 +11,7 @@ export function LoginForm() {
   const [username, setUsername] = useState("analyst");
   const [password, setPassword] = useState("adap123");
   const [showPassword, setShowPassword] = useState(false);
+  const [securityConfirmed, setSecurityConfirmed] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -71,6 +72,20 @@ export function LoginForm() {
         </span>
       </label>
 
+      <label className="flex cursor-pointer items-start gap-3 text-sm leading-6 text-slate-600">
+        <input
+          type="checkbox"
+          checked={securityConfirmed}
+          onChange={(e) => setSecurityConfirmed(e.target.checked)}
+          className="mt-1 size-4 shrink-0 cursor-pointer accent-[#03809A]"
+          required
+        />
+        <span>
+          আমি নিশ্চিত করছি যে, এই সিস্টেম ব্যবহারের জন্য আমি অনুমোদিত এবং
+          প্রাপ্ত তথ্যের গোপনীয়তা ও নিরাপত্তা বজায় রাখব।
+        </span>
+      </label>
+
       {error && (
         <p
           role="alert"
@@ -82,7 +97,7 @@ export function LoginForm() {
 
       <motion.button
         className="group flex h-14 w-full items-center justify-center gap-2 rounded-[14px] bg-gradient-to-r from-[#002556] to-[#03809A] px-5 text-sm font-bold text-white shadow-[0_12px_28px_rgba(3,128,154,0.22)] transition-shadow hover:shadow-[0_16px_34px_rgba(3,128,154,0.32)] disabled:pointer-events-none disabled:opacity-60"
-        disabled={busy}
+        disabled={busy || !securityConfirmed}
         whileHover={{ y: -2 }}
         whileTap={{ scale: 0.99 }}
       >
