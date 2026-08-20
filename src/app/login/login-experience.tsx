@@ -1,12 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import adapLogo from "../../../data/adap_logo.png";
+import platformFrame from "../../../data/ChatGPT Image Aug 20, 2026, 12_09_18 PM (1).png";
+import rideSharingFrame from "../../../data/ChatGPT Image Aug 20, 2026, 12_09_18 PM (2).png";
+import ecommerceFrame from "../../../data/ChatGPT Image Aug 20, 2026, 12_09_19 PM (3).png";
+import courierFrame from "../../../data/ChatGPT Image Aug 20, 2026, 12_09_19 PM (4).png";
+import overviewFrame from "../../../data/ChatGPT Image Aug 20, 2026, 12_09_19 PM (5).png";
 import { LoginForm } from "./login-form";
 
-function BackgroundPattern({ reduceMotion }: { reduceMotion: boolean }) {
+const motionFrames = [
+  platformFrame,
+  rideSharingFrame,
+  ecommerceFrame,
+  courierFrame,
+  overviewFrame,
+];
+
+function BackgroundPattern() {
   return (
     <div
       className="pointer-events-none absolute inset-0 overflow-hidden"
@@ -48,16 +60,6 @@ function BackgroundPattern({ reduceMotion }: { reduceMotion: boolean }) {
           <circle cx="1160" cy="695" r="3.5" />
         </g>
       </svg>
-      <motion.div
-        className="absolute -left-40 -top-48 size-[34rem] rounded-full bg-blue-200/25 blur-[120px]"
-        animate={reduceMotion ? undefined : { x: [0, 55, 0], y: [0, 25, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute -bottom-56 right-[-8rem] size-[38rem] rounded-full bg-cyan-200/25 blur-[130px]"
-        animate={reduceMotion ? undefined : { x: [0, -45, 0], y: [0, -20, 0] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-      />
     </div>
   );
 }
@@ -65,58 +67,127 @@ function BackgroundPattern({ reduceMotion }: { reduceMotion: boolean }) {
 export function LoginExperience() {
   const prefersReducedMotion = useReducedMotion();
   const reduceMotion = Boolean(prefersReducedMotion);
+  const [activeFrame, setActiveFrame] = useState(0);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    const timer = window.setInterval(() => {
+      setActiveFrame((frame) => (frame + 1) % motionFrames.length);
+    }, 2400);
+
+    return () => window.clearInterval(timer);
+  }, [reduceMotion]);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[linear-gradient(145deg,#ffffff_0%,#f8fbff_52%,#f4fbfc_100%)] px-4 py-6 text-[#0B2A55] sm:px-6 sm:py-8 lg:px-8">
-      <BackgroundPattern reduceMotion={reduceMotion} />
+    <main className="relative min-h-screen overflow-hidden bg-[#eef5f8] px-3 py-3 text-[#0B2A55] sm:px-6 sm:py-6 lg:px-8">
+      <BackgroundPattern />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-3rem)] max-w-[1200px] items-center sm:min-h-[calc(100vh-4rem)]">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-1.5rem)] max-w-[1240px] items-center sm:min-h-[calc(100vh-3rem)]">
         <motion.section
-          className="grid min-h-[650px] w-full overflow-hidden rounded-[32px] border border-white/90 bg-white/58 shadow-[0_30px_90px_rgba(15,42,82,0.13)] backdrop-blur-xl lg:grid-cols-2"
-          initial={reduceMotion ? false : { opacity: 0, y: 24, scale: 0.99 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="grid w-full overflow-hidden rounded-lg border border-white bg-white shadow-[0_28px_80px_rgba(15,42,82,0.16)] lg:min-h-[690px] lg:grid-cols-[1.08fr_0.92fr]"
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="relative flex items-center border-b border-slate-200/80 bg-[linear-gradient(155deg,rgba(255,255,255,0.94),rgba(244,250,255,0.82))] p-7 sm:p-10 lg:border-b-0 lg:border-r lg:p-12">
-            <div className="w-full text-center">
-              <span className="mx-auto mb-8 block h-px w-12 bg-[#00B8C8]" />
+          <div className="relative flex min-h-[350px] items-center overflow-hidden border-b border-slate-200 bg-[#e8f4f7] px-5 py-16 sm:min-h-[470px] sm:px-10 lg:min-h-0 lg:border-b-0 lg:border-r lg:px-12">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(11,42,85,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(11,42,85,0.035)_1px,transparent_1px)] bg-[size:32px_32px]" />
+
+            <motion.div
+              className="relative mx-auto aspect-[3/2] w-full max-w-[570px] overflow-hidden bg-white shadow-[0_22px_55px_rgba(15,42,82,0.16)]"
+              animate={reduceMotion ? undefined : { y: [-4, 4, -4] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <div
+                className="absolute inset-0"
+                role="img"
+                aria-label="ADAP Application Data Analysis Platform"
+              >
+                {motionFrames.map((frame, index) => (
+                  <motion.div
+                    key={frame.src}
+                    className="absolute inset-0"
+                    initial={false}
+                    animate={{
+                      opacity: index === activeFrame ? 1 : 0,
+                      scale:
+                        !reduceMotion && index === activeFrame ? 1.025 : 1,
+                    }}
+                    transition={{
+                      opacity: { duration: reduceMotion ? 0 : 0.75 },
+                      scale: { duration: 2.4, ease: "linear" },
+                    }}
+                    aria-hidden="true"
+                  >
+                    <Image
+                      src={frame}
+                      alt=""
+                      fill
+                      sizes="(min-width: 1024px) 570px, 92vw"
+                      className="object-cover"
+                      priority={index < 2}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+
               <motion.div
-                className="mx-auto h-48 w-full max-w-[500px] overflow-hidden rounded-[24px] bg-white sm:h-52"
-                animate={reduceMotion ? undefined : { y: [-3, 3, -3] }}
+                className="pointer-events-none absolute inset-y-0 z-10 w-px bg-cyan-400 shadow-[0_0_18px_4px_rgba(34,211,238,0.24)]"
+                animate={reduceMotion ? { left: "50%" } : { left: ["7%", "93%"] }}
                 transition={{
-                  duration: 6,
+                  duration: 4.8,
                   repeat: Infinity,
+                  repeatType: "mirror",
                   ease: "easeInOut",
                 }}
-              >
-                <Image
-                  src={adapLogo}
-                  alt="ADAP — Application Data Analysis Platform"
-                  className="h-full w-full object-cover object-[50%_46%]"
-                  priority
-                />
-              </motion.div>
-              <span className="mx-auto mt-8 block h-px w-12 bg-slate-200" />
+              />
+
+              <span className="pointer-events-none absolute left-3 top-3 z-20 size-7 border-l-2 border-t-2 border-[#00A6B6]" />
+              <span className="pointer-events-none absolute right-3 top-3 z-20 size-7 border-r-2 border-t-2 border-[#00A6B6]" />
+              <span className="pointer-events-none absolute bottom-3 left-3 z-20 size-7 border-b-2 border-l-2 border-[#00A6B6]" />
+              <span className="pointer-events-none absolute bottom-3 right-3 z-20 size-7 border-b-2 border-r-2 border-[#00A6B6]" />
+            </motion.div>
+
+            <div className="absolute bottom-5 left-5 right-5 z-20 flex items-center gap-4 sm:bottom-8 sm:left-10 sm:right-10">
+              <span className="w-7 font-mono text-xs font-bold text-[#0B2A55]">
+                {String(activeFrame + 1).padStart(2, "0")}
+              </span>
+              <div className="flex flex-1 items-center gap-2">
+                {motionFrames.map((frame, index) => (
+                  <button
+                    key={frame.src}
+                    type="button"
+                    onClick={() => setActiveFrame(index)}
+                    className="relative h-5 flex-1 cursor-pointer"
+                    aria-label={`Show motion frame ${index + 1}`}
+                    title={`Frame ${index + 1}`}
+                  >
+                    <span className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-slate-300" />
+                    <motion.span
+                      className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 bg-[#00A6B6]"
+                      animate={{ scaleX: index === activeFrame ? 1 : 0 }}
+                      transition={{ duration: 0.35 }}
+                      style={{ transformOrigin: "left" }}
+                    />
+                  </button>
+                ))}
+              </div>
+              <span className="font-mono text-[10px] text-slate-500">LIVE</span>
             </div>
           </div>
 
-          <div className="flex items-center justify-center p-5 sm:p-9 lg:p-10">
+          <div className="flex items-center justify-center bg-white px-6 py-12 sm:px-12 lg:px-14">
             <motion.div
-              className="relative isolate flex min-h-[460px] w-full max-w-[500px] flex-col justify-center overflow-hidden rounded-[32px] border border-white/95 bg-white/48 p-6 shadow-[0_2px_8px_rgba(15,42,82,0.05),0_28px_75px_rgba(15,42,82,0.16),inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(148,163,184,0.16)] ring-1 ring-slate-200/35 backdrop-blur-[30px] backdrop-saturate-150 sm:aspect-square sm:min-h-0 sm:p-10"
-              initial={reduceMotion ? false : { opacity: 0, x: 24 }}
+              className="w-full max-w-[450px]"
+              initial={reduceMotion ? false : { opacity: 0, x: 28 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.55, delay: 0.15, ease: "easeOut" }}
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             >
-              <div className="pointer-events-none absolute inset-[1px] -z-10 rounded-[31px] bg-[linear-gradient(145deg,rgba(255,255,255,0.78)_0%,rgba(255,255,255,0.3)_38%,rgba(219,247,250,0.22)_100%)]" />
-              <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
-              <div className="pointer-events-none absolute -right-20 -top-20 -z-10 size-56 rounded-full bg-cyan-100/35 blur-3xl" />
-              <div className="pointer-events-none absolute -bottom-24 -left-20 -z-10 size-60 rounded-full bg-blue-100/30 blur-3xl" />
-
-              <header className="relative z-10 mb-7">
+              <header className="mb-8 border-l-2 border-[#00A6B6] pl-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#00A6B6]">
-                  Login
+                  Secure login
                 </p>
-                <h1 className="mt-3 text-3xl font-bold tracking-[-0.035em] text-[#0B2A55] sm:text-4xl">
+                <h1 className="mt-3 text-3xl font-bold text-[#0B2A55] sm:text-4xl">
                   Welcome
                 </h1>
                 <p className="mt-2 text-sm text-slate-500">
@@ -124,15 +195,11 @@ export function LoginExperience() {
                 </p>
               </header>
 
-              <div className="relative z-10">
-                <Suspense
-                  fallback={
-                    <div className="h-52 animate-pulse rounded-2xl bg-slate-100" />
-                  }
-                >
-                  <LoginForm />
-                </Suspense>
-              </div>
+              <Suspense
+                fallback={<div className="h-64 animate-pulse bg-slate-100" />}
+              >
+                <LoginForm />
+              </Suspense>
             </motion.div>
           </div>
         </motion.section>
